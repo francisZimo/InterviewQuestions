@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>bind原理实现</p>
+<script>
+    Function.prototype.bind1=function(context){
+      let _this=this;
+      let args=Array.prototype.slice.call(arguments,1)
+      return function(...nexArgs){
+        let allArgs=[...args,...nexArgs]
+        return _this.apply(context,allArgs)
+      }
+    }
+    function sum(num1){
+      return this.x+this.y+num1
+    }
+    let newSum=sum.bind1({ x: 1, y: 2 },1)
+    console.log(newSum(2))
+
+    let test=sum.bind({ x: 1, y: 2 },1)
+    console.log(test(8))
+
+</script>
+</body>
+</html>

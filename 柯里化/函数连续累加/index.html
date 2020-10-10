@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>sum(1,2,3)</p>
+<p>sum(1,2,3)(4)</p>
+<p>sum(1)(2)(3)</p>
+<script>
+    function sum(...args){
+
+      let f=function(...nexArgs){
+        let allArgs=[...args,...nexArgs]
+        return sum(...allArgs)
+      }
+      f.toString=()=>{
+        return args.reduce((current,next)=>{
+          return current+next
+        })
+      }
+      return f;
+    }
+
+    console.log(sum(1, 2, 3)(4)(5))
+    console.log(sum(1, 2, 3)(4)(6))
+</script>
+</body>
+</html>

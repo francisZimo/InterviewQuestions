@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<p>防抖</p>
+<!--<button id="test">防抖</button>-->
+<input type="text" id="test">
+<body>
+<script>
+  function debounce(fn,time=200){
+    let timer=null;
+    return function(){
+      clearTimeout(timer)
+      timer=setTimeout(()=>{
+        fn.apply(this,arguments)
+      },time)
+    }
+
+  }
+  function event1(params){
+    return (e)=>{
+      console.log('啊啊啊',e.target.value)
+      console.log('参数==',params)
+    }
+
+  }
+  document.getElementById('test').addEventListener('input',debounce(event1('小明')))
+
+
+</script>
+
+</body>
+</html>

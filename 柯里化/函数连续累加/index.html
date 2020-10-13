@@ -10,7 +10,6 @@
 <p>sum(1)(2)(3)</p>
 <script>
     function sum(...args){
-
       let f=function(...nexArgs){
         let allArgs=[...args,...nexArgs]
         return sum(...allArgs)
@@ -23,8 +22,23 @@
       return f;
     }
 
+    function sum1(...args){
+      let f=function(...nextArgs){
+        let totalArgs=[...args,...nextArgs]
+        return sum1(...totalArgs)
+      }
+      f.toString=function(){
+        return args.reduce((current,next)=>{
+          return current+next
+        })
+      }
+      return f
+
+    }
+
     console.log(sum(1, 2, 3)(4)(5))
-    console.log(sum(1, 2, 3)(4)(6))
+    console.log(sum1(1, 2, 3)(4)(6))
+
 </script>
 </body>
 </html>

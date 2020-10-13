@@ -15,14 +15,27 @@
         return _this.apply(context,allArgs)
       }
     }
+
+
+    Function.prototype.bind2=function(context){
+      let _this=this
+      let args=Array.prototype.slice.call(arguments,1)
+      return function(...nextArgs){
+        let allArgs=[...args,...nextArgs]
+        return  _this.apply(context,allArgs)
+      }
+    }
+
     function sum(num1){
       return this.x+this.y+num1
     }
-    let newSum=sum.bind1({ x: 1, y: 2 },1)
+    let newSum=sum.bind2({ x: 1, y: 2 },1)
     console.log(newSum(2))
 
     let test=sum.bind({ x: 1, y: 2 },1)
     console.log(test(8))
+
+
 
 </script>
 </body>

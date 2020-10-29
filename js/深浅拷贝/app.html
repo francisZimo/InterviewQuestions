@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./shallowClone.js"></script>
+    <script src="./deepClone.js"></script>
+</head>
+<body>
+<script>
+  let ary1=[1,2,{name:'xxx'}]
+    // let target=shallowClone((ary1))
+  let target=deepClone(ary1)
+    target[2].name='francis'
+  console.log(ary1)
+console.log(target)
+</script>
+
+</body>
+</html>

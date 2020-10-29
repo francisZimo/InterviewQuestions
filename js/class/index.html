@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="index.js"></script>
+</head>
+<body>
+<script>
+    let student1=new Student({name:'francis',age:'20',order:'1122333225'})
+    let teacher=new Teacher({name:'zimo',age:'34',subject:'math'})
+    student1.learn()
+    teacher.teach()
+    student1.say()
+    console.log(student1.hasOwnProperty('order'))
+    console.log(student1.hasOwnProperty('say'))
+    // console.log(student1 instanceof People)
+    // console.log(student1.__proto__ === Student.prototype)
+    // console.log(Student instanceof People)
+    // console.log(Student.__proto__)
+    // console.log(Student.prototype.__proto__)
+    // console.log(Student.__proto__ === People.prototype)
+    // console.log(Student.prototype.__proto__ === People.prototype)
+
+</script>
+</body>
+</html>

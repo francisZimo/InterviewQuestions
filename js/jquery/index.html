@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="./jquery.js"></script>
+    <script src="./jquery2.js"></script>
 </head>
 <body>
         <p>一段文字1</p>
@@ -11,9 +11,9 @@
         <p>一段文字3</p>
         <p>一段文字4</p>
 <script>
-const $p=new jQuery('p');
-$p.on('click',()=>{
-  alert('点击我了')
+const $p=new jQuery2('p');
+  $p.on('click',function(){
+    console.dir(this.innerText)
 })
 </script>
 </body>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+创建10个a，点击弹出index
+<body>
+<script>
+    let fragment=document.createDocumentFragment()
+    for(var i=0;i<10;i++){
+      let a=document.createElement('a')
+      // 使用闭包解决
+      a.innerText=`index ${i}`
+      a.addEventListener('click',(function(params){
+        return ()=>{
+          alert(params)
+        }
+      })(i),false)
+      fragment.appendChild(a)
+    }
+    // 使用let 块级作用域解决
+    // for(let i=0;i<10;i++) {
+    //   let a = document.createElement('a')
+    //   a.innerText=`index ${i}`
+    //   a.addEventListener('click', () => {
+    //     alert(i)
+    //   }, false)
+    //   fragment.appendChild(a)
+    // }
+    document.body.appendChild(fragment)
+</script>
+</body>
+</html>

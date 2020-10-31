@@ -15,25 +15,47 @@
         return _this.apply(context,allArgs)
       }
     }
+    //
+    //
+    // Function.prototype.bind2=function(context){
+    //   let _this=this
+    //   let args=Array.prototype.slice.call(arguments,1)
+    //   return function(...nextArgs){
+    //     let allArgs=[...args,...nextArgs]
+    //     return  _this.apply(context,allArgs)
+    //   }
+    // }
 
-
-    Function.prototype.bind2=function(context){
-      let _this=this
+    // 第三遍
+    Function.prototype.bind3=function(context){
       let args=Array.prototype.slice.call(arguments,1)
-      return function(...nextArgs){
-        let allArgs=[...args,...nextArgs]
-        return  _this.apply(context,allArgs)
+      return (...nextArgs)=>{
+        let all=[...args,...nextArgs]
+        return this.apply(context,all)
       }
     }
 
-    function sum(num1){
+    // 第四遍
+    Function.prototype.bind4=function(context){
+      let args=Array.prototype.slice.call(arguments,1)
+      return (...otherArgs)=>{
+        return  this.apply(context,[...args,...otherArgs])
+      }
+    }
+
+    function sum(num1,num2){
+
+      console.log(num2,'==num2',this,num1)
       return this.x+this.y+num1
     }
-    let newSum=sum.bind2({ x: 1, y: 2 },1)
+    // let test=sum.bind({ x: 1, y: 2 },1)
+    // console.log(test(8))
+
+    let newSum=sum.bind3({ x: 1, y: 2 },1)
     console.log(newSum(2))
 
-    let test=sum.bind({ x: 1, y: 2 },1)
-    console.log(test(8))
+    // let test=sum.bind({ x: 1, y: 2 },1)
+    // console.log(test(8))
 
 
 

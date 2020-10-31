@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function cache(){
+      let data={}
+     return {
+        set:(key,val)=>{
+          return  data[key]=val
+        },
+       get:(key)=>{
+          return data[key]
+       }
+     }
+    }
+    const newCache= cache()
+    newCache.set('name','francis')
+    console.log(newCache.get('name'))
+</script>
+</body>
+</html>

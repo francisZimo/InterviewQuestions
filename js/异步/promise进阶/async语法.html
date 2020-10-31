@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    // async function fn(){
+    //   return 100
+    // }
+    // (async function(){
+    //   const a=fn() // ??
+    //   const b=await fn() // ??
+    //   console.log(a)
+    //   console.log(b)
+    // })()
+
+    (async function(){
+      console.log('start')
+      const a=await 100
+      console.log(a)
+      console.log('a',a)
+      const b=await Promise.resolve(200)
+      console.log('b',b)
+      const c=await Promise.reject(300)
+      console.log('c',c )
+      console.log('end')
+    })()
+</script>
+</body>
+</html>

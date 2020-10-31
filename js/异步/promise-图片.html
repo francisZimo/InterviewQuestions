@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function loadImg(src){
+      return new Promise((resolve,reject)=>{
+        let img=document.createElement('img')
+        console.log('执行')
+        img.onload=()=>{
+          console.log('加载成功')
+          return resolve(img)
+        }
+        img.onerror=()=>{
+          console.log('加载失败')
+          return reject(new Error(`${src} 加载失败`))
+        }
+        img.src=src
+      })
+    }
+    let src='https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2472197501,3004442783&fm=173&app=49&f=JPEG?w=312&h=208&s=80B34F3061CA454B0C4A78420300A0FA'
+    loadImg(src).then(data=>{
+      console.log(data)
+    })
+</script>
+</body>
+</html>

@@ -4,7 +4,82 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+编写一个通用的事件监听函数
 <body>
+<div id="container">
+    <button>点击我</button>
+    <a href="">1</a>
+    <a href="">2</a>
+    <a href="">3</a>
+    <a href="">4</a>
+    <button>hahah</button>
+</div>
+<script>
+    const con=document.getElementById('container')
+    let count=0
+    // eventBind(con,'click','a',function(e){
+    //   e.preventDefault()
+    //     count++
+    //   console.log('a标签惦记了'+count+'次')
+    //   console.log(this.innerHTML)
+    // })
+    eventBind(con,'click',function(e){
+      e.preventDefault()
+      console.log(this.innerHTML)
+    })
+    // function eventBind(elem,type,selector,fn){
+    //     if(fn===null){
+    //       fn=selector;
+    //       selector=null
+    //     }
+    //     elem.addEventListener(type,event=>{
+    //       const target=event.target;
+    //       if(selector){
+    //         // 事件委托
+    //         if(target.matches(selector)){
+    //           fn.call(target,event)
+    //         }
+    //
+    //       }else{
+    //         // 事件绑定
+    //         fn.call(target,event)
+    //       }
+    //     })
+    //
+    // }
+    // function eventBind(elem,type,selector,fn){
+    //   if(fn==null){
+    //     fn=selector
+    //     selector=null
+    //   }
+    //   elem.addEventListener(type,event=>{
+    //     let target=event.target
+    //     if(selector){
+    //         if(target.matches(selector)){
+    //           fn.call(target,event)
+    //         }
+    //     }else{
+    //       fn.call(target,event)
+    //     }
+    //   })
+    // }
+    function eventBind(elem,type,selector,fn){
+      if(fn==null){
+        fn=selector;
+        selector=null
+      }
+      elem.addEventListener(type,(event)=>{
+        let target=event.target;
+        if(selector){
+          if(target.matches(selector)){
+            fn.call(target,event)
+          }
+        }else{
+          fn.call(target,event)
+        }
+      })
+    }
 
+</script>
 </body>
 </html>

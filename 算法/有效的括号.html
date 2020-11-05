@@ -5,6 +5,28 @@
     <title>Title</title>
 </head>
 <body>
-
+<script>
+    function isValid(str){
+      let stack=[];
+      let paren_map={'}':'{',']':'[',')':'('}
+      for(let item of str){
+       // 如果item为左符号则先入栈
+        if(!paren_map[item]){
+          stack.push(item)
+        }
+        // 此时item为右符号
+        else if(stack.length===0||stack.pop()!==paren_map[item]){
+          // 如果此时无栈底元素，但是已经出现了右符号(如果能配对，第一个不可能是右符号),则返回false
+          // 如果此时栈底有元素，则和右符号进行配对，配对失败则返回false
+          return false
+        }
+      }
+      // 判断stack 是否为空，不为空说明才残留有未配对符号，则返回false
+      return stack.length===0
+    }
+let str='([)]'
+// let str='{[]}'
+    console.log(isValid(str))
+</script>
 </body>
 </html>

@@ -28,6 +28,16 @@
       },await)
     }
   }
+
+  function debounce2(fn,await=200){
+    let timer=null
+    return function(){
+      clearTimeout(timer)
+      timer=setTimeout(()=>{
+        fn.apply(this,arguments)
+      },await)
+    }
+  }
   function event1(params){
     return (e)=>{
       console.log('啊啊啊',e.target.value)
@@ -35,7 +45,7 @@
     }
 
   }
-  document.getElementById('test').addEventListener('input',debounce1(event1('小明')))
+  document.getElementById('test').addEventListener('input',debounce2(event1('小明')))
 
 
 </script>

@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+
+    </script>
 </head>
 <body>
 <p>截流</p>
 <input type="text" id="test">
+<div class="drag"></div>
 <script>
     function throttle(fn,await=1000){
       let flag=true
@@ -33,6 +37,32 @@
       }
     }
 
+    function throttle2(fn,await=1000){
+      let flag=true
+      return function () {
+        if(flag){
+          flag=false
+          setTimeout(()=>{
+            fn.apply(this,arguments)
+            flag=true
+          },await)
+        }
+      }
+    }
+
+    function throttle3(fn,await=1000){
+      let timer=null
+      return function () {
+        if(timer){
+         return
+        }
+        timer= setTimeout(()=>{
+          fn.apply(this,arguments)
+          timer=null
+        },await)
+      }
+    }
+
     function event1(params){
       return (e)=>{
         console.log('啊啊啊',e.target.value)
@@ -40,7 +70,7 @@
       }
 
     }
-    document.getElementById('test').addEventListener('input',throttle1(event1('小明')))
+    document.getElementById('test').addEventListener('input',throttle3(event1('小明')))
 
 
 

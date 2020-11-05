@@ -5,6 +5,48 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+   class Event{
+     constructor (){
+       this.eventList={}
+     }
+     add(type,fn){
+        this.eventList[type]=this.eventList[type]||[]
+        this.eventList[type].push(fn)
+     }
+     remove(type,fn){
+       if(!fn){
+         this.eventList[type]=[]
+       }else{
+         if(this.eventList[type].length){
+           this.eventList[type]=this.eventList[type].filter(item=>(
+             item!==fn
+           ))
+         }
+       }
+     }
+     trigger(type,parameter){
+       let eventList=this.eventList[type]
+       if(eventList.length){
+        eventList.forEach(fn=>{
+          fn.call(this,parameter)
+        })
+       }
+     }
+   }
 
+   var event = new Event()
+    let pro= function(payload) {
+     console.log('当前产品:',payload)
+   }
+   event.add('phone', pro)
+
+
+
+   event.trigger('phone', '大狗子') // 有个挨千刀的半夜打电话来了他是：大狗子
+   event.trigger('phone', '二狗子')
+    event.remove('phone',pro)
+    event.trigger('phone','十三香')
+</script>
 </body>
 </html>

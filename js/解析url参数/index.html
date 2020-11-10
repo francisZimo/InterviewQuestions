@@ -7,6 +7,16 @@
 <body>
 <script>
   let url=`http://www.baidu.com?name=tom&age=20#teacher`;
+
+
+  var paramsString = "q=URLUtils.searchParams&topic=api"
+  var searchParams = new URLSearchParams(paramsString);
+  console.log(searchParams,'===params')
+  console.log(searchParams.get('topic'),'==qq')
+  for (let p of searchParams) {
+    console.log(p);
+  }
+
   // String.prototype.myQueryUrlParameter=function(){
   //   let obj={};
   //   this.replace(/([^&?=#]+)=([^&?=#]+)/g,function(){
@@ -18,16 +28,41 @@
   //   return obj
   // }
   // 第二遍
+  // String.prototype.myQueryUrlParameter=function(){
+  //   let obj={}
+  //   this.replace(/([^?=&#]+)=([^?=&#]+)/g,function(){
+  //     obj[arguments[1]]=arguments[2]
+  //   })
+  //   this.replace(/#([^?=&#]+)/g,function () {
+  //     obj['HASH']=arguments[1]
+  //   })
+  //   return obj
+  // }
+
+  // 第三遍
+  // String.prototype.myQueryUrlParameter=function(){
+  //   let obj={}
+  //   this.replace(/([^?&=#]+)=([^?&=#]+)/g,function(){
+  //     obj[arguments[1]]=arguments[2]
+  //   })
+  //   this.replace(/#([^?&=#]+)$/g,function(){
+  //     obj['HASH']=arguments[2]
+  //   })
+  //   return obj
+  // }
+
+  // 第四遍
   String.prototype.myQueryUrlParameter=function(){
     let obj={}
-    this.replace(/([^?=&#]+)=([^?=&#]+)/g,function(){
+    this.replace(/([^?&=#]+)=([^?&=#]+)/g,function(){
       obj[arguments[1]]=arguments[2]
     })
-    this.replace(/#([^?=&#]+)/g,function () {
-      obj['HASH']=arguments[1]
+    this.replace(/#([^?&=#]+)/g,function(){
+      obj['HASH']=arguments[2]
     })
     return obj
   }
+  // let url=`http://www.baidu.com?name=tom&age=20#teacher`;
   let result=url.myQueryUrlParameter();
   console.log(result)
 </script>

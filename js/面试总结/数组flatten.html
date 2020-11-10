@@ -5,6 +5,39 @@
     <title>Title</title>
 </head>
 <body>
+<script>
 
+    let ary1=[10,[20,[30,40,[50,60]]]]
+
+    // function flatten(ary){
+    //   return ary.reduce((pre,cur)=>{
+    //     return pre.concat(Array.isArray(cur)?flatten(cur):cur)
+    //   },[])
+    // }
+
+    function flatten(ary){
+      return ary.reduce((pre,cur)=>{
+        return pre.concat(Array.isArray(cur)?flatten(cur):cur)
+
+      },[])
+    }
+
+    function sum(ary){
+      return ary.reduce((pre,cur)=>{
+        return pre+cur
+      })
+    }
+
+    console.log(sum([1, 2, 3, 4]),'==sum')
+
+    console.log(flatten(ary1))
+
+    function filter(ary){
+      let result=new Set(ary)
+      return [...result]
+    }
+
+    console.log(filter([10, 10, 20, 30, 20]))
+</script>
 </body>
 </html>

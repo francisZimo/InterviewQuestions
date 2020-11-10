@@ -5,6 +5,25 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+  // function myTrim(x) {
+  //   return x.replace(/^\s+|\s+$/gm,'');
+  // }
 
+  String.prototype.trim=function(){
+    // return this.replace(/^\s+|\s+$/gm,'')
+
+
+
+    return this.replace(/^\s+|\s+$/gm,'')
+
+  }
+
+
+  let str='  woha  '
+  console.log(str)
+  console.log(str.trim())
+
+</script>
 </body>
 </html>

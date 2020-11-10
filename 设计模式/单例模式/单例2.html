@@ -5,6 +5,28 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+  // let getSingle=function(fn){
+  //   let result// 通过闭包保存创建过的 对象
+  //   return function(){
+  //     return result || (result = fn.apply(this, arguments))
+  //   }
+  // }
+    function getSingle(fn){
+      let result=null
+      return (...args)=>{
+        return result|| (result=fn.apply(this,args))
+      }
+    }
+    function sayName(name){
+      console.log(name,'==name')
+      return {name: name}
+    }
 
+    let createPerson=getSingle(sayName)
+    let p1=createPerson('小王')
+    let p2=createPerson('小张')
+    console.log(p1,p2)
+</script>
 </body>
 </html>

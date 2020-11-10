@@ -5,6 +5,56 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+  class Event{
+    constructor(){
+      this.eventList={}
+    }
+    add(type,fn){
+      this.eventList[type]=this.eventList[type]||[]
+      this.eventList[type].push(fn)
+    }
+    remove(type,fn){
+      if(!type){
+        this.eventList=[]
+      }else{
+        if(fn){
+          this.eventList[type]=this.eventList[type].filter(item=>{
+            return item!==fn
+          })
+        }
+      }
+    }
 
+    trigger(type,payload){
+      let list=this.eventList[type]
+      if(list){
+        list.forEach(item=>{
+          item(payload)
+        })
+      }
+    }
+
+  }
+
+  let event = new Event()
+  let pro= function(payload) {
+    console.log('当前产品:',payload)
+  }
+  let happy=function(payload){
+    console.log('hi',payload)
+  }
+  event.add('phone', pro)
+
+
+
+  event.trigger('phone', '大狗子') // 有个挨千刀的半夜打电话来了他是：大狗子
+  event.trigger('phone', '二狗子')
+  event.remove('phone',pro)
+  event.trigger('phone','十三香')
+    event.add('hi',happy)
+    event.trigger('hi','特兰欧')
+
+</script>
 </body>
 </html>

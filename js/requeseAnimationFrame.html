@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .demo{
+            width:100px;
+            height:100px;
+            background-color: #000000;
+        }
+    </style>
 </head>
 <body>
+<div class="demo">
 
+</div>
+<script>
+    let maxWidth=1000;
+    let initWidth=100
+    let ele=document.getElementsByClassName('demo')[0]
+    function animateFn(){
+      if(initWidth>maxWidth){
+        return
+      }
+      initWidth+=3
+      ele.style.width=initWidth+'px'
+      window.requestAnimationFrame(animateFn)
+    }
+    animateFn()
+</script>
 </body>
 </html>

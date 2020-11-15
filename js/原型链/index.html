@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function myInstanceOf(a,b){
+        let p=a
+      while(p){
+          if(p===b.prototype){
+            return true
+          }
+          p=p.__proto__
+      }
+      return false
+    }
+
+    console.log(myInstanceOf([], Array))
+    console.log(myInstanceOf({}, Object))
+</script>
+</body>
+</html>

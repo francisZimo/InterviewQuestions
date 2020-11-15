@@ -62,20 +62,39 @@
 // }
 
 // 第四遍
+// function deepClone(source){
+//   if(typeof source!=='object'||source==null){
+//     return source
+//   }
+//
+//   let target=null;
+//   if(Object.prototype.toString.call(source)==='[object Object]'){
+//     target={}
+//   }else if(Object.prototype.toString.call(source)==='[object Array]'){
+//     target=[]
+//   }
+//   for(let key in source){
+//     if(source.hasOwnProperty(key)){
+//        target[key]=deepClone(source[key])
+//     }
+//   }
+//   return target
+// }
+
+// 第五遍
 function deepClone(source){
-  if(typeof source!=='object'||source==null){
+  if(typeof source!=='object'){
     return source
   }
-
-  let target=null;
+  let target={}
   if(Object.prototype.toString.call(source)==='[object Object]'){
     target={}
-  }else if(Object.prototype.toString.call(source)==='[object Array]'){
+  }else{
     target=[]
   }
   for(let key in source){
     if(source.hasOwnProperty(key)){
-       target[key]=deepClone(source[key])
+      target[key]=deepClone(source[key])
     }
   }
   return target

@@ -43,6 +43,16 @@
       }
     }
 
+    // 第五遍
+    Function.prototype.bind5=function(context){
+      let arg=Array.prototype.slice.call(arguments,1)
+      return (...nextArg)=>{
+        let total=[...arg,...nextArg]
+        return this.apply(context,total)
+
+      }
+    }
+
     function sum(num1,num2){
 
       console.log(num2,'==num2',this,num1)

@@ -63,6 +63,19 @@
       }
     }
 
+    function throttle4(fn,await=1000){
+      let flag=true
+      return function(){
+        if(flag){
+          flag=false
+          setTimeout(()=>{
+            fn.apply(this,arguments)
+            flag=true
+          },await)
+        }
+      }
+    }
+
     function event1(params){
       return (e)=>{
         console.log('啊啊啊',e.target.value)
@@ -70,7 +83,7 @@
       }
 
     }
-    document.getElementById('test').addEventListener('input',throttle3(event1('小明')))
+    document.getElementById('test').addEventListener('input',throttle4(event1('小明')))
 
 
 

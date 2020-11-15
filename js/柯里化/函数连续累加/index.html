@@ -36,8 +36,23 @@
 
     }
 
+    function sum2(...args){
+
+      let fn=function(...otherArgs){
+        let totalArgs=[...args,...otherArgs]
+        sum2(...totalArgs)
+      }
+      fn.toString=function(){
+        return args.reduce((cur,next)=>{
+          return cur+next
+        })
+      }
+      return fn
+    }
+
+
     console.log(sum(1, 2, 3)(4)(5))
-    console.log(sum1(1, 2, 3)(4)(6))
+    console.log(sum2(1, 2, 3)(4)(6))
 
 </script>
 </body>

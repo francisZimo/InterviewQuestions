@@ -15,10 +15,16 @@
     //   },[])
     // }
 
-    function flatten(ary){
-      return ary.reduce((pre,cur)=>{
-        return pre.concat(Array.isArray(cur)?flatten(cur):cur)
+    // function flatten(ary){
+    //   return ary.reduce((pre,cur)=>{
+    //     return pre.concat(Array.isArray(cur)?flatten(cur):cur)
+    //
+    //   },[])
+    // }
 
+    function flatten1(ary){
+      return ary.reduce((cur,next)=>{
+        return cur.concat(Array.isArray(next)?flatten1(cur):next)
       },[])
     }
 
@@ -30,7 +36,7 @@
 
     console.log(sum([1, 2, 3, 4]),'==sum')
 
-    console.log(flatten(ary1))
+    console.log(flatten1(ary1))
 
     function filter(ary){
       let result=new Set(ary)

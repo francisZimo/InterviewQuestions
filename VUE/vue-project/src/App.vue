@@ -6,6 +6,8 @@
     <slot-demo></slot-demo>
     <mixin-demo></mixin-demo>
     <life-cycle></life-cycle>
+      <hr>
+    <ShoppingCart></ShoppingCart>
   </div>
 </template>
 
@@ -17,7 +19,7 @@ import NextTick from './components/nextTick'
 import SlotDemo from './components/slotCmp'
 import MixinDemo from './components/mixin/mixinDemo'
 import LifeCycle from './components/lifeCycle'
-
+import ShoppingCart from './components/shoppingCart'
 
 export default {
   name: 'App',
@@ -27,7 +29,8 @@ export default {
     NextTick,
     SlotDemo,
     MixinDemo,
-    LifeCycle
+    LifeCycle,
+    ShoppingCart
 
   }
 }

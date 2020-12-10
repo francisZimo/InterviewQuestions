@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  // var climbStairs = function(n) {
+  //   let cacheGroup={1:1,2:2}
+  //   function cacheArray(n,cacheGroup){
+  //     if(!cacheGroup[n]){
+  //       console.log('命中')
+  //       cacheGroup[n]=cacheArray(n-1,cacheGroup)+cacheArray(n-2,cacheGroup)
+  //     }
+  //     return cacheGroup[n]
+  //   }
+  //   return cacheArray(n,cacheGroup)
+  // };
+  var climbStairs = function(n) {
+    let cacheGroup={1:1,2:1}
+    const cacheFn=(n,cacheGroup)=>{
+      if(!cacheGroup[n]){
+        cacheGroup[n]=cacheFn(n-1,cacheGroup)+cacheFn(n-2,cacheGroup)
+      }
+      return cacheGroup[n]
+    }
+    return cacheFn(n,cacheGroup)
+  };
+
+
+
+  console.log(climbStairs(10))
+</script>
+</body>
+</html>

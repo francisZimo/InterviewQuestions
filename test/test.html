@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>woqu</title>
 </head>
 <body>
-<ul id="birds">
-    <li>Orange-winged parrot</li>
-    <script>document.getElementById('birds').innerHTML='haa'</script>
-    <li class="endangered">Philippine eagle</li>
-    <li>Great white pelican</li>
-    <a href="">我哈哈哈</a>
-<!--    <a href=""></a>-->
-</ul>
+<button click="btnClick">点击</button>
+
+<script>
+  export const app_throttle =(fn,timer=1000)=>{
+    let flag=true;
+    return function(){
+      if(flag){
+        flag=false;
+        setTimeout(()=>{
+          fn.apply(this,arguments)
+          flag=true
+        },timer)
+      }
+    }
+  }
+  function btnClick(){
+    console.log('test')
+  }
+
+</script>
 
 
 </body>

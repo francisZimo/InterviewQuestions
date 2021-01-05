@@ -38,15 +38,31 @@
       },await)
     }
   }
-  function debounce3(fn,await=200){
+  function debounce3(fn,await=1000){
     let timer=null
     return function(){
       clearTimeout(timer)
       timer=setTimeout(()=>{
         fn.apply(this,arguments)
+        timer=null
       },await)
     }
   }
+  function debounce4(fn,wait=1000,immediate=false){
+    let timer=null;
+    return function(...arg){
+      let alloc=immediate&&!timer;
+      clearTimeout(timer)
+      timer=setTimeout(()=>{
+        timer=null;
+        if(!immediate) fn.apply(this,arg)
+      },wait)
+      if(alloc){
+        fn.apply(this,arg)
+      }
+    }
+  }
+
   function event1(params){
     return (e)=>{
       console.log('啊啊啊',e.target.value)
@@ -54,7 +70,7 @@
     }
 
   }
-  document.getElementById('test').addEventListener('input',debounce3(event1('小明')))
+  document.getElementById('test').addEventListener('input',debounce4(event1('小明'),1000,false))
 
 
 </script>

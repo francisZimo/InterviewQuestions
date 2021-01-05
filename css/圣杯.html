@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .main{
+            width:100%;
+            padding:0 200px;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
+        div{
+            float:left;
+            text-align: center;
+        }
+        .box{
+            width: 100%;
+            height:300px;
+            box-sizing: border-box;
+            background-color: #42b983;
+        }
+        .right,.left{
+            width:200px;
+            height:300px;
+            background-color: #61dafb;
+        }
+        .left{
+            position: relative;
+            margin-left:-100%;
+            left:-200px;
+        }
+        .right{
+            margin-right: -200px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="box">
+        内容区域
+    </div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+</div>
+
+</body>
+</html>

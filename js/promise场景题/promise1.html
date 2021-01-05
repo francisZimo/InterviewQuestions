@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // Promise.resolve().then(()=>{
+    //   console.log(1)
+    // }).catch(()=>{
+    //   console.log(2)
+    // }).then(()=>{
+    //   console.log(3)
+    // })
+
+    // Promise.resolve().then(()=>{
+    //   console.log(1)
+    //   throw new Error('error')
+    // }).catch(()=>{
+    //   console.log(2)
+    // }).then(()=>{
+    //   console.log(3)
+    // })
+    //
+    // Promise.resolve().then(()=>{
+    //   console.log(1)
+    //   throw new Error('error')
+    // }).catch(()=>{
+    //   console.log(2)
+    // }).catch(()=>{
+    //   console.log(3)
+    // })
+
+    // let p1=Promise.resolve().then(()=>{
+    //   console.log(1)
+    //
+    // })
+    //   p1.then((value)=>{
+    //   console.log('resolve',value)
+    //
+    // },(value)=>{
+    //     console.log('reject',value)
+    //   })
+    let p1=new Promise((resolve,reject)=>{
+      console.log('xx')
+      resolve()
+    })
+    p1.then(()=>{
+      console.log('resolve')
+    },()=>{
+      console.log('reject')
+    })
+    p1.catch((value)=>{
+      console.log('catch',value)
+    })
+
+
+    // async function fn(){
+    //   return 100
+    // }
+    // (async function(){
+    //   const a=fn()
+    //   const b=await fn()
+    //   console.log(a)
+    //   console.log('cc')
+    //
+    //   console.log(b)
+    // })()
+
+    // (async function(){
+    //   console.log('start')
+    //   const a=await 100
+    //   console.log('a',a)
+    //   const b=await Promise.resolve(200)
+    //   console.log('b',b)
+    //   const c=await Promise.reject(300)
+    //   console.log('c',c)
+    //   console.log('end')
+    // })()
+
+    // const p4=Promise.reject('my error').catch(()=>{
+    //   throw new Error('catch err')
+    // })
+    //
+    // console.log('p4',p4.catch(err=>{console.log(err)}))
+
+</script>
+</body>
+</html>

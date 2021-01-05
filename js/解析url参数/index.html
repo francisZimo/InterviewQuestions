@@ -52,16 +52,29 @@
   // }
 
   // 第四遍
+  // String.prototype.myQueryUrlParameter=function(){
+  //   let obj={}
+  //   this.replace(/([^?&=#]+)=([^?&=#]+)/g,function(){
+  //     obj[arguments[1]]=arguments[2]
+  //   })
+  //   this.replace(/#([^?&=#]+)/g,function(){
+  //     obj['HASH']=arguments[2]
+  //   })
+  //   return obj
+  // }
   String.prototype.myQueryUrlParameter=function(){
     let obj={}
     this.replace(/([^?&=#]+)=([^?&=#]+)/g,function(){
       obj[arguments[1]]=arguments[2]
     })
+
     this.replace(/#([^?&=#]+)/g,function(){
       obj['HASH']=arguments[2]
     })
     return obj
   }
+
+
   // let url=`http://www.baidu.com?name=tom&age=20#teacher`;
   let result=url.myQueryUrlParameter();
   console.log(result)

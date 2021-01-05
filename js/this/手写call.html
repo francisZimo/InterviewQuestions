@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    Function.prototype.call1=function(ctx,...args){
+        ctx._fn=this
+      let result=ctx._fn(...args)
+      delete ctx._fn
+      return result
+    }
+
+    function fn(name){
+      console.log('参数',name)
+      console.log(this.name)
+    }
+
+    let result=fn.call1({name:'francis'},'zimo')
+    console.log(result)
+</script>
+</body>
+</html>

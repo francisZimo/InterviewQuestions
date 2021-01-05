@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  var a = {
+    i:1,
+    toString:function(){
+      return 5
+    },
+    valueOf:function(){
+      return a.i++
+    }
+  };
+  console.log(1+{a:'1'})
+  console.log({a:'1'}+1)
+  console.log(1+[])
+  // if(a == 1 && a == 2 && a == 3){
+  //   console.log(1);
+  // }
+
+</script>
+</body>
+</html>

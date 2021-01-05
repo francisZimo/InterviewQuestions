@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  const promise = new Promise(function(resolve, reject) {
+
+    throw '我错了'
+    // reject('wwww')
+    // setTimeout(()=>{
+    //   console.log('setTimeout1')
+    // },0)
+  });
+  setTimeout(()=>{
+    console.log('setTimeout2')
+  },0)
+  promise.then((value)=>{
+    console.log('正确',value)
+  },(value)=>{
+    console.log('error',value)
+  })
+  promise.catch(function(error) {
+    console.log('catch',error);
+  });
+</script>
+</body>
+</html>

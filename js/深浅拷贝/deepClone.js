@@ -82,6 +82,24 @@
 // }
 
 // 第五遍
+// function deepClone(source){
+//   if(typeof source!=='object'){
+//     return source
+//   }
+//   let target={}
+//   if(Object.prototype.toString.call(source)==='[object Object]'){
+//     target={}
+//   }else{
+//     target=[]
+//   }
+//   for(let key in source){
+//     if(source.hasOwnProperty(key)){
+//       target[key]=deepClone(source[key])
+//     }
+//   }
+//   return target
+// }
+
 function deepClone(source){
   if(typeof source!=='object'){
     return source
@@ -94,8 +112,11 @@ function deepClone(source){
   }
   for(let key in source){
     if(source.hasOwnProperty(key)){
-      target[key]=deepClone(source[key])
+      source[key]=deepClone(source[key])
     }
   }
   return target
 }
+
+
+

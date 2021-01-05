@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            width: 90px;
+            height:90px;
+            border: 1px solid red;
+            display: flex;
+
+        }
+        .item{
+            width:30px;
+            height:30px;
+            background-color: #61dafb;
+
+        }
+        .item:nth-child(2){
+            align-self: center;
+        }
+        .item:nth-child(3){
+           align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+</div>
+</body>
+</html>

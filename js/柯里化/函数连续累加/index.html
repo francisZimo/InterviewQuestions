@@ -22,6 +22,20 @@
       return f;
     }
 
+    function sum3(...args){
+      let f=function(...nextArgs){
+        let all=[...args,...nextArgs]
+        return sum3(...all)
+      }
+      f.toString=()=>{
+        return args.reduce((cur,next)=>{
+          return cur+next
+        })
+      }
+      return f
+
+    }
+
     function sum1(...args){
       let f=function(...nextArgs){
         let totalArgs=[...args,...nextArgs]

@@ -6,15 +6,31 @@
 </head>
 <body>
 <script>
-    function print(fn){
-      let a=200
-      fn()
-    }
-    let a=100
+    // function print(fn){
+    //   let a=200
+    //   fn()
+    // }
+    // let a=100
+    // function fn(){
+    //   console.log(a)
+    // }
+    // print(fn)
+
     function fn(){
-      console.log(a)
+      let i=0;
+      return function(){
+        return ++i
+      }
     }
-    print(fn)
+    const counter=fn()
+    console.log(counter())
+    console.log(counter())
+    console.log(counter())
+
+
+    function debounce(fn,wait,immediate){
+
+    }
 </script>
 </body>
 </html>

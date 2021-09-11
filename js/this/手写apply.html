@@ -6,20 +6,29 @@
 </head>
 <body>
 <script>
-  Function.prototype.apply1=function(ctx,args){
-    ctx._fn=this
-    let result=ctx._fn(...args)
-    delete ctx._fn
-    return result
-  }
+  // Function.prototype.apply1=function(ctx,args){
+  //   ctx._fn=this
+  //   console.log('ctx_fn',ctx._fn)
+  //   let result=ctx._fn(...args)
+  //   delete ctx._fn
+  //   return result
+  // }
 
-  function fn(name){
-    console.log('参数',name)
-    console.log(this.name)
-  }
+  // function fn(name){
+  //   console.log('参数',name)
+  //   console.log(this.name)
+  // }
 
-  let result=fn.apply1({name:'francis'},['zimo222'])
-  console.log(result)
+  // let result=fn.apply1({name:'francis'},['zimo222'])
+  // console.log(result)
+  let obj={
+    name:'name',
+    fn(){
+      console.log(this)
+      console.log(this.name)
+    }
+  }
+  obj.fn()
 </script>
 </body>
 </html>

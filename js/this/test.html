@@ -1,0 +1,14 @@
+<html>
+    <script>
+        let fn=function(name,age){
+        
+            console.log(name,age)
+            console.log(this.name,this.age)
+        }
+ 
+        const fn1= fn.bind({},'我哈','20')
+        fn1()
+
+        
+    </script>
+</html>

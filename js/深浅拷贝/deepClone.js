@@ -100,22 +100,40 @@
 //   return target
 // }
 
+// function deepClone(source){
+//   if(typeof source!=='object'){
+//     return source
+//   }
+//   let target={}
+//   if(Object.prototype.toString.call(source)==='[object Object]'){
+//     target={}
+//   }else{
+//     target=[]
+//   }
+//   for(let key in source){
+//     if(source.hasOwnProperty(key)){
+//       source[key]=deepClone(source[key])
+//     }
+//   }
+//   return target
+// }
+
 function deepClone(source){
-  if(typeof source!=='object'){
+  if(typeof source !=='object' || !source){
     return source
   }
-  let target={}
-  if(Object.prototype.toString.call(source)==='[object Object]'){
-    target={}
+  let result =null;
+  if(Object.prototype.toString.call(source)==='[object Array]'){
+    result =[]
   }else{
-    target=[]
+    result ={}
   }
   for(let key in source){
     if(source.hasOwnProperty(key)){
-      source[key]=deepClone(source[key])
+      result[key]=deepClone(source[key])
     }
   }
-  return target
+  return result;
 }
 
 

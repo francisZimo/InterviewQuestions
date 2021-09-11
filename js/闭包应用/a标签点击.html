@@ -8,17 +8,17 @@
 <body>
 <script>
     let fragment=document.createDocumentFragment()
-    for(var i=0;i<10;i++){
-      let a=document.createElement('a')
-      // 使用闭包解决
-      a.innerText=`index ${i}`
-      a.addEventListener('click',(function(params){
-        return ()=>{
-          alert(params)
-        }
-      })(i),false)
-      fragment.appendChild(a)
-    }
+    // for(var i=0;i<10;i++){
+    //   let a=document.createElement('a')
+    //   // 使用闭包解决
+    //   a.innerText=`index ${i}`
+    //   a.addEventListener('click',(function(params){
+    //     return ()=>{
+    //       alert(params)
+    //     }
+    //   })(i),false)
+    //   fragment.appendChild(a)
+    // }
     // 使用let 块级作用域解决
     // for(let i=0;i<10;i++) {
     //   let a = document.createElement('a')
@@ -28,7 +28,19 @@
     //   }, false)
     //   fragment.appendChild(a)
     // }
+    // document.body.appendChild(fragment)
+
+    // let fragment=document.createDocumentFragment()
+    for(let i=0;i<10;i++){
+      let a= document.createElement('a')
+      a.innerText=i
+      a.addEventListener('click',()=>{
+        alert(i)
+      },false)
+      fragment.appendChild(a)
+    }
     document.body.appendChild(fragment)
+
 </script>
 </body>
 </html>

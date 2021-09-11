@@ -6,26 +6,26 @@
 </head>
 <body>
 <script>
-    // function print(fn){
-    //   let a=200
-    //   fn()
-    // }
-    // let a=100
-    // function fn(){
-    //   console.log(a)
-    // }
-    // print(fn)
-
-    function fn(){
-      let i=0;
-      return function(){
-        return ++i
-      }
+    function print(fn){
+      let a=200
+      fn()
     }
-    const counter=fn()
-    console.log(counter())
-    console.log(counter())
-    console.log(counter())
+    let a=100
+    function fn(){
+      console.log(a)
+    }
+    print(fn)
+
+    // function fn(){
+    //   let i=0;
+    //   return function(){
+    //     return ++i
+    //   }
+    // }
+    // const counter=fn()
+    // console.log(counter())
+    // console.log(counter())
+    // console.log(counter())
 
 
     function debounce(fn,wait,immediate){

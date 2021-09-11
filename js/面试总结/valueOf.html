@@ -1,0 +1,35 @@
+<html>
+    <script>
+        console.log('111')
+        const a={
+            value:1,
+            toString(){
+                console.log('toString')
+            },
+            valueOf(){
+                console.log('valueOf')
+                return this.value++
+            }
+        }
+        if(a==1&&a==2&a==3){
+            console.log('成功')
+        }
+
+        const b={
+            value:1,
+            time:1
+        }
+       
+        Object.defineProperty(b,'value',{
+            get(){
+                console.log('b——get')
+                return b.time++
+            }
+        })
+        if(b.value==1&&b.value==2){
+            console.log('woha')
+        }
+    
+       
+    </script>
+</html>

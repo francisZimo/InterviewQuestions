@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <p>测试</p>
+    <script>
+        const requestPool=[]
+        /**
+         * 阻止重复请求
+         * @param {array} reqList - 请求缓存列表
+         * @param {string} url - 当前请求地址
+         * @param {function} cancel - 请求中断函数
+         * @param {string} errorMessage - 请求中断时需要显示的错误信息
+         */
+        function stopRepeatRequest(reqList,url,cancel,errorMessage){
+            const error=errorMessage||'';
+            for(let i=0;i<reqList.length;i++){
+                if(reqList[i]===url){
+                    cancel(error)
+                    return
+                }
+            }
+            requestPool.push(url)
+        }
+
+        function allowRequest(reqList,url){
+            for(let i=0;i<reqList.length;i++){
+                if(reqList[i]===url){
+                    requestPool.splice(i,1)
+                    break;
+                }
+            }
+            console.log('最终requestPool',requestPool)
+        }
+        const service =axios.create()
+        service.interceptors.request.use(function (config) {
+            // Do something before request is sent
+            let cancel;
+                config.cancelToken= new axios.CancelToken(function(c){
+                    cancel=c
+                })
+                stopRepeatRequest(requestPool,config.url,cancel,`${config.url} 请求被中断`)
+                
+            return config;
+        }, function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+        });
+        service.interceptors.response.use(
+            response=>{
+                console.log('response')
+                setTimeout(()=>{
+                    allowRequest(requestPool,response.config.url)
+                })
+                console.log(requestPool,'==requestPool')
+                // ...请求成功后续操作
+            },
+            thrown=>{
+                if(axios.isCancel(thrown)){
+                    console.log(thrown.message)
+                }else{
+                    allowRequest(requestPool,thrown.config.url)
+                    console.log('出错了')
+                }
+            }
+        )
+
+        // let reqList=['https://studentlive.xueersi.com/v2/student/puzzle/classpk/answerStatus/getList','https://studentlive.xueersi.com/v2/student/puzzle/classpk/answerStatus/getList','https://studentlive.xueersi.com/v2/student/puzzle/classpk/answerStatus/getList']
+        let reqList=['http://127.0.0.1:8099/app','http://127.0.0.1:8099/app','http://127.0.0.1:8099/app']
+        for(let i=0;i<reqList.length;i++){
+            service.get(reqList[i]).then((data)=>{
+                console.log(data,'==data')
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
+    </script>
+</body>
+</html>

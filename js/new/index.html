@@ -15,11 +15,20 @@
         //     }
         //     return obj
         // }
+        // function new1(fn,...args){
+        //     const obj=Object.create(fn.prototype)
+        //     const result=fn.call(obj,...args)
+        //     return result instanceof Object? result:obj
+        // }
+
         function new1(fn,...args){
             const obj=Object.create(fn.prototype)
-            const result=fn.call(obj,...args)
-            return result instanceof Object? result:obj
+            const result=fn.apply(obj,args)
+            return result instanceof Object?result:obj
+
         }
+
+
         function Person(age) {
             this.age = age;
             return {'name':'宝贝'}

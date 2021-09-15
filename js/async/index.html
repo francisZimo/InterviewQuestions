@@ -6,25 +6,38 @@
 </head>
 <body>
 <script>
-    function muti(num){
+    function muti(num,await=1000){
       return new Promise(resolve=>{
         setTimeout(()=>{
           resolve(num*num)
-        },1000)
+        },await)
       })
     }
 
     const nums=[1,2,3]
-    // nums.forEach(async (i)=>{
-    //   const res=await muti(i)
-    //   console.log(res)
-    // })
-    !(async function(){
-      for(let i of nums){
-          const res=await muti(i)
-          console.log(res)
+ 
+    // !(async function(){
+    //   for(let i of nums){
+    //       const res=await muti(i)
+    //       console.log(res)
+    //   }
+    // })()
+    const nums1=[muti(3,1000),muti(1,3000),muti(2,2000),]
+    // async function  test(){
+    //   for await ( let item of nums){
+    //     console.log(item)
+    //   }
+    // }
+    async function  test2(){
+      for(let i of nums1){
+        const res=await i
+        console.log(res)
       }
-    })()
+    }
+    // test()
+    test2()
+
+
 
 </script>
 </body>

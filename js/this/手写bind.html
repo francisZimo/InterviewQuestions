@@ -17,15 +17,39 @@
      console.log(name,age,city)
      console.log(this.name,this.age)
    }
+  // Function.prototype.bind1=function(ctx,...args){
+  //   let total=[...args]
+  //   return (...nextArgs)=>{
+  //     total=[...total,...nextArgs]
+  //     this.apply(ctx,total)
+  //   }
+  // }
+
+  // Function.prototype.bind1=function(ctx,...args){
+  //   let  total=[...args]
+  //   return (...nextArgs)=>{
+  //     total=[...total,...nextArgs]
+  //     this.apply(ctx,total)
+  //   }
+  // }
+
   Function.prototype.bind1=function(ctx,...args){
     let total=[...args]
     return (...nextArgs)=>{
-      total=[...total,...nextArgs]
-      this.apply(ctx,total)
+      total=[...total,...args]
+      return this.apply(ctx,total)
     }
   }
+
   let newFN= fn.bind1({name:'francis',age:'60'},'我是name','我是age')
    newFN('北京')
+
+   let newFN1= fn.bind({name:'francis',age:'60'},'我是name','我是age')
+   newFN1('北京1')
+   newFN1('上海')
+   
+
+   
 </script>
 </body>
 </html>

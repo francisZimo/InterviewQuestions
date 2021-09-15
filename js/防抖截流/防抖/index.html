@@ -9,60 +9,114 @@
 <input type="text" id="test">
 <body>
 <script>
-  function debounce(fn,time=200){
-    let timer=null;
-    return function(){
-      clearTimeout(timer)
-      timer=setTimeout(()=>{
-        fn.apply(this,arguments)
-      },time)
-    }
-  }
+  // function debounce(fn,time=200){
+  //   let timer=null;
+  //   return function(){
+  //     clearTimeout(timer)
+  //     timer=setTimeout(()=>{
+  //       fn.apply(this,arguments)
+  //     },time)
+  //   }
+  // }
+  // function debounce(fn,await=200){
+  //   let timer =null;
+  //   return function(...args){
+  //     clearTimeout(timer)
+  //     setTimeout(()=>{
+  //       return fn.apply(this,args)
+  //     },await)
+  //   }
 
-  function debounce1(fn,await=500){
-    let timer=null
-    return function(){
-      clearTimeout(timer)
-      timer=setTimeout(()=>{
-        fn.apply(this,arguments)
-      },await)
-    }
-  }
+  // }
 
-  function debounce2(fn,await=200){
+  // function debounce1(fn,await=500){
+  //   let timer=null
+  //   return function(){
+  //     clearTimeout(timer)
+  //     timer=setTimeout(()=>{
+  //       fn.apply(this,arguments)
+  //     },await)
+  //   }
+  // }
+
+  // function debounce2(fn,await=200){
+  //   let timer=null
+  //   return function(){
+  //     clearTimeout(timer)
+  //     timer=setTimeout(()=>{
+  //       fn.apply(this,arguments)
+  //     },await)
+  //   }
+  // }
+  // function debounce3(fn,await=1000){
+  //   let timer=null
+  //   return function(){
+  //     clearTimeout(timer)
+  //     timer=setTimeout(()=>{
+  //       fn.apply(this,arguments)
+  //       timer=null
+  //     },await)
+  //   }
+  // }
+  // function debounce4(fn,wait=1000,immediate=false){
+  //   let timer=null;
+  //   return function(...arg){
+      
+  //     clearTimeout(timer)
+  //     // let alloc=!timer;
+  //     // if(immediate){
+  //     //   timer=setTimeout(()=>{
+  //     //     fn.apply(this,arg)
+  //     //   },wait)
+  //     //   if(alloc)fn.apply(this,arg)
+  //     // }else{
+  //     //   timer=setTimeout(()=>{
+  //     //     fn.apply(this,arg)
+  //     //   },wait)
+  //     // } 
+  //     let alloc=!timer&&immediate
+  //     timer=setTimeout(()=>{
+  //       timer=null;
+  //         fn.apply(this,arg)
+  //       },wait)
+  //     if(alloc){
+  //       fn.apply(this,arg)
+  //     }
+  //   }
+  // }
+
+  // function debounce5(fn,wait=1000,immediate=false){
+  //   let timer=null;
+  //   return function(...arg){
+  //     let alloc=immediate&&!timer;
+  //     clearTimeout(timer)
+  //     timer=setTimeout(()=>{
+  //       timer=null;
+  //       // if(!immediate) fn.apply(this,arg)
+  //       fn.apply(this,arg)
+  //     },wait)
+  //     if(alloc){
+  //       fn.apply(this,arg)
+  //     }
+  //   }
+  // }
+
+  function debounce(fn,await=1000,immediate=false){
     let timer=null
-    return function(){
+    return function(...args){
       clearTimeout(timer)
-      timer=setTimeout(()=>{
-        fn.apply(this,arguments)
-      },await)
-    }
-  }
-  function debounce3(fn,await=1000){
-    let timer=null
-    return function(){
-      clearTimeout(timer)
-      timer=setTimeout(()=>{
-        fn.apply(this,arguments)
-        timer=null
-      },await)
-    }
-  }
-  function debounce4(fn,wait=1000,immediate=false){
-    let timer=null;
-    return function(...arg){
-      let alloc=immediate&&!timer;
-      clearTimeout(timer)
+      let alloc=!timer&&immediate
       timer=setTimeout(()=>{
         timer=null;
-        if(!immediate) fn.apply(this,arg)
-      },wait)
+        fn.apply(this,args)
+      },await)
       if(alloc){
-        fn.apply(this,arg)
+        fn.apply(this,args)
       }
     }
   }
 
+  // function 
   function event1(params){
     return (e)=>{
       console.log('啊啊啊',e.target.value)
@@ -70,7 +124,7 @@
     }
 
   }
-  document.getElementById('test').addEventListener('input',debounce4(event1('小明'),1000,false))
+  document.getElementById('test').addEventListener('input',debounce(event1('小明'),1000,true))
 
 
 </script>

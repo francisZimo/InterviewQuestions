@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function new1(source,...args){
+        //     const obj = Object.create(source.prototype)
+        //     const result=source.call(obj,...args)
+        //     if(result instanceof Object){
+        //         return result
+        //     }
+        //     return obj
+        // }
+        function new1(fn,...args){
+            const obj=Object.create(fn.prototype)
+            const result=fn.call(obj,...args)
+            return result instanceof Object? result:obj
+        }
+        function Person(age) {
+            this.age = age;
+            return {'name':'宝贝'}
+        }
+        Person.prototype.getAge = function() {
+            console.log("年龄为:" + this.age );
+
+        }
+
+    var person = new1(Person, 18)
+    console.log(person)
+    console.log(person.age); // 访问构造函数里的属性
+    // 18
+    // person.getAge()
+    </script>
+</body>
+</html>

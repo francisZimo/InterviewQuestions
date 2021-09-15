@@ -22,10 +22,24 @@
     //   },[])
     // }
 
-    function flatten1(ary){
-      return ary.reduce((cur,next)=>{
-        return cur.concat(Array.isArray(next)?flatten1(cur):next)
+    // function flatten1(ary){
+    //   return ary.reduce((cur,next)=>{
+    //     return cur.concat(Array.isArray(next)?flatten1(cur):next)
+    //   },[])
+    // }
+
+    // function flatten1(arr){
+    //   return arr.reduce((pre,cur)=>{
+    //     return  pre.concat(Array.isArray(cur)?flatten1(cur):cur)
+    //   },[])
+
+    // }
+
+    function flatten1(arr){
+      return arr.reduce((acc,cur)=>{
+        return acc.concat(Array.isArray(cur)?flatten1(cur):cur)
       },[])
+
     }
 
     function sum(ary){

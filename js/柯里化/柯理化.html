@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //     function add(a,b,c,d){
+            
+    //     }
+    //     function test(add){
+    //         console.log(add.length) // 函数形参数量
+    //     }
+    //    test(add)
+
+
+    // 定长参数
+    function add(a,b,c,d){ // 参数固定
+        return [...arguments].reduce((cur,next)=>{
+            return cur+next
+        })
+    }
+    function curring(fn){
+        let len=fn.length
+        let args=[]
+        return function _c(...newArgs){
+            args=[...args,...newArgs]
+            if(args.length<len){
+                return _c
+            }else{
+                return fn.apply(this,args)
+            }
+        }
+    }
+    let addCurry=curring(add)
+    let total=addCurry(1)(2)(3)(4,20,30)
+    // console.log(total)
+
+    // 函数参数个数不定长
+    function add1(...args){
+        return args.reduce((cur,next)=>{
+            return cur+next
+        })
+    }
+    function curring1(fn){
+        let args=[]
+        return function _c(...newArgs){
+            args=[...args,...newArgs]
+            if(newArgs.length){
+                return _c
+            }else{
+                return fn.apply(this,args)
+            }
+        }
+    }
+    let addCurry1=curring1(add1)
+    let total1=addCurry1(1)(2)(3)(4,20,30,2)()
+    console.log(total1)
+
+
+    
+
+
+    </script>
+</body>
+</html>

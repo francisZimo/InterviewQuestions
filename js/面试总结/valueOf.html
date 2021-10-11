@@ -1,34 +1,48 @@
 <html>
+    <p> toPrimitive 是将操作数转化为基本数据类型，优先调用valueOf，若得到基本数据类型，则结束，否则继续掉用toString()。（也就是说valueOf的优先级高于toString()</p>
     <script>
-        console.log('111')
+        // const a={
+        //     value:1,
+        //     toString(){
+        //         console.log('toString')
+        //     },
+        //     valueOf(){
+        //         console.log('valueOf')
+        //         return this.value++
+        //     }
+        // }
         const a={
-            value:1,
-            toString(){
-                console.log('toString')
-            },
+            i:1,
             valueOf(){
                 console.log('valueOf')
-                return this.value++
+                return a.i++
+            },
+            toString(){
+                console.log('toString') // 前提valueOf返回为非基础类型
+                return a.i++
             }
+            
         }
-        if(a==1&&a==2&a==3){
+        if(a=='1'&&a=='2'&a=='3'){
             console.log('成功')
         }
 
-        const b={
-            value:1,
-            time:1
-        }
+
+
+        // const b={
+        //     value:1,
+        //     time:1
+        // }
        
-        Object.defineProperty(b,'value',{
-            get(){
-                console.log('b——get')
-                return b.time++
-            }
-        })
-        if(b.value==1&&b.value==2){
-            console.log('woha')
-        }
+        // Object.defineProperty(b,'value',{
+        //     get(){
+        //         console.log('b——get')
+        //         return b.time++
+        //     }
+        // })
+        // if(b.value==1&&b.value==2){
+        //     console.log('woha')
+        // }
     
        
     </script>

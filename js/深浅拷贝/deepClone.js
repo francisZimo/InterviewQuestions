@@ -118,22 +118,38 @@
 //   return target
 // }
 
-function deepClone(source){
-  if(typeof source !=='object' || !source){
-    return source
+// function deepClone(source){
+//   if(typeof source !=='object' || !source){
+//     return source
+//   }
+//   let result =null;
+//   if(Object.prototype.toString.call(source)==='[object Array]'){
+//     result =[]
+//   }else{
+//     result ={}
+//   }
+//   for(let key in source){
+//     if(source.hasOwnProperty(key)){
+//       result[key]=deepClone(source[key])
+//     }
+//   }
+//   return result;
+// }
+
+function deepClone(origin){
+  if(typeof origin!=='object'|| !origin){
+    return origin
   }
-  let result =null;
-  if(Object.prototype.toString.call(source)==='[object Array]'){
-    result =[]
-  }else{
-    result ={}
+  let result={}
+  if(Object.prototype.toString.call(origin)==='[object Array]'){
+    result=[]
   }
-  for(let key in source){
-    if(source.hasOwnProperty(key)){
-      result[key]=deepClone(source[key])
+  for(let i in origin){
+    if(origin.hasOwnProperty(i)){
+      result[i]=deepClone(origin[i])
     }
   }
-  return result;
+  return result
 }
 
 

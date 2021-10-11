@@ -9,8 +9,8 @@
 <body>
 <script>
   let ary1=[1,2,{name:'xxx',info:{address:'beijing'}}]
-    let target=shallowClone((ary1))
-  // let target=deepClone(ary1)
+    // let target=shallowClone((ary1))
+  let target=deepClone(ary1)
     target[2].name='francis'
     console.log(ary1)
     console.log(target)

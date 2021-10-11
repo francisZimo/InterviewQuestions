@@ -101,19 +101,35 @@
   //   }
   // }
 
+  // function debounce(fn,await=1000,immediate=false){
+  //   let timer=null
+  //   return function(...args){
+  //     clearTimeout(timer)
+  //     let alloc=!timer&&immediate
+  //     timer=setTimeout(()=>{
+  //       timer=null;
+  //       fn.apply(this,args)
+  //     },await)
+  //     if(alloc){
+  //       fn.apply(this,args)
+  //     }
+  //   }
+  // }
+
   function debounce(fn,await=1000,immediate=false){
-    let timer=null
+    let timer=null;
     return function(...args){
       clearTimeout(timer)
-      let alloc=!timer&&immediate
+      if(!timer&&immediate){
+        fn.apply(this,args)
+      }
       timer=setTimeout(()=>{
         timer=null;
         fn.apply(this,args)
       },await)
-      if(alloc){
-        fn.apply(this,args)
-      }
+     
     }
+
   }
 
   // function 

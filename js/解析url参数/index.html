@@ -9,13 +9,13 @@
   let url=`http://www.baidu.com?name=tom&age=20#teacher`;
 
 
-  var paramsString = "q=URLUtils.searchParams&topic=api"
-  var searchParams = new URLSearchParams(paramsString);
-  console.log(searchParams,'===params')
-  console.log(searchParams.get('topic'),'==qq')
-  for (let p of searchParams) {
-    console.log(p);
-  }
+  // var paramsString = "q=URLUtils.searchParams&topic=api"
+  // var searchParams = new URLSearchParams(paramsString);
+  // console.log(searchParams,'===params')
+  // console.log(searchParams.get('topic'),'==qq')
+  // for (let p of searchParams) {
+  //   console.log(p);
+  // }
 
   // String.prototype.myQueryUrlParameter=function(){
   //   let obj={};
@@ -46,7 +46,7 @@
   //     obj[arguments[1]]=arguments[2]
   //   })
   //   this.replace(/#([^?&=#]+)$/g,function(){
-  //     obj['HASH']=arguments[2]
+  //     obj['HASH']=arguments[1]
   //   })
   //   return obj
   // }
@@ -58,18 +58,20 @@
   //     obj[arguments[1]]=arguments[2]
   //   })
   //   this.replace(/#([^?&=#]+)/g,function(){
-  //     obj['HASH']=arguments[2]
+  //     obj['HASH']=arguments[1]
   //   })
   //   return obj
   // }
   String.prototype.myQueryUrlParameter=function(){
     let obj={}
     this.replace(/([^?&=#]+)=([^?&=#]+)/g,function(){
+      console.log(arguments)
       obj[arguments[1]]=arguments[2]
     })
 
     this.replace(/#([^?&=#]+)/g,function(){
-      obj['HASH']=arguments[2]
+      console.log('hash',arguments)
+      obj['HASH']=arguments[1]
     })
     return obj
   }

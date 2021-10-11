@@ -5,22 +5,14 @@
     <title>Title</title>
 </head>
 <body>
+  柯理化：https://www.jianshu.com/p/2975c25e4d71
+  https://www.imooc.com/article/302720?block_id=tuijian_wz
+  compose:http://c.biancheng.net/view/5744.html
 <p>sum(1,2,3)</p>
 <p>sum(1,2,3)(4)</p>
 <p>sum(1)(2)(3)</p>
 <script>
-    function sum(...args){
-      let f=function(...nexArgs){
-        let allArgs=[...args,...nexArgs]
-        return sum(...allArgs)
-      }
-      f.toString=()=>{
-        return args.reduce((current,next)=>{
-          return current+next
-        })
-      }
-      return f;
-    }
+  
 
     function sum3(...args){
       let f=function(...nextArgs){
@@ -50,23 +42,82 @@
 
     }
 
+
+    function sum(...args){
+      let f=function(...nexArgs){
+        let allArgs=[...args,...nexArgs]
+        return sum(...allArgs)
+      }
+      f.toString=()=>{
+        console.log('toString')
+        return args.reduce((current,next)=>{
+          return current+next
+        })
+      }
+      return f;
+    }
+
     function sum2(...args){
 
-      let fn=function(...otherArgs){
+      function fn(...otherArgs){
         let totalArgs=[...args,...otherArgs]
-        sum2(...totalArgs)
+        return  sum2(...totalArgs)
       }
-      fn.toString=function(){
+      // fn.toString=function(){
+      //   return args.reduce((cur,next)=>{
+      //     return cur+next
+      //   })
+      // }
+      fn.valueOf=function(value){
         return args.reduce((cur,next)=>{
+          return cur+next
+        })
+      }
+    
+      return fn
+    }
+
+    function sum3(...args){
+      let allArgs=[...args]
+      const fn= function (...newArgs){
+        allArgs=[...allArgs,...newArgs];
+        return fn
+      }
+      fn.valueOf=function(){
+        return allArgs.reduce((cur,next)=>{
           return cur+next
         })
       }
       return fn
     }
 
+    function add() {
+    // 第一次执行时，定义一个数组专门用来存储所有的参数
+    var _args = Array.prototype.slice.call(arguments);
 
-    console.log(sum(1, 2, 3)(4)(5))
-    console.log(sum2(1, 2, 3)(4)(6))
+    // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
+    var _adder = function() {
+        _args.push(...arguments);
+        return _adder;
+    };
+
+    // 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
+    _adder.toString = function () {
+        return _args.reduce(function (a, b) {
+            return a + b;
+        });
+    }
+    return _adder;
+}
+
+
+    // 柯理化模板
+    
+
+
+    // console.log(sum(1, 2, 3)(4)(5)+0)
+    console.log( sum3(1, 2, 3)(4)(6)+0)
+    // console.log(add(1, 2, 3)(4)(5)+0)
 
 </script>
 </body>

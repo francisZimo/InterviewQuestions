@@ -33,11 +33,19 @@
   //   }
   // }
 
-  Function.prototype.bind1=function(ctx,...args){
+  // Function.prototype.bind1=function(ctx,...args){
+  //   let total=[...args]
+  //   return (...nextArgs)=>{
+  //     total=[...total,...args]
+  //     return this.apply(ctx,total)
+  //   }
+  // }
+
+  Function.prototype.bind1=function(context,...args){
     let total=[...args]
     return (...nextArgs)=>{
-      total=[...total,...args]
-      return this.apply(ctx,total)
+      total=[...total,...nextArgs]
+      return this.apply(context,total)
     }
   }
 

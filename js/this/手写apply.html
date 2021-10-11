@@ -14,10 +14,10 @@
   //   return result
   // }
 
-  // function fn(name){
-  //   console.log('参数',name)
-  //   console.log(this.name)
-  // }
+  function fn(name){
+    console.log('参数',name)
+    console.log(this.name)
+  }
 
   // Function.prototype.apply1=function(ctx,args){
   //   ctx._fn=this;
@@ -26,11 +26,19 @@
   //   return result
   // }
 
+  // Function.prototype.apply1=function(ctx,args){
+  //   ctx._fn=this;
+  //   let result=ctx._fn(...args)
+  //   delete ctx._fn
+  //   return result
+
+  // }
+
   Function.prototype.apply1=function(ctx,args){
-    ctx._fn=this;
-    let result=ctx._fn(...args)
-    delete ctx._fn
-    return result
+    ctx.fn=this
+    let result=ctx.fn(...args)
+    delete ctx.fn
+    return result;
 
   }
   let result=fn.apply1({name:'francis'},['zimo222'])

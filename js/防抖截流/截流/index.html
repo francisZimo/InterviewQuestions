@@ -90,6 +90,20 @@
       }
     }
 
+    function throttle6(fn,await=1000){
+      let timer=null;
+      return function(...args){
+        if(timer){
+          return
+        }
+        timer=setTimeout(()=>{
+          fn.apply(this,args)
+          timer=null;
+        },await)
+
+      }
+    }
+
   
 
     function event1(params){
@@ -99,7 +113,7 @@
       }
 
     }
-    document.getElementById('test').addEventListener('input',throttle5(event1('小明'),1000,true))
+    document.getElementById('test').addEventListener('input',throttle6(event1('小明'),1000,true))
 
 
 

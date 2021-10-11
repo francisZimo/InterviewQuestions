@@ -13,12 +13,19 @@
     //   return result
     // }
 
+    // Function.prototype.call1=function(ctx,...args){
+    //   ctx._fn=this;
+    //   let result=ctx._fn(...args);
+    //   delete ctx._fn
+    //   return result
+
+    // }
+
     Function.prototype.call1=function(ctx,...args){
       ctx._fn=this;
-      let result=ctx._fn(...args);
+      let result=ctx._fn(...args)
       delete ctx._fn
       return result
-
     }
 
 

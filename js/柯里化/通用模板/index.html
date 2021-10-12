@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function add(...args){
+            return args.reduce((a,b)=>{
+                return a+b
+            })
+        }
+        function curring(fn){
+            let params=[]
+             function _c(...args){
+                if(!args.length){
+                    console.log(params,'===params')
+                    return fn.apply(this,params)
+                }else{
+                    params=[...params,...args]
+                    return _c
+                }
+            }
+            return _c
+        }
+        const addFn=curring(add)
+        console.log(addFn(1)(2)(3)())
+    </script>
+</body>
+</html>

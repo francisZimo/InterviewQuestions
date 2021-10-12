@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function compose(...args){
+        //     const temp=[...args]
+        //     const ln=args.length
+        //     let index=ln-1;
+        //     for(let item of args){
+        //         if(typeof item !=='function'){
+        //             throw new TypeError('参数必须是函数')
+        //         }
+        //     }
+        //     return function(newArgs){
+        //         let result;
+        //         result=temp[index].call(this,newArgs)  
+        //         while(index--){
+        //           result=temp[index].call(this,result)  
+        //         }
+        //         return result
+        //     }
+        // }
+
+
+        function compose(...args){
+            let ln=args.length
+            let temp=args
+            let index=ln-1
+            for(let i of args){
+                if(typeof i !=='function'){
+                    throw new TypeError('参数必须为函数')
+                }
+            }
+            return function(...newArgs){
+                let result=temp[index].call(this,...newArgs)
+                while(index--){
+                    console.log(index,'==index')
+                    result=temp[index].call(this,result)
+                }
+                return result
+            }
+        }
+
+        var add = function (x) { return x + 5; }  //加法允许
+        var mul= function (x) { return x * 5; }  //乘法运算
+        var sub= function (x) { return x - 5; }  //减法运算
+        var div = function (x) { return x / 5; }  //除法运算
+        var fn = compose(add,mul,sub,div);
+        console.log(fn(50));  //返回30
+        // var fn = compose(add, compose(mul, sub, div));
+        // console.log(fn(50));  //返回30
+        // var fn = compose(compose(add, mul), sub, div);
+        // console.log(fn(50));  //返回30
+        while(0){
+            console.log('测试')
+        }
+
+    </script>
+</body>
+</html>

@@ -83,13 +83,15 @@
         allArgs=[...allArgs,...newArgs];
         return fn
       }
-      fn.valueOf=function(){
+      fn.toString=function(){
         return allArgs.reduce((cur,next)=>{
           return cur+next
         })
       }
       return fn
     }
+
+  
 
     function add() {
     // 第一次执行时，定义一个数组专门用来存储所有的参数
@@ -116,7 +118,20 @@
 
 
     // console.log(sum(1, 2, 3)(4)(5)+0)
-    console.log( sum3(1, 2, 3)(4)(6)+0)
+    function sum4(...args){
+      let params=[...args]
+      const fn=function(...newArgs){
+        params=[...params,...newArgs]
+        return fn
+      }
+      fn.toString=function(){
+        return params.reduce((a,b)=>{
+          return a+b
+        })
+      }
+      return fn
+    }
+    console.log( sum4(1, 2, 3)(4)(6))
     // console.log(add(1, 2, 3)(4)(5)+0)
 
 </script>

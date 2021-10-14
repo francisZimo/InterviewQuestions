@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var removeElement = function(nums, val) {
+            let count=0;
+            let ln=nums.length
+            for(let i=0;i<ln;i++){
+                if(nums[i]===val){
+                    count++
+                    nums.splice(i,1)
+                    ln--;
+                    i--;
+                }
+            }
+            console.log(count,nums)
+            return count
+        };
+        let nums = [0,1,2,2,3,0,4,2], val = 2
+        removeElement(nums,val)
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    var mySqrt = function(x) {
+        if(x<2){
+            return x
+        }
+        let left=0;
+        let right=parseInt(x/2)
+        while(left<=right){
+            let middle=(left+right)>>1
+            const mid=middle*middle
+            if(mid>x){
+                right=middle-1
+            }else if(mid<x){
+                left=middle+1
+            }else{
+                return middle
+            }
+        }
+        return right
+    };
+    mySqrt(8)
+    </script>
+</body>
+</html>

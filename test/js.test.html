@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // let s=Array.from([1,2,3,4,5],(v,i)=>{
+        //     console.log(v,i)
+        // })
+        
+        var mySqrt = function(x) {
+            let nums=Array.from({length:parseInt(x/2)},(v,i)=>i+1)
+            if(!nums.length){
+                return 0
+            }
+            
+            console.log(nums)
+            let left=0;
+            let right=nums.length-1;
+
+            while(left<=right){
+                const middle=(left+right)>>1
+                const middleItem=nums[middle]
+                if(middleItem*middleItem<x){
+                    left =middle+1
+                    
+                }else if(middleItem*middleItem>x){
+                    right=middle-1
+                }else {
+                    return middleItem
+                }
+            }
+            return right
+        };
+        console.log(mySqrt(4))
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body >
+    <script>
+      
+        window.addEventListener("beforeunload", function (event) {
+
+        // Cancel the event as stated by the standard.
+
+        event.preventDefault();
+
+        // Chrome requires returnValue to be set.
+
+        event.returnValue = '网站离开信息';
+        
+
+        });
+        window.onbeforeunload=function(e){     　　
+           
+            var e = window.event||e;
+            // e.preventDefault();
+            e.returnValue="确定离开当前页面吗？";
+        }
+        if ('sendBeacon' in navigator) {
+            var data = {
+                name: '前端名狮子',
+                age: 20
+            };
+            window.addEventListener('pagehide', function() {
+                const formData = new FormData();
+                Object.keys(data).forEach((key) => {
+                    let value = data[key];
+                    if (typeof value !== 'string') {
+                    // formData只能append string 或 Blob
+                    value = JSON.stringify(value);
+                    }
+                    formData.append(key, value);
+                });
+                navigator.sendBeacon(
+                'https://putsreq.herokuapp.com/4GE2nVUuDoDGsNyKES2G',
+                formData);
+            }, false);
+            }
+    </script>
+</body>
+</html>

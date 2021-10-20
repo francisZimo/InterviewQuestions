@@ -14,11 +14,55 @@
     const dfs=(obj,path)=>{
       console.log(obj,path)
       Object.keys(obj).forEach((item)=>{
-         dfs(obj[item],path.concat(item))
+         path=dfs(obj[item],path.concat(item))
 
       })
+      return path
+      
     }
-    dfs(obj,[])
+    // console.log(dfs(obj,[]),'===dfs')
+
+    let obj1={
+      value:1,
+      children:[
+        {
+          value:2,
+          children:[
+            {
+              value:4,
+              children:[
+                {
+                  value:6,
+                },
+                {
+                  value:7,
+                }
+              ]
+            },
+            {
+              value:5
+            }
+          ]
+        },{
+          value:3
+        }
+      ]
+    }
+    const dfs1=(node,nodeList=[])=>{
+      if(!node){
+        return []
+      }
+      nodeList.push(node.value)
+      if(node.children){
+        const child=node.children
+        child.forEach(item=>{
+          nodeList=dfs1(item,nodeList)
+        })
+        
+      }
+      return nodeList
+    }
+    console.log(dfs1(obj1),'===dfs')
 </script>
 </body>
 </html>

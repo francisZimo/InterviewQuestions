@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const bfs=(node)=>{
+            let queue=[]
+            let nodeList=[]
+            if(node){
+                queue.push(node)
+                while(queue.length){
+                    const nodeItem=queue.shift()
+                    nodeList.push(nodeItem.value)
+                    if(nodeItem.children){
+                        nodeItem.children.forEach(item=>{
+                            queue.push(item)
+                        })
+                    }
+                }
+            }
+            return nodeList
+        }
+        let obj1={
+            value:1,
+            children:[
+                {
+                value:2,
+                children:[
+                    {
+                    value:4,
+                    children:[
+                        {
+                        value:6,
+                        },
+                        {
+                        value:7,
+                        }
+                    ]
+                    },
+                    {
+                    value:5
+                    }
+                ]
+                },{
+                value:3
+                }
+            ]
+            }
+            console.log(bfs(obj1))
+    </script>
+</body>
+</html>

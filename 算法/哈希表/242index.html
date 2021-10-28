@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    var isAnagram = function(s, t) {
+        if(s.length !== t.length) return false;
+        const resSet = new Array(26).fill(0);
+        const base = "a".charCodeAt();
+        for(const i of s) {
+            resSet[i.charCodeAt() - base]++;
+        }
+        console.log(resSet,'==resSet')
+        for(const i of t) {
+            console.log(resSet[i.charCodeAt() - base],'==t')
+            if(!resSet[i.charCodeAt() - base]) return false;
+            console.log(i.charCodeAt(),'==charCode')
+            resSet[i.charCodeAt() - base]--;
+        }
+        return true;
+    };
+
+    var isAnagram1= function(s,t){
+        if(s.length !== t.length){
+            return false
+        }
+        const resAry=new Array(26)
+    }
+
+
+
+    let s="aee"
+    let t="teae"
+    console.log(isAnagram(s,t),'==sss')
+
+    
+    </script>
+</body>
+</html>

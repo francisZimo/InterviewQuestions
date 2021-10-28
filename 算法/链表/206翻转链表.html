@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+          
+    function ListNode(val, next) {
+        this.val = (val===undefined ? 0 : val)
+        this.next = (next===undefined ? null : next)
+    }
+        var reverseList = function(head) {
+            if(!head || !head.next) return head
+            let pre=null;
+            let cur=head
+            let temp=null
+            while(cur){
+                temp=cur.next
+                cur.next=pre
+                pre=cur;
+                cur=next
+            }
+            return pre
+
+        };
+
+
+        // 递归
+        var reverse=function(pre,head){
+            if(!head) return pre;
+            const temp=head.next
+            head.next=pre
+            pre=head
+            return reverse(pre,temp)
+        }
+        var  reverseList = function(head){
+            return reverse(null,head)
+        }
+    </script>
+</body>
+</html>

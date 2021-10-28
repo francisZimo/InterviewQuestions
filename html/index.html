@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+          overflow: auto;
+          -webkit-overflow-scrolling: touch;  /*使得div内的超出滑动具有惯性，阻尼回弹等特性,否则滑动很生涩*/
+        }
+        .scroll1{
+            background-color: black;
+        }
+    </style>
+</head>
+
+
+      
+    <body class="box" >
+         <div id="top" class="scroll1" style="height:50px;"></div>
+       
+     <div class="scroll" style="height:calc( 100% - 100px);width:100%;overflow:auto;">
+         <div style="height:500px;width:100%;">
+         </div>
+          <div style="height:500px;margin-top:200px; ">
+         </div>
+         <div style="height:500px;margin-top:200px; ">
+         </div>
+          <div style="height:500px;margin-top:200px; ">
+     
+         </div>
+     </div>
+      <div id="bottom" class="scroll1" style="height:50px;"></div>
+      <script>
+        //    document.body.addEventListener('touchmove', function (e) {
+        //     console.log('touchMove')
+        //     e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+        // }, {passive: false})
+        // document.all.bottom.addEventListener('touchmove', function(evt) { 
+// evt.preventDefault(); 
+// });
+
+// document.all.top.addEventListener('touchmove', function(evt) { 
+// evt.preventDefault(); 
+// });
+window.addEventListener('scroll',function(e){
+    const top=document.documentElement.scrollTop
+    if(top===0){
+        e.preventDefault
+        window.scrollTo(0,0)
+    }
+    console.log(top,'topxxxx')
+    // window.scrollTo(0)
+})
+      </script>
+</html>

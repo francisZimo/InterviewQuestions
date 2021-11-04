@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const p1=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve(11)
+            },3000)
+        })
+
+        const p2=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                // throw new Error('错误')
+                resolve(2)
+                // reject(12)
+            },2000)
+        })
+
+        const p3=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve(13)
+            },1000)
+        })
+
+       
+
+        function isPromise(obj){
+            return !!obj&&(typeof obj==='object'|| typeof obj==='function')&&typeof obj.then ==='function'
+        }
+
+        function promiseAll(args){
+            if(!args || !Array.isArray(args)) return
+            return new Promise((resolve,reject)=>{
+                let count=0;
+                const res=[]
+                function process(value,index){
+                    res[index]=value
+                    count++
+                    if(count>=args.length){
+                       return resolve(res)
+                    }  
+                }
+                for(let index=0;index<args.length;index++){
+                    let item=args[index]
+                    if(isPromise(item)){
+                        item.then(value=>{
+                        // console.log(item,'==item')
+                        process(value,index)
+                        },(value)=>{
+                            return reject(value)
+                        })
+                    }else{
+                         process(item,index)
+                    }
+                    
+                }
+                // args.forEach((item,index)=>{
+                   
+                //     // item.then(value=>{
+                //     //     console.log(item,'==item')
+                //     //     process(value,index)
+                        
+                //     // },()=>{
+                //     //     reject(value)
+                //     // })
+                // })
+                
+            })
+            
+        }
+
+        // const p=Promise.all([p1,p2,p3])
+        // const p=Promise.all([1,2,3])
+        // const p=promiseAll([p1,p2,p3])
+        const p=promiseAll([22,33,11])
+        p.then((value)=>{
+            console.log(value,'===value')
+        }).catch((value)=>{
+            console.log(value,'===error')
+        })
+
+
+
+        
+
+
+        // const promise=new Promise(()=>{
+            
+        // })
+        // console.log(typeof promise)
+    </script>
+</body>
+</html>

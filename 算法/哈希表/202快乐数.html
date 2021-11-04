@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var isHappy=function(n){
+            let set=new Set()
+            while(n!==1&&!set.has(n)){
+                set.add(n)
+                n=getN(n)
+                console.log(n,'=n',set)
+
+            }
+            return n===1
+        }
+
+        var getN=(n)=>{
+            let sum=0;
+            while(n){
+                sum+=(n%10)*(n%10)
+                n=parseInt(n/10)
+            }
+            return sum
+        }
+        console.log(isHappy(2))
+    </script>
+</body>
+</html>

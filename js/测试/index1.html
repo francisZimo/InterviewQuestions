@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Book {
+        constructor() {
+          this.successor = null; // 后继者
+        }
+        setSuccessor(_successor) {
+          this.successor = _successor;
+        }
+      }
+      // 1.处理原价
+      class BookHandler extends Book {
+        calcPrice(price) {
+          if (199 > price) {
+            console.log("原价是：" + price);
+          } else {
+            this.successor.calcPrice(price);
+          }
+        }
+      }
+      // 2.处理9折
+      class BookCalc9Handler extends Book {
+        calcPrice(price) {
+          if (199 <= price && price < 399) {
+            console.log("原价是：" + price + ";打9折后：" + price * 0.9);
+          } else {
+            this.successor.calcPrice(price);
+          }
+        }
+      }
+      // 3.处理8折
+      class BookCalc8Handler extends Book {
+        calcPrice(price) {
+          if (399 <= price && price < 599) {
+            console.log("原价是：" + price + ";打8折后：" + price * 0.8);
+          } else {
+            this.successor.calcPrice(price);
+          }
+        }
+      }
+      // 4.处理7折
+      class BookCalc7Handler extends Book {
+        calcPrice(price) {
+          if (price >= 599) {
+            console.log("原价是：" + price + ";打7折后：" + price * 0.7);
+          } else {
+            this.successor.calcPrice(price);
+          }
+        }
+      }
+
+      var price = 900;
+      var bookHandler = new BookHandler();
+      var bookCalc9Handler = new BookCalc9Handler();
+      var bookCalc8Handler = new BookCalc8Handler();
+      var bookCalc7Handler = new BookCalc7Handler();
+      bookHandler.setSuccessor(bookCalc9Handler);
+      bookCalc9Handler.setSuccessor(bookCalc8Handler);
+      bookCalc8Handler.setSuccessor(bookCalc7Handler);
+      //将所有处理方法连成一条责任链，保证总有一个对象能够处理请求
+      bookHandler.calcPrice(price);
+    </script>
+  </body>
+</html>

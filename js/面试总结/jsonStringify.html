@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function jsonStringify(obj){
+            let type = typeof obj
+            if(type!=='object'){
+                if(/string|undefined|function/.test(type)){
+                    obj='"'+obj+'"'
+                }
+                return String(obj)
+            }else{
+                let json=[]
+                let arr=Array.isArray(obj)
+                for(let k in obj){
+                    let item=obj[k]
+                    let t=typeof item
+                    if(/string|undefined|function/.test(t)){
+                        item='"'+item+'"'
+         
+                    }else if(type==='object'){
+                        item=jsonStringify(item)
+              
+                    }
+                    console.log((arr?"":'"'+k+'":')+String(item),'==xxx',item)
+                    json.push((arr?"":'"'+k+'":')+String(item))
+                    // console.log(json,'==json')
+                }
+                return (arr?"[":"{")+String(json)+(arr?"]":"}")
+            }
+        }
+        let s1=jsonStringify([1, "false", false]) // "[1,"false",false]"
+let s2=jsonStringify({b: undefined}) // "{"b":"undefined"}"
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function curring(fn){
+            let res=[]
+            return function _c(...args){
+                res=[...res,...args]
+                console.log(res,'==res')
+                // console.log(args.length)
+                if(args.length){
+                    return _c
+                }else{
+                    return fn.apply(this,res)
+                }
+            }
+        }
+        function add(...args){
+            return args.reduce((cur,next)=>{
+                return cur+next
+            },0)
+        
+        }
+        // let cur=new curring(add)
+        // let s=cur(1)(2,3,4,5)(6)()
+        // console.log(s)
+
+
+        function add1(...args){
+            let res=[...args]
+            const _f=function(...newArgs){
+                res=[...res,...newArgs]
+                return _f
+            }
+            _f.toString=function(){
+                res.reduce((cur,next)=>{
+                    return cur+next
+                },0)
+            }
+            return _f
+        }
+
+        function sum1(...args){
+            let f=function(...nextArgs){
+                let totalArgs=[...args,...nextArgs]
+                return sum1(...totalArgs)
+            }
+            f.toString=function(){
+                return args.reduce((current,next)=>{
+                return current+next
+                })
+            }
+            return f
+            }
+        let ss=sum1(1)(2)(3)(4,5)
+        console.log(ss,'==s')
+        
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const PENDING='pending'
+        const FULLFILIED='fullFiled'
+        const REJECT='reject'
+        class Promise1{
+            constructor(exectuor){
+                this.value=''
+                this.status=PENDING;
+                this.reason=null
+                const resolve=(value)=>{
+                    if(this.status===PENDING){
+                        this.value=value
+                        this.status=FULLFILIED
+                    }
+                }
+
+                const reject=(reason)=>{
+                    if(this.status===PENDING){
+                        this.reason=reason
+                        this.status=REJECT
+                    }
+                }
+
+
+                try{
+                    exectuor(resolve,reject)
+                }catch(value){
+                    reject(value)
+                }
+               
+            }
+
+            then(resolve,reject){
+                switch(this.status){
+                    case FULLFILIED:
+                        resolve(this.value)
+                        break;
+                    case REJECT:
+                        reject(this.reason)
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+        new Promise1((resolve,reject)=>{
+        resolve(12)
+            // reject(11)
+        }).then((value)=>{
+            console.log(value,'==value')
+        },(value)=>{
+            console.log(value,'==reject')
+        })
+    </script>
+</body>
+</html>

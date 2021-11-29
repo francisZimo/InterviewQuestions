@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Subject{
+            constructor(name){
+                this.name=name;
+                this.overver=[]
+                this.state='开心玩耍'
+            }
+            attach(observe){
+                this.overver.push(observe)
+            }
+            setState(newState){
+                this.state=newState
+                this.overver.forEach(o=>o.update(this))
+            }
+        }
+
+        class Observe{
+            constructor(name){
+                this.name=name
+            }
+            update(s){
+                console.log(this.name+":"+s.name+'当前状态'+s.state)
+            }
+        }
+
+        let s=new Subject('zimo')
+        let o1=new Observe('爸爸')
+        let o2=new Observe('妈妈')
+        s.attach(o1)
+        s.attach(o2)
+        s.setState('现在难受')
+        
+
+    </script>
+</body>
+</html>

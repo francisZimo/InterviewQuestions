@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let p=new Promise((resolve,reject)=>{
+            throw new Error('你好')
+            // reject('nihao')
+            // console.l('nihao')
+        })
+        p.then((value)=>{
+            console.log(value,'s')
+        },(err)=>{
+            console.log(err,'erro')
+        }).catch(err=>{
+            console.log('catch',err)
+        })
+    </script>
+</body>
+</html>

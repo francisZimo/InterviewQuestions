@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function curry(fn){
+        //     let ln=fn.length
+        //     let res=[]
+        //     console.log(res,ln)
+        //     return function _c(...args){
+        //         console.log(res.length,...args)
+        //         res=[...res,...args]
+        //         if(res.length<ln){
+        //             return _c
+        //         }else{
+        //             console.log(res,'===res')
+        //             return fn.apply(this,res)
+        //         }
+        //     }
+        // }
+        function curry(fn){
+            let ln=fn.length
+            let res=[]
+            return function _c(...args){
+                res=[...res,...args]
+                if(res.length<ln){
+                    return _c
+                }else{
+                    return fn.apply(this,res)
+                }
+            }
+        }
+
+        function add(a,b,c,d){
+            return a+b+c+d
+        
+        }
+        const cur=new curry(add)
+
+        console.log(cur(1,2)(3)(4))
+    </script>
+</body>
+</html>

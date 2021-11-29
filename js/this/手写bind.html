@@ -41,21 +41,54 @@
   //   }
   // }
 
-  Function.prototype.bind1=function(context,...args){
-    let total=[...args]
-    return (...nextArgs)=>{
-      total=[...total,...nextArgs]
-      return this.apply(context,total)
+  // Function.prototype.bind1=function(context,...args){
+  //   let total=[...args]
+  //   return (...nextArgs)=>{
+  //     total=[...total,...nextArgs]
+  //     return this.apply(context,total)
+  //   }
+  // }
+  Function.prototype.bind1=function(ctx,...args){
+    let params=[...args]
+    let self=this
+    // const fn=(...nextArgs)=>{
+    //   params=[...params,...nextArgs]
+    //   return this.apply(ctx,params)
+    // }
+    const fn=function(...nextArgs){
+      params=[...params,...nextArgs]
+      return self.apply(ctx,params)
     }
+    // function tmp(){}
+    // tmp.prototype=this.prototype
+    // fn.prototype=new tmp()
+
+    // or
+    fn.prototype=Object.create(this.prototype)
+    fn.prototype.constructor=this
+    return fn
   }
 
-  let newFN= fn.bind1({name:'francis',age:'60'},'我是name','我是age')
-   newFN('北京')
 
-   let newFN1= fn.bind({name:'francis',age:'60'},'我是name','我是age')
-   newFN1('北京1')
-   newFN1('上海')
-   
+
+  // let newFN= fn.bind1({name:'francis',age:'60'},'我是name','我是age')
+  //  newFN('北京')
+
+  //  let newFN1= fn.bind({name:'francis',age:'60'},'我是name','我是age')
+  // //  newFN1('北京1')
+  //  newFN1('上海')
+  function Person () {
+    this.name = 'qihr'
+    this.age = 18
+  }
+  var obj = {
+      sex: '女'
+  }
+  var temp = Person.bind1(obj)
+  // temp(); 
+  // console.log(obj) // {name: 'qihr', age: 18, sex: '女'}
+  new temp() 
+  console.log(obj)
 
    
 </script>

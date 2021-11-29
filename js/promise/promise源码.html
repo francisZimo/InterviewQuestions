@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src='./promise.js'></script> -->
+</head>
+<body>
+    <script>
+        const PENDING='pending'
+        const FUlFILED='fulfiled'
+        const REJECTED='rejected'
+        class Promise1{
+            constructor(executor){
+                this.value=null
+                this.status=PENDING
+                // console.log('executor',executor)
+                // console.log(this.value,'value')
+                const resolve=(value)=>{
+                    if(this.status===PENDING){
+                        this.value=value
+                        this.status=FUlFIILED
+                    }
+                }
+                const reject=(reason)=>{
+                    if(this.status===PENDING){
+                        console.log(reason,'reason')
+                        this.status=REJECTED
+                        this.reason=reason
+                    }
+                   
+                }
+                try{
+                    executor(resolve,reject)
+                }catch(e){
+                    reject(e)
+                }
+            
+            }
+            then(onFulfiled,onRejected){
+                if(this.status==FUlFIILED){
+                    onFulfiled(this.value)
+                }else if(this.status==REJECTED){
+                    onRejected(this.reason)
+                }
+            }
+    }
+
+    class Promise2{
+        constructor(executor){
+            this.status=PENDING
+            this.value=null
+            this.reason=null
+            const resolve=(value)=>{
+                if(this.status===PENDING){
+                    this.value=value
+                    this.status=FUlFILED
+                }
+            }
+            const reject=(value)=>{
+                if(this.status===PENDING){
+                    this.reason=value
+                    this.status=REJECTED
+                }
+            }
+
+            try{
+                executor(resolve,reject)
+            }catch(r){
+                reject(value)
+            }
+        }
+        
+        then(resolve,reject){
+            switch(this.status){
+                case FUlFILED:
+                    resolve(this.value)
+                    break;
+                case REJECTED:
+                    reject(this.reason)
+                    break
+                default:
+                    resolve(this.value)
+
+            }
+        }
+    }
+    new Promise2((resolve,reject)=>{
+        // resolve(12)
+        reject(11)
+    }).then((value)=>{
+        console.log(value,'==value')
+    },(value)=>{
+        console.log(value,'==reject')
+    })
+
+
+
+
+    </script>
+</body>
+</html>

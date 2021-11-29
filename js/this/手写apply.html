@@ -34,12 +34,19 @@
 
   // }
 
+  // Function.prototype.apply1=function(ctx,args){
+  //   ctx.fn=this
+  //   let result=ctx.fn(...args)
+  //   delete ctx.fn
+  //   return result;
+
+  // }
+
   Function.prototype.apply1=function(ctx,args){
     ctx.fn=this
-    let result=ctx.fn(...args)
+    let res= ctx.fn(...args)
     delete ctx.fn
-    return result;
-
+    return res
   }
   let result=fn.apply1({name:'francis'},['zimo222'])
   console.log(result)

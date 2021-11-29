@@ -39,7 +39,6 @@
             return function(...newArgs){
                 let result=temp[index].call(this,...newArgs)
                 while(index--){
-                    console.log(index,'==index')
                     result=temp[index].call(this,result)
                 }
                 return result
@@ -56,9 +55,6 @@
         // console.log(fn(50));  //返回30
         // var fn = compose(compose(add, mul), sub, div);
         // console.log(fn(50));  //返回30
-        while(0){
-            console.log('测试')
-        }
 
     </script>
 </body>

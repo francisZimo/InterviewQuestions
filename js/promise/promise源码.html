@@ -10,91 +10,236 @@
 <body>
     <script>
         const PENDING='pending'
-        const FUlFILED='fulfiled'
+        const FULLFILED='fullfiled'
         const REJECTED='rejected'
+        function resolvePromise(promise,x,resolve,reject){
+            if(promise===x){
+               return reject(new TypeError('不可返回同一个promise对象'))
+            }
+            if(typeof x==='object'&&x!==null || typeof x==='function'){
+                try{
+                    let then=x.then
+                    if(typeof x==='function'){
+                    //    then((value)=>{
+                    //         resolve(value)  
+                    //    },(e)=>{
+                    //      reject(e)
+                    //    })
+                    then.call(x,(value)=>{
+                        resolvePromise(promise,value,resolve,reject)
+                    },(err)=>{
+                        reject(err)
+                    })
+                    }else{
+                        resolve(x)
+                    }
+                }catch(e){
+                    reject(e)
+                }
+            }else{
+                resolve(x)
+            }
+        }
         class Promise1{
             constructor(executor){
                 this.value=null
                 this.status=PENDING
+                this.onSuccessCallback=[]
+                this.onRejectCallback=[]
                 // console.log('executor',executor)
                 // console.log(this.value,'value')
                 const resolve=(value)=>{
                     if(this.status===PENDING){
                         this.value=value
-                        this.status=FUlFIILED
+                        this.status=FULLFILED
+                        this.onSuccessCallback.forEach(item=>item())
                     }
+                    
                 }
                 const reject=(reason)=>{
                     if(this.status===PENDING){
-                        console.log(reason,'reason')
                         this.status=REJECTED
                         this.reason=reason
+                        this.onRejectCallback.forEach(item=>item())
                     }
                    
                 }
                 try{
                     executor(resolve,reject)
                 }catch(e){
+                    console.log(e,'执行捕获')
                     reject(e)
                 }
             
             }
-            then(onFulfiled,onRejected){
-                if(this.status==FUlFIILED){
-                    onFulfiled(this.value)
-                }else if(this.status==REJECTED){
-                    onRejected(this.reason)
-                }
+            then(onFullfiled,onRejected){
+                onFullfiled=typeof onFullfiled==='function'?onFullfiled:(data)=> data
+                onRejected=typeof onRejected==='function'?onRejected:(e)=>{throw e}
+                let promise2=new Promise1((resolve,reject)=>{
+                    if(this.status===FULLFILED){
+                        try{
+                            let x=onFullfiled(this.value)
+                            resolve(x)
+                            // resolvePromise(promise2,x,resolve,reject)
+                        }catch(e){
+                            reject(e)
+                        }
+                        
+                    }
+                    if(this.status===REJECTED){
+                        try{
+                            let x=onRejected(this.reason)
+                            reject(x)
+                            // resolvePromise(promise2,x,resolve,reject)
+                        }catch(e){
+                            reject(e)
+                        }
+                       
+                    }
+                    if(this.status===PENDING){
+                        this.onSuccessCallback.push(()=>{
+                            try{
+                                let x=onFullfiled(this.value)
+                                console.log(x,'当前x')
+                            resolve(x)
+                            // resolvePromise(promise2,x,resolve,reject)
+                            }catch(e){
+                                reject(e)
+                            }
+                           
+                        })
+                        this.onRejectCallback.push(()=>{
+                            try{
+                                let x=onRejected(this.reason)
+                            reject(x)
+                            // resolvePromise(promise2,x,resolve,reject)
+                            }catch(e){
+                                reject(e)
+                            }
+                            
+                        })
+                    }
+                })
+                return promise2
+               
             }
     }
 
-    class Promise2{
-        constructor(executor){
-            this.status=PENDING
-            this.value=null
-            this.reason=null
-            const resolve=(value)=>{
-                if(this.status===PENDING){
-                    this.value=value
-                    this.status=FUlFILED
-                }
-            }
-            const reject=(value)=>{
-                if(this.status===PENDING){
-                    this.reason=value
-                    this.status=REJECTED
-                }
-            }
+    // new Promise1((resolve,reject)=>{
+    //     // resolve(12)
+    //     // reject(11)
+    //     setTimeout(()=>{
+    //         resolve(12)
+    //     },2000)
+    // }).then((value)=>{
+    //     console.log(value,'==value')
+    //     return value
+    // }).then((value)=>{
+    //     console.log(value,'==p2')
 
-            try{
-                executor(resolve,reject)
-            }catch(r){
-                reject(value)
-            }
-        }
-        
-        then(resolve,reject){
-            switch(this.status){
-                case FUlFILED:
-                    resolve(this.value)
-                    break;
-                case REJECTED:
-                    reject(this.reason)
-                    break
-                default:
-                    resolve(this.value)
+    //     return 'p3'
+    // }).then(value=>{
+    //     console.log(value,'==p3xx')
+    // })
 
-            }
-        }
-    }
-    new Promise2((resolve,reject)=>{
+    let p= new Promise1((resolve,reject)=>{
         // resolve(12)
-        reject(11)
-    }).then((value)=>{
-        console.log(value,'==value')
-    },(value)=>{
-        console.log(value,'==reject')
-    })
+        setTimeout(()=>{
+            resolve(14)
+        },2000)
+      })
+      p.then((value)=>{
+          console.log(value,'==resolve')
+          return '111'
+      },(err)=>{
+        console.log(err,'==reject')
+      }).then((value)=>{
+          console.log(value,'==valuep2')
+      }).then((value)=>{
+        console.log(value,'==valuep3')
+      })
+    // let p1=new Promise((resovle)=>{
+    //     resovle(2000)
+    // })
+    // new Promise1((resolve,reject)=>{
+    //     // setTimeout(()=>{
+    //     //     // resolve(12)
+    //     //     // throw Error('hahah')
+    //     //     // reject('ceshi')
+    //     //     return p1
+    //     // },2000)
+    //     resolve(p1) 
+    // }).then(value=>{
+    //     console.log(value,'==p3xx')
+    // },(e)=>{
+    //     console.log('px错误',e)
+    // }).then(value=>{
+    //     console.log(value,'==p44')
+    // })
+
+    // new Promise1((resolve,reject)=>{
+    //     setTimeout(()=>{
+    //         // resolve(12)
+    //         // throw Error('hahah')
+    //         // reject('ceshi')
+    //         return new Promise((resolve,reject)=>{
+    //             resolve(120)
+    //         })
+    //     },2000)
+    // }).then().then().then(value=>{
+    //     console.log(value,'==p3xx')
+    // },(e)=>{
+    //     console.log('px错误',e)
+    // })
+    
+
+    // new Promise((resolve,reject)=>{
+    //     throw new Error('失败1')
+    // }).then(data=>{
+    //     console.log(data)
+    // },err=>{
+    //     console.log('err',err)
+    // })
+    // class Promise2{
+    //     constructor(executor){
+    //         this.status=PENDING
+    //         this.value=null
+    //         this.reason=null
+    //         const resolve=(value)=>{
+    //             if(this.status===PENDING){
+    //                 this.value=value
+    //                 this.status=FUlFILED
+    //             }
+    //         }
+    //         const reject=(value)=>{
+    //             if(this.status===PENDING){
+    //                 this.reason=value
+    //                 this.status=REJECTED
+    //             }
+    //         }
+
+    //         try{
+    //             executor(resolve,reject)
+    //         }catch(r){
+    //             reject(value)
+    //         }
+    //     }
+        
+    //     then(resolve,reject){
+    //         switch(this.status){
+    //             case FUlFILED:
+    //                 resolve(this.value)
+    //                 break;
+    //             case REJECTED:
+    //                 reject(this.reason)
+    //                 break
+    //             default:
+    //                 resolve(this.value)
+
+    //         }
+    //     }
+    // }
+   
 
 
 

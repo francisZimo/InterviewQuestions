@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const PENDING = "pending";
+      const FULFILLED = "fulfilled";
+      const REJECTED = "rejected";
+      function resolvePromise(promise, x, resolve, reject) {
+        if (promise === x) {
+          return reject(new TypeError("不可返回同一个promise对象"));
+        }
+        let called = false; // 保证resove和reject只调用一次，防止多次调用成功或失败 【可能别人的不规范promise 失败后还能调用成功】
+        if ((typeof x === "object" && x !== null) || typeof x === "function") {
+          try {
+            let then = x.then;
+            if (typeof then === "function") {
+              then.call(
+                x,
+                (value) => {
+                  if (called) {
+                    return;
+                  }
+                  called = true;
+                  resolvePromise(promise, value, resolve, reject);
+                },
+                (err) => {
+                  if (called) {
+                    return;
+                  }
+                  called = true;
+                  reject(err);
+                }
+              );
+            } else {
+              resolve(x);
+            }
+          } catch (e) {
+            if (called) {
+              return;
+            }
+            called = true;
+            reject(e);
+          }
+        } else {
+          resolve(x);
+        }
+      }
+      class Promise1 {
+        constructor(executor) {
+          this.status = PENDING;
+          this.value = undefined;
+          this.reason = undefined;
+          this.onSuccessCallback = [];
+          this.onRejectCallback = [];
+          const resolve = (value) => {
+            if (this.status === PENDING) {
+              this.value = value;
+              this.status = FULFILLED;
+              this.onSuccessCallback.forEach((fn) => fn());
+            }
+          };
+
+          const reject = (reason) => {
+            if (this.status === PENDING) {
+              this.reason = reason;
+              this.status = REJECTED;
+              this.onRejectCallback.forEach((fn) => fn());
+            }
+          };
+
+          try {
+            executor(resolve, reject);
+          } catch (e) {
+            console.log(e, "===错误捕获");
+            reject(e);
+          }
+        }
+        then(onFulfilled, onRejected) {
+            onFulfilled=typeof onFulfilled==='function'?onFulfilled:data=>data; // 无参数处理
+            onRejected=typeof onRejected==='function'?onRejected:(err)=>{throw err}
+          let promise2 = new Promise1((resolve, reject) => {
+            if (this.status === FULFILLED) {
+              setTimeout(() => {
+                // 宏任务模拟微任务
+                try {
+                  let x = onFulfilled(this.value);
+                  // resolve(x)
+                  resolvePromise(promise2, x, resolve, reject);
+                } catch (e) {
+                  reject(e);
+                }
+              }, 0);
+            }
+            if (this.status === REJECTED) {
+              setTimeout(() => {
+                try {
+                  let x = onRejected(this.reason);
+                  resolvePromise(promise2, x, resolve, reject);
+                } catch (e) {
+                  reject(e);
+                }
+              }, 0);
+            }
+            if (this.status === PENDING) {
+              this.onSuccessCallback.push(() => {
+                setTimeout(() => {
+                  try {
+                    let x = onFulfilled(this.value);
+                    resolvePromise(promise2, x, resolve, reject);
+                  } catch (e) {
+                    reject(e);
+                  }
+                }, 0);
+              });
+              this.onRejectCallback.push(() => {
+                setTimeout(() => {
+                  try {
+                    let x = onRejected(this.reason);
+                    resolvePromise(promise2, x, resolve, reject);
+                  } catch (e) {
+                    reject(e);
+                  }
+                }, 0);
+              });
+            }
+          });
+          return promise2;
+        }
+      }
+      let p = new Promise1((resolve, reject) => {
+        resolve(12)
+        // setTimeout(() => {
+        // //   resolve(14);
+        // }, 2000);
+        // throw new Error("xxx");
+      });
+      p.then().then().then((value)=>{
+        console.log(value,'==value传递')
+      })
+      // p.then(
+      //   (value) => {
+      //     console.log(value, "==p1");
+      //     return 1234;
+      //   },
+      //   (error) => {
+      //     console.log(error, "==error");
+      //   }
+      // )
+      //   .then((value) => {
+      //     console.log(value, "==p2");
+      //     return 333;
+      //   })
+      //   .then((value) => {
+      //     console.log(value, "==p3");
+      //     return 666;
+      //   });
+
+      // const p1=new Promise((resolve)=>{
+      //     throw new Error('出错了')
+      // }).then((value)=>{
+      //     console.log(value,'==value')
+      // },(err)=>{
+      //     console.log(err,'==err')
+      // })
+    </script>
+  </body>
+</html>

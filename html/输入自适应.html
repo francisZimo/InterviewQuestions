@@ -24,17 +24,20 @@
 <body>
     <div contentEditable="true" class="editable_div"  />
     <script>
-       var handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      e.preventDefault()
-      const { inputInformationBox } = this.state
-      inputInformationBox.push(this.inputValueElem.innerText)
-      this.setState({ inputInformationBox }, () => {
-        this.scrollWrapElem.scrollTop = this.informationWrapElem.offsetHeight - this.scrollWrapElem.clientHeight
-      })
-      this.inputValueElem.innerText = ''
-    }
-  }
+      let s={
+        name:'ss',
+        age:10
+      }
+      s.__proto__={
+        address:'xxx'
+      }
+      // for(let key in s){
+      //   if(s.hasOwnProperty(key)){
+      //     console.log(key,'==key')
+      //   }
+        
+      // }
+      console.log(Object.values(s))
 
     </script>
 </body>

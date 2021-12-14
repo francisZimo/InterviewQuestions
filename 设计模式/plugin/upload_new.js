@@ -27,7 +27,6 @@ class UploadFile {
   // 拷贝打包输出如文件entry:output 默认拷贝dist
   _copyDist(compilation,callback){
     // const zipDir=basename(this.path)
-    const zipDirName=basename(this.path)
     const zippath = path.join(this.path );
     const isExist = fs.existsSync(zippath);
     if (isExist) {
@@ -42,8 +41,6 @@ class UploadFile {
     }
     // 创建文件夹
     fs.mkdirSync(zippath);
-
-    console.log('xxx===',zipDirName,'===xxzipDirName')
     //dist压缩包 输出路径
     const outPath = path.join(this.path, `${this.filename}.zip`);
     // 创建可写流

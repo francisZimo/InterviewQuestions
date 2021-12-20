@@ -4,5 +4,6 @@
     "@babel/preset-env": "^7.12.1",
     "@xes/xes_fe_log": "^2.1.1",
     "babel-loader": "^8.1.0"
-  }
+  },
+  "dependencies": {}
 }

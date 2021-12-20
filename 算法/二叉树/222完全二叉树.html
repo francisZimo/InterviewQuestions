@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var countNodes = function(root) {
+            let result=0;
+            let queue=[]
+            if(!root){
+                return result
+            }
+            queue.push(root)
+            while(queue.length){
+                let ln=queue.length
+                while(ln--){
+                    result++
+                    const item=queue.shift()
+                    item.left&&queue.push(item.left)
+                    item.right&&queue.push(item.right)
+                }
+            }
+            return result
+            
+        };
+
+        // 递归
+        var countNodes = function(root) {
+            
+            if(!root){
+                return 0
+            }
+            const leftCount=countNodes(root.left)
+            const rightCount=countNodes(root.right)
+            return 1+leftCount+rightCount
+            
+        };
+    </script>
+</body>
+</html>

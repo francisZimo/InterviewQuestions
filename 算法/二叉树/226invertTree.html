@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反转二叉树</title>
+</head>
+<body>
+    <script>
+        function TreeNode(val,left,right){
+            this.val=val===undefined?0:val
+            this.left=val===undefined?null:left
+            this.right=val===undefined?null:right
+        }
+        var invertTree = function(root) {
+            if(!root){
+                return 
+            }
+            function swap(left,right){
+                let temp=left
+                left=right
+                right=temp
+                root.left=left
+                root.right=right
+            }
+            swap(root.left,root.right)
+            root.left&&invertTree(root.left)
+            root.right&&invertTree(root.right)
+            return root
+        };
+        
+
+        // 迭代法
+        var invertTree1 = function(root) {
+            if(!root){
+                return  root
+            }
+            let stack=[root]
+            function swap(left,right,root){
+                let temp=left
+                left=right
+                right=temp
+                root.left=left
+                root.right=right
+            }
+            while(stack.length){
+                let top=stack.pop()
+                swap(top.left,top.right,top)
+                top.right&&stack.push(top.right)
+                top.left&&stack.push(top.left)
+            }
+            return root
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Node(val,children){
+            this.val=val;
+            this.children=children
+        }
+        var maxDepth = function(root) {
+            let result=0
+            let queue=[]
+            if(!root){
+                return result
+            }
+            queue.push(root)
+            while(queue.length){
+                result++
+                const ln=queue.length
+                for(let i=0;i<ln;i++){
+                    const item=queue.shift()
+                    if(item.children){
+                       item.children.forEach(item=>{
+                           queue.push(item)
+                       })
+                    }
+                }
+            }
+            return result
+        
+        };
+        
+    </script>
+</body>
+</html>

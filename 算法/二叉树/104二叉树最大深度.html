@@ -8,6 +8,7 @@
 </head>
 <body>
     <script>
+    // 前序遍历
     var maxDepth = function(root) {
         let result=0
         let queue=[]
@@ -27,12 +28,36 @@
         return result
         
     };  
-
+    // 后续遍历
     var maxDepth=function(root){
         if(!root){
             return 0
         }
         return 1+Math.max(maxDepth(root.left),maxDepth(root.right))
+    }
+    // 前序遍历
+    var maxDepth=function(root){
+        let result=0;
+        function getDepth(node,depth){
+            result=depth>result?depth:result
+            if(node.left){
+                depth++
+                getDepth(node.left,depth)
+                depth--
+            }
+            if(node.right){
+                depth++
+                getDepth(node.right,depth)
+                depth--
+            }
+
+            return 
+        }
+        if(!root){
+            return result
+        }
+        getDepth(root,1)
+        return result
     }
     </script>
 </body>

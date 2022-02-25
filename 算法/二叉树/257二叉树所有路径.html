@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var binaryTreePaths = function(root) {
+            
+            let result=[]
+            let path=[]
+            if(!root){
+                return result
+            }
+            traversal(root,path,result)
+            return result;
+            function traversal(node,path,result){
+                path.push(node.val)
+                if(!node.left&&!node.right){
+                    let str=''
+                    console.log(path,'==path')
+                    path.forEach(item=>{
+                        str+=`${item}->`
+                    })
+                    result.push(str.slice(0,str.length-2))
+                    return
+                }
+                if(node.left){
+                    traversal(node.left,path,result)
+                    path.pop()
+                }
+                if(node.right){
+                    traversal(node.right,path,result)
+                    path.pop()
+                }
+            }
+        };
+    </script>
+</body>
+</html>

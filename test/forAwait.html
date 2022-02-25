@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        function time1() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(3000);
+            }, 3000);
+          });
+        }
+        function time2() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(2000);
+            }, 2000);
+          });
+        }
+        function time3() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(1000);
+            }, 1000);
+          });
+        }
+        const ary = [time1, time2, time3];
+        async function test() {
+          for (let i = 0; i < ary.length; i++) {
+            const data = await ary[i]();
+            console.log(data);
+          }
+        }
+        async function test1() {
+          for (item of ary) {
+            const data = await item();
+            console.log(data);
+          }
+        }
+       function test2() {
+          item.forEach(async (item) => {
+            const data = await item();
+            console.log(data);
+          });
+        }
+
+        test()
+      //   test1();
+    </script>
+  </body>
+</html>

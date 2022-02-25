@@ -1,0 +1,22 @@
+{
+    "type":"onRecdConfigData",
+    "data":{
+        // 其他公用信息 ...
+        "extraUrlArgs":{
+          "stuPositionInfo":{
+            "8899":{ // 学生id
+              "personInfo":{
+                "name":"我的名字", // 名字
+                "avatar":"https://t.100tal.com/avatar/%E8%B5%B5%E8%BF%9C%E9%80%9A?0" // 头像地址
+              },
+              "position":{ // 位置信息
+                "x":20, // 图片左上角相对于屏幕左上角 (0,0) 向左偏移20px （待确认：三端像素单位是否统一）
+                "y":20, // 向下偏移20px
+                "width": 50, // 头像宽
+                "height": 50 // 头像高
+              }
+            }
+          }
+        }
+    }
+  }

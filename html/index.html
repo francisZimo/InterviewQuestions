@@ -1,59 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-        .box{
-          overflow: auto;
-          -webkit-overflow-scrolling: touch;  /*使得div内的超出滑动具有惯性，阻尼回弹等特性,否则滑动很生涩*/
+  </head>
+  <body>
+    <h1>测试数据</h1>
+    <h3>url参数拼接?redirectUrl=https://www.baidu.com&isCurPagePlay=false&isJump=true</h3>
+    <script>
+      class EventBus{
+        constructor(){
+          // 事件池
+          this.listeners ={}
         }
-        .scroll1{
-            background-color: black;
+        on(type,cb){
+          if(!this.listeners[type]){
+            this.listeners[type]=[]
+          }
+          this.listeners[type].push(cb)
         }
-    </style>
-    
-</head>
+        emit(type,...res){
+          if(!this.listeners[type]){
+            return
+          }
+          this.listeners[type].forEach(item=>{
+            item.apply(this,res)
+          })
+        }
+        /**
+         * 移除事件监听
+         * 传两个参 移除该事件类型的 回调函数
+         * 传一个类型 移除该类型下的所有回调函数列表
+         * @param {*} type
+         * @param {*} cb
+         */
+        off(type,cb){
+          if(this.listeners[type]){
+            const index=this.listeners[type].findIndex(item=>item===cb)
+            if(index>=0){
+              this.listeners.splice(index,1)
+            }
+            // 只是传type，移除该事件的所有监听者
+            if(this.listeners[type].length===0){
+              delete this.listeners[type]
+            }
+          }
+        }
+         /**
+         * 只被触发一次的事件
+         * @param {String} type 事件类型
+         * @param {Function} fn 回调函数
+         */
+        once(type,fn){
+          const cb=(...args)=>{
+            fn(...args)
+            this.off(type,cb)
+          }
+          this.on(type,cb)
+        }
+
+      }
 
 
+      const getPageParams=(url)=>{
+        if(!url){
+          return
+        }
+        let obj={};
+        url.replace(/([^?#=&]+)=([^?#=&]+)/g,(...res)=>{
+          obj[res[1]]=res[2]
+        })
+        url.replace(/#([^?#=&]+)/g,(...res)=>{
+          obj.HASH=res[1]
+        })
+        return obj;
+      }
       
-    <body class="box" >
-         <div id="top" class="scroll1" style="height:50px;"></div>
-       
-     <div class="scroll" style="height:calc( 100% - 100px);width:100%;overflow:auto;">
-         <div style="height:500px;width:100%;">
-         </div>
-          <div style="height:500px;margin-top:200px; ">
-         </div>
-         <div style="height:500px;margin-top:200px; ">
-         </div>
-          <div style="height:500px;margin-top:200px; ">
-     
-         </div>
-     </div>
-      <div id="bottom" class="scroll1" style="height:50px;"></div>
-      <script>
-        //    document.body.addEventListener('touchmove', function (e) {
-        //     console.log('touchMove')
-        //     e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-        // }, {passive: false})
-        // document.all.bottom.addEventListener('touchmove', function(evt) { 
-// evt.preventDefault(); 
-// });
+      const eventBus=new EventBus()
+      eventBus.on('pageShowEnd',(res)=>{
+        let url=window.location.href
+        let urlParames=getPageParams(url)
+        const {isJump,redirectUrl} = urlParames
+        if(`${isJump}`==='true'){
+          window.location.href=redirectUrl;
+        }else{
+          console.log('closeWebview')
+        }
+        
+      })
+      setTimeout(()=>{
+        eventBus.emit('pageShowEnd','测试')
+      },3000)
+      const judeJump=()=>{
+        let url=window.location.href
+        let urlParames=getPageParams(url)
+        const {isCurPagePlay,isJump,redirectUrl} = urlParames
+        if(`${isJump}`==='true'&&`${isCurPagePlay}`!=='true'){
+          window.location.href=redirectUrl;
+        }
+      }
+      judeJump()
 
-// document.all.top.addEventListener('touchmove', function(evt) { 
-// evt.preventDefault(); 
-// });
-window.addEventListener('scroll',function(e){
-    const top=document.documentElement.scrollTop
-    if(top===0){
-        e.preventDefault
-        window.scrollTo(0,0)
-    }
-    console.log(top,'topxxxx')
-    // window.scrollTo(0)
-})
-      </script>
+    </script>
+  </body>
 </html>

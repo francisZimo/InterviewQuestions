@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>history</title>
+</head>
+<body>
+    <p>参考地址：https://juejin.cn/post/6867875626611654663</p>
+    <div class="main">
+        <a href="javascript:;" path="/a">a页面</a>
+        <a href="javascript:;" path="/b">b页面</a>
+        <a href="javascript:;" path="/c">c页面</a>
+        <div id="content"></div>
+      </div>
+      <script>
+          class Router{
+              constructor(routers){
+                  
+                  this.routers={}
+                  this._initRouters()
+                  this.bindClick()
+                  this.init()
+              }
+              _initRouters(){
+                  routers.forEach(item => {
+                      this.routers[item.path]=()=>{
+                        document.getElementById("content").innerHTML = item.compontent;
+                      }
+                  });
+              }
+              bindClick(){
+                  // history模式需要手动添加路由 通过 history的pushState事件
+                const links = document.getElementsByTagName("a");
+                Array.from(links).forEach(item=>{
+                    item.addEventListener('click',()=>{
+                        const path=item.getAttribute('path')
+                        this.pushRoute(path)
+                    })
+                })
+              }
+              pushRoute(path){
+                window.history.pushState({},null,path)
+                this.updateView()
+              }
+              init(){
+                  window.onload=this.updateView.bind(this)
+                  window.onpopstate=this.updateView.bind(this)
+              }
+              updateView(){
+                console.log(window.location,"window.location")
+                const currentUrl= window.location.pathname || "/";
+                this.routers[currentUrl]&&this.routers[currentUrl]()
+              }
+          }
+
+          const routers = [
+        {
+          path: "/a",
+          compontent: `<div>我是a页面</div>`,
+        },
+        {
+          path: "/b",
+          compontent: `<div>我是b页面</div>`,
+        },
+        {
+          path: "/c",
+          compontent: `<div>我是c页面</div>`,
+        },
+      ];
+      new Router(routers);
+      </script>
+</body>
+</html>

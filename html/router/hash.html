@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <a href="#/a">a页面</a>
+        <a href="#/b">b页面</a>
+        <a href="#/c">c页面</a>
+        <div id="content"></div>
+    </div>
+  <script>
+      class Router{
+          constructor(routers){
+              this.routers={}
+              this._initRouter(routers)
+              this.init()
+          }
+          _initRouter(routers){
+              routers.forEach(item=>{
+                this.route(item.path,()=>{
+                  document.getElementById('content').innerHTML=item.compontent
+                })
+              }) 
+          }
+          route(path,cb){
+            this.routers[path]=cb;
+          }
+          init(){
+              window.addEventListener('load',this.updateView.bind(this))
+              // hash模式 路由修改时 浏览器会触发hashchange事件 调用更新视图函数
+            // window.addEventListener('hashChange',this.updateView.bind(this)) 监听不到
+            window.onhashchange=this.updateView.bind(this)
+          }
+          updateView(){
+            console.log("hash window.location", window.location);
+          // 获取页面hash值 通过hash值更新对应的组件内容
+            const hashTag=window.location.hash.slice(1)||'/'
+            this.routers[hashTag]&&this.routers[hashTag]()
+          }
+
+      }
+      const routers=[
+        {
+            path:'/a',
+            compontent:'<div>a页面<div>'
+        },
+        {
+            path: "/b",
+            compontent: `<div>我是b页面</div>`,
+        },
+        {
+            path: "/c",
+            compontent: `<div>我是c页面</div>`,
+        },
+      ]
+      new Router(routers)
+  </script>
+</body>
+</html>

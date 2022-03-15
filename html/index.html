@@ -8,7 +8,9 @@
   </head>
   <body>
     <h1>测试数据</h1>
-    <h3>url参数拼接?redirectUrl=https://www.baidu.com&isCurPagePlay=false&isJump=true</h3>
+    <h3>url参数拼接?redirectUrl=https://www.baidu.com?sex=1&isCurPagePlay=false&isJump=false</h3>
+    <h3>编码url参数拼接?redirectUrl=http%3A%2F%2Fbaidu.com%3Fsex%3D1%2333&isCurPagePlay=false&isJump=true</h3>
+    
     <script>
       class EventBus{
         constructor(){
@@ -62,12 +64,8 @@
         }
 
       }
-
-
-      const getPageParams=(url)=>{
-        if(!url){
-          return
-        }
+      const getUrlParams=()=>{
+        const url=window.location.href
         let obj={};
         url.replace(/([^?#=&]+)=([^?#=&]+)/g,(...res)=>{
           obj[res[1]]=res[2]
@@ -77,14 +75,15 @@
         })
         return obj;
       }
-      
       const eventBus=new EventBus()
       eventBus.on('pageShowEnd',(res)=>{
-        let url=window.location.href
-        let urlParames=getPageParams(url)
+        let urlParames=getUrlParams()
         const {isJump,redirectUrl} = urlParames
+        console.log('%c xxx',"color:red",decodeURIComponent(redirectUrl))
+        console.log(decodeURIComponent(redirectUrl),'===11')
         if(`${isJump}`==='true'){
-          window.location.href=redirectUrl;
+          
+          window.location.href=decodeURIComponent(redirectUrl);
         }else{
           console.log('closeWebview')
         }
@@ -94,15 +93,63 @@
         eventBus.emit('pageShowEnd','测试')
       },3000)
       const judeJump=()=>{
-        let url=window.location.href
-        let urlParames=getPageParams(url)
+        let urlParames=getUrlParams()
         const {isCurPagePlay,isJump,redirectUrl} = urlParames
+        console.log(decodeURIComponent(redirectUrl),'===22')
         if(`${isJump}`==='true'&&`${isCurPagePlay}`!=='true'){
-          window.location.href=redirectUrl;
+        
+          window.location.href=decodeURIComponent(redirectUrl);
         }
       }
       judeJump()
+      const getCookies=()=>{
+        let cookie={}
+        const allCookie=document.cookie;
+        if(!allCookie){
+          return cookie
+        }
+        const arr=allCookie.split('; ')
+        const ln=arr.length
+        for(let i=0;i<ln;i++){
+          console.log('遍历')
+          const arr2=arr[i].split('=')
+          cookie[arr2[0]]=arr2[1]
+        }
+        return cookie
+      }
 
+      const getUrlAndCookieParams=()=>{
+        const urlParams=getUrlParams() 
+        const cookieParmas=getCookies()
+        return (key)=>{
+          if(!key){
+            console.log(urlParams,cookieParmas,{...cookieParmas,...urlParams} ,'==综合参数')
+            return {...cookieParmas,...urlParams} 
+          }
+          return urlParams[key]||cookieParmas[key]
+        }
+      }
+
+      const getParams=getUrlAndCookieParams()
+      const params=getParams('')
+      console.log(params,'===result')
+      
+      const redirectUrl=`http://baidu.com?sex=1&name=小红#33`
+      const encodeURIComponentUrl=encodeURIComponent(redirectUrl)
+      const url=`https://www.baidu.com?name=小明&url=${encodeURIComponentUrl}`
+      let encodeUrl=encodeURI(url)
+      console.log('encodeURI',encodeUrl)
+      console.log('decodeURI',decodeURI(encodeUrl))
+      console.log('decodeURIComponent',decodeURIComponent(encodeURIComponentUrl))
+      
+
+
+      
+
+
+      
+
+      
     </script>
   </body>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         const p1=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve(11)
+            },3000)
+        })
+
+        const p2=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                // throw new Error('错误')
+                resolve(2)
+                // reject(12)
+            },2000)
+        })
+
+        const p3=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve(13)
+            },1000)
+        })
+
+        const isPromise=(obj)=>{
+            return !!obj&&(typeof obj==='object'|| typeof obj==='function')&&typeof obj.then ==='function'
+        }
+        function race1(args){
+            if(!args||!Array.isArray(args)) return
+            
+            return new Promise((resolve,reject)=>{
+                let resolved=false  // 添加标识位置
+                for(let i=0;i<args.length;i++){
+
+                    const item=args[i]
+                    console.log(isPromise(item),'xxx==')
+                    if(isPromise(item)){
+                        item.then((value)=>{
+                            if(!resolved){
+                                resolve(value)   
+                                resolved=true
+                            }
+                            
+                        },(err)=>{
+                            reject(value)
+                        })
+                    }else{
+                        resolve(item)
+                    } 
+                }
+
+            })
+        }
+        // const race=new race1([p1,p2,p3])
+        // const race= Promise.race([p1,p2,p3])
+        // const race=new race1([1,2,3])
+        const race=Promise.race([1,2,3])
+        race.then((value)=>{
+            console.log(value,'==value')
+        })
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Promise.prototype.finally1=function(callback){
+        //     const P=this.constructor;
+        //     console.log(P,'==p',P.resolve)
+        //     console.log(P.resolve)
+        //     return this.then(
+        //         value=>{return P.resolve(callback()).then(()=>value)},
+        //         reason=>{return P.resolve(callback()).then(()=>{throw reason})}
+        //     )
+        // }
+        Promise.prototype.finally1=function(callback){
+            const P=this.constructor;
+            return this.then(  // then 直接执行 返回 then(() =>value)
+                (value)=>{
+                console.log(value,'==value')
+                return P.resolve(callback()).then(() =>value)
+            },(reason)=>{
+                return P.resolve(callback()).then(()=>{console.log('错误'); throw reason})
+            })
+        }
+        //finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。
+        // Promise.resolve(2).then(() => {}, () => {}).finally((value)=>{
+        //     console.log(value,'==value1')
+        // })
+        // Promise.resolve(2).finally((value)=>{
+        //     console.log(value,'==value2')
+        // })
+
+        // Promise.resolve(2).finally((value)=>{
+        //     return 1
+        // }).then((value)=>{
+        //     console.log(value,'==resolve3')
+        // })
+
+        // Promise.resolve(2).finally((value)=>{
+        //     console.log(value,'==value4')
+        // })
+
+        // Promise.resolve(5).finally1((value)=>{
+        //     console.log('wocccccxxx5555')
+        //     throw 'new xx'
+        // })
+        Promise.reject(6).finally1(()=>{
+            // throw 'nihao'
+        }).then(value=>{
+            console.log(value)
+        })
+        // .then((value)=>{
+        //     console.log(value,'==resolve3')
+        // },(reason)=>{
+        //     console.log(reason,'===reason')
+        // })
+
+        // Promise.resolve(6).finally1((value)=>{
+        //    return 7
+        // }).then((value)=>{
+        //     console.log(value,'==resolve6')
+        // },(reason)=>{
+        //     console.log(reason,'===reason6')
+        // })
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 示例
+        let count = 1;
+        let promiseFunction = () =>{
+            return new Promise(rs =>
+                window.setTimeout(() => {
+                rs(count++);
+                })
+            );
+        }
+            
+
+        // promiseFunction().then(console.log)  //1
+        // promiseFunction().then(console.log)  //2
+        // promiseFunction().then(console.log)  //3
+        let firstFn = firstPromise(promiseFunction);
+        console.log(firstFn,'===firstFn')
+        firstFn().then(console.log); // 1
+        firstFn().then(console.log); // 1
+        firstFn().then(console.log); // 1
+        
+
+        function firstPromise(fn){
+            let p=null
+            return function(){
+                console.log(p,'pp')
+                return p?p:(p=fn().finally(()=>{p=null}))
+            }
+            
+           
+        }
+    </script>
+</body>
+</html>

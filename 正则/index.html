@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>https://juejin.cn/post/7021672733213720613</p>
+    <p>位置：^、$、\b、\B、?=p、(?!p)、(?<=p)、(?<!p)</p>
+
+    <script>   
+        let string = 'hello'
+        console.log(string.replace(/^/, '😄')) // 😄hello
+        console.log(string.replace(/$/, '😄')) // hello😄
+        console.log('xxx_love_study_1.mp4'.replace(/\b/g, '❤️')) // ❤️xxx_love_study_1❤️.❤️mp4❤️
+        console.log('xxx_love_study_1.mp4'.replace(/\B/g, '❤️')) // x❤️x❤️x❤️_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1.m❤️p❤️4
+        console.log('xxx_love_study_1.mp4'.replace('xxx', '❤️')) // ❤️_love_study_1.mp4
+        console.log('xxx_l-ove_study_1.mp4'.replace(/(?=[xxx-])/g, '❤️'),'flag') // ❤️xxx_love_study_1.mp4 正向先行断言
+        console.log('xxx_love_study_1.mp4'.replace(/(?<=xxx)/g, '❤️')) //xxx❤️_love_study_1.mp4
+        console.log('xxx_love_study_1.mp4'.replace(/(?!xxx)/g, '❤️')) // x❤️x❤️x❤️_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️  前不匹配
+        console.log('xxx_love_study_1.mp4'.replace(/(?<!xxx)/g, '❤️')) //❤️x❤️x❤️x_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️ 后不匹配
+        //数字的千分位分割法 将123456789转化为123,456,789
+        console.log('123456789'.replace(/(?=\d{3}$)/g,',')) // 123456,789
+        console.log('123456789'.replace(/(?=(\d{3})+$)/g,',')) // ,123,456,789
+        console.log('123456789'.replace(/(?!^)(?=(\d{3})+$)/g,',')) // ,123,456,789
+        // 手机号3-4-4分割  将手机号18379836654转化为183-7983-6654
+        console.log('18379836654'.replace(/(?=(\d{4})+$)/g,'-'))
+        // 将手机号11位以内的数字转化为3-4-4格式
+        console.log('123'.replace(/(?<=\d{3})/,'-')) //123-
+        console.log('123'.replace(/(?<=\d{3})\d/,'-')) //123
+        const formatMobile = (mobile) => {
+            let s= String(mobile).slice(0,11)
+                .replace(/(?<=\d{3})\d+/, (res) => {
+                    console.log(res,'==res1')
+                    return '-'+res
+                })
+                let c=s.replace(/(?<=[\d-]{8})\d{1,4}/,res=>{
+                    return '-'+res  
+                })
+                return c 
+        }
+        console.log(formatMobile('12345678911'),'==formatMobile2')
+        console.log(/(?<=[\d-]{8})\d{1,4}/.test('12345678911'),'==xx')
+        console.log('12345678911'.match(/(?<=[\d]{7})\d{1,4}/),'===match') 
+        // 验证密码的合法性 密码长度是6-12位，由数字、小写字符和大写字母组成，但必须至少包括2种字符
+        // 题目由三个条件组 ① 密码长度是6-12位 ② 由数字、小写字符和大写字母组成 ③ 必须至少包括2种字符
+        let reg1=/[a-zA-Z\d]{6,12}/;
+        console.log(reg1.test('hello1'),'6-12个字')
+        // 必须包含数字
+        let reg = /(?=.*\d)/ 
+        console.log(reg.test('hello'),'必含数字')
+        console.log(reg.test('he22llo'),'必含数字')
+        //  必须包含字母
+        let reg2 = /(?=.*[a-z])/  // /(?=.*[A-Z])/ 
+        console.log(reg2.test('123A'),'必含字母')
+        // 数字和小写字母组合和大写字母
+        let reg3 = /(?=.*\d)((?=.*[a-z])|(?=.*[A-Z]))/ 
+        console.log(reg3.test('123A'),'必含数字或大小字母')
+        console.log(reg3.test('123'),'必含数字或大小字母')
+        console.log(reg3.test('zA'),'必含数字或大小字母')
+        // 由数字、小写字符和大写字母组成
+        let reg4=/(?=.*\d)((?=.*[a-z])|(?=.*[A-Z]))|((?=.*[a-z])(?=.*[A-Z]))/
+        console.log(reg4.test('123456')) // false
+        console.log(reg4.test('aaaaaa')) // false
+        console.log(reg4.test('AAAAAAA')) // false
+        console.log(reg4.test('1a1a1a')) // true
+        console.log(reg4.test('1A1A1A')) // true
+        console.log(reg4.test('aAaAaA')) // true
+        // 缩小在6-12
+        let reg5=/(?=.*\d)((?=.*[a-z])|(?=.*[A-Z]))|((?=.*[a-z])(?=.*[A-Z]))^[a-zA-Z\d]{6,12}/
+        console.log(reg5.test('aAaA'),'aAaA') 
+        console.log(reg5.test('aAaA1111'),'aAaA1111')
+        // 必须包含数字，大小写字母，
+        let reg6=/(?=.*\d)((?=.*[a-z])(?=.*[A-Z]))^[a-zA-Z\d]{6,12}/
+        console.log(reg6.test('aAaAss'),'aAaAss') 
+        console.log(reg6.test('aAaA1111'),'aAaA1111')
+        // 必须包含数字，大小写字母,特殊符号
+        let reg7_t=/(?=.*[~!@#$%^&*()_+{}])/
+        let reg7=/(?=.*\d)((?=.*[a-z])(?=.*[A-Z]))(?=.*[~!@#$%^&*()_+{}:"<>?"])^[a-zA-Z\d]{6,12}/
+        console.log(reg7.test('aAaAss1*'),'aAaAss1*') 
+
+
+        // 字符串匹配
+        // 贪婪匹配（默认）  惰性匹配（?）
+        // 匹配id
+        let regex = /id=".*?"/ // 想想为什么要加? 不加的话 连后面的class都会匹配到
+        let string_1 = '<div id="container" class="main"></div>'
+        console.log(string_1.match(regex),'==match1',string_1.match(regex)[0]);
+        let regex2=/id="[^"]*"/
+        console.log(string_1.match(regex2),'==match2');
+
+        // 匹配16进制颜色  #ffbbad #Fc01DF #FFF #ffE
+        // 要求匹配如下颜色 \d [0-9]
+        let regex_coloe=/([a-fA-F\d]{6})|([a-fA-F\d]{3})/
+        console.log('#ffbbad'.match(regex_coloe))
+        console.log('#Fc01DF'.match(regex_coloe))
+        console.log('#FFF'.match(regex_coloe))
+        console.log('#fE'.match(regex_coloe))
+
+        // 匹配24小时制时间
+        /*
+        要求匹配
+          23:59
+          02:07
+        */
+        // 解析：
+        // 第一位：可以是0、1、2
+        // 第二位：当第一位位0或者1的时候，可以是0到9、第一位是2的时候，只可以是0到3
+        // 第三位：固定是冒号：
+        // 第四位：可以是0到5
+        // 第五位：0到9
+        let regex_hour=/^([01][\d])|(2[0-3]):[0-5]\d$/
+        console.log(regex_hour.test('23:59'))
+        console.log(regex_hour.test('02:07'))
+        console.log(regex_hour.test('32:37','=时间'))
+        //开头可以非0
+        let regex_hour_1=/^(0?\d|1\d|2[0-3]):((0?|[1-5])\d)/
+        console.log('7:09'.match(regex_hour_1))
+        console.log(regex_hour_1.test('7:09','=时间2'))
+        // 匹配日期
+        /*
+            要求匹配
+        yyyy-mm-dd格式的日期
+        注意月份、和日的匹配
+        */
+       // 2017-06-10 2017-11-10 2017-2-29
+
+       let regex_date=/^\d{1,4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/
+       console.log(regex_date.test('2012-9-10'),'==日期')
+       console.log('2012-9-10'.match(regex_date),'cece')
+       let regex_date1 = /\d{4}-(0\d|1[0-2])-(0[1-9]|[12]\d|3[01])/
+       console.log(regex_date1.test('2012-00-10'),'==日期')
+       console.log(regex_date.test('2012-00-10'),'==日期')
+
+       // 括号分组 括号的作用是提供了分组(括号内的正则是一个整体，即提供子表达式)，便于我们引用它
+        // 分组
+        let reg_split=/(ab)+/g // let reg_split=/(ab)+?/g
+        let str_split='ababa '
+        // let string = 'ababa abbb ababab'
+        let match_split=str_split.match(reg_split)
+        console.log(match_split,match_split.index,match_split[1])
+
+        // 提取数据
+        let reg_date_split=/(\d{4})-(\d{2})-(\d{2})/
+        let str_date='2021-08-14'
+        console.log(str_date.match(reg_date_split))
+        console.log(RegExp.$1,'==$1')
+        console.log(RegExp.$1,'==$2')
+
+        /*
+        将以下格式替换为mm/dd/yyy
+        2021-08-14
+        */
+        // 第一种解法
+        let reg_date_replace= /(\d{4})-(\d{2})-(\d{2})/
+        let string_rep = '2021-08-14'
+        // 第一种写法
+        let result1 = string_rep.replace( reg_date_replace, '$2/$3/$1')
+        console.log(result1,'$2/$3/$1') // 08/14/2021
+        // 第二种写法
+        let result2 =string_rep.replace(reg_date_replace, () => {
+            return RegExp.$2 + '/' + RegExp.$3 + '/' + RegExp.$1
+        })
+        console.log(result2) // 08/14/2021
+        // 第三种写法
+        let result3 =string_rep.replace( reg_date_replace, ($0, $1, $2, $3) => {
+            
+            return $2 + '/' + $3 + '/' + $1
+        })
+        console.log(result3) // 08/14/2021
+
+        // 反向引用    写一个正则支持以下三种格式2016-06-12 2016/06/12 2016.06-12
+        let regex_r=/(\d{4})([-./])\d{2}(\2)\d{1,2}/
+        var string1_0 = "2017-06-12";
+        var string2_1 = "2017/06/12";
+        var string3_1 = "2017.06.12";
+        var string4_1 = "2016-06/12";
+        console.log(string1_0.match(regex_r) )
+        console.log(regex_r.test(string1_0) ); // true
+        console.log(regex_r.test(string2_1) ); // true
+        console.log(regex_r.test(string3_1) ); // true
+        console.log(string3_1.match(regex_r) )
+        console.log(regex_r.test(string4_1) ); // false
+
+        '12345'.match(/(\d)+/) // ["12345", "5", index: 0, input: "12345", groups: undefined]
+
+        // /(\d)+ \1/.test('12345 1') // false
+        // /(\d)+ \1/.test('12345 5') // true
+
+        //非捕获性括号
+        // 非捕获型引用
+let reg_x1 = /(?:ab)+/g
+console.log('ababa abbb ababab'.match(reg_x1)) // ["abab", "ab", "ababab"]
+// 注意这里，因为是非捕获型分组，所以使用match方法时，不会出现在数组的1位置了
+let reg_x2 = /(?:ab)+/
+console.log('ababa abbb ababab'.match(reg_x2)) // ["abab", index: 0, input: "ababa abbb ababab", groups: undefined]
+let reg_x3 = /(ab)+/
+console.log('ababa abbb ababab'.match(reg_x3)) // ["abab", "ab", index: 0, input: "ababa abbb ababab", groups: undefined]
+
+        let reg_name=/\d+/
+        let str_reg1='112oo13pp'
+        console.log(str_reg1.match(reg_name))
+
+        // trim
+        function trim(str){
+            // return str.replace(/^\s*|\s*$/g,'')
+            return str.replace(/^\s*(.*?)\s*$/g,'$1')
+        }
+        console.log(trim('  xizi  ').length)
+
+
+        // 将每个字母首字母大写
+        
+        const titleize = (str) => {
+            return str.toLowerCase().replace(/(^|\s)\w/g, (c) =>{ // /(?:^|\s)\w/g  效果相同
+                console.log(c,'==l')
+                return  c.toUpperCase()
+            })
+        }  
+        console.log(titleize('my name is epeli'))
+        // 或者base-act-tab => BaseActTab
+        const change1= (str) => {
+            // return str.toLowerCase().replace(/(^|-)(\w)/g, (s,a,b) =>{ 
+            //     // console.log(s,'==',a,b)
+            //     return b.toUpperCase()
+            // })
+              return str.toLowerCase().replace(/(?:^|-)(\w)/g, ($0, $1) => {
+                console.log($0,$1,'==xx')
+                return $1.toUpperCase()
+              }) 
+        }  
+        console.log(change1('my-name-is-epeli'))
+
+        // 驼峰
+        // -moz-transform => MozTransform
+        const tuofeng= (str) => {
+              return str.toLowerCase().replace(/-(\w)/g, ($0, $1) => {
+              
+                return $1.toUpperCase()
+              }) 
+        }  
+        console.log(tuofeng('-moz-transform'))
+        // 4.中划线化
+        // MozTransform => -moz-transform
+        const change2=(str)=>{
+            let reg=/[A-Z]/g
+            return str.replace(reg,c=>{
+                return '-'+c.toUpperCase()
+            })
+        }
+        console.log(change2('MozTransform'))
+
+        // html 转译 与 反转
+        function zhuanyi(str){
+            let map={
+                '<': 'lt',
+                '>': 'gt',
+                '"': 'quot',
+                '&': 'amp'
+            }
+            //<div>Blah blah blah</div>
+            let reg=new RegExp(`[${Object.keys(map).join('')}]`,'g')
+            return str.replace(reg,(c)=>{
+                return '&'+map[c]+';'
+            })
+        }
+        console.log(zhuanyi('<div>Blah blah blah</div>'),'转译')
+        // 反转
+        function fanzhuan(str){
+            let map={
+                nbsp: ' ',
+                lt: '<',
+                gt: '>',
+                quot: '"',
+                amp: '&',
+            }
+            // '&lt;div&gt;Blah blah blah&lt;/div&gt;'
+            // let reg=/&(.*?);/g   
+            let reg=/&([^;]+);/g
+            return str.replace(reg,($0,$1)=>{
+                return map[$1]
+            })
+        }
+        console.log(fanzhuan('&lt;div&gt;Blah blah blah&lt;/div&gt;'),'翻转')
+        
+        // 匹配成对标签
+        /*
+        匹配
+        <title>regular expression</title>
+        
+        不匹配
+        <title>wrong!</p>*/
+        function matchFn(str){
+            // let reg=/<(\w+)>.*<\/\1>/g
+            let reg=/<([^>]+)>.*?<\/\1></g
+            return reg.test(str)
+        }
+        console.log(matchFn('<title>wrong!</p>'),'==1')
+        console.log(matchFn(' <title>regular expression</title><p>laoyao bye bye</p>'),'==2')
+
+
+
+    </script>
+</body>
+</html>

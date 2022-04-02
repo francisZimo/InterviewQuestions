@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function findContentChildren(g,s){
+            g.sort((a,b)=>a-b)
+            s.sort((a,b)=>a-b)
+            // 从小分配
+    
+            let index=0;
+            for(let i=0;i<s.length;i++){
+                if(s[i]>=g[index]&&index<g.length){
+                    index++
+                }
+            }
+            return index
+            // 从大分配
+            // let index=s.length-1
+            // let sum=0
+            // for(let i=g.length-1;i>=0;i--){
+    
+            //     if(s[index]>=g[i]&&index>=0){
+            //         sum++
+            //         index--
+            //     }
+            // }
+            
+        }
+
+
+        console.log(findContentChildren([10,9,8,7],[5,6,7,8]),'=xx')
+    </script>
+</body>
+</html>

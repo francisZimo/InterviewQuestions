@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function unitConversion(val = 0) {
+    if (val >= 10000) {
+        console.log(`${(val / 10000).toFixed(5)}`,'==验证')
+    //   val = `${(val / 10000).toFixed(5)}`.replace(/(?:\.0*|(\.\d+?)0+)$/,function(res,a,b,c,d){
+    //     // console.log(res,'==ss')
+    //     // console.log(a,'==a')
+    //     // console.log(b,'==b')
+    //     // console.log(c,'==c')
+    //     // console.log(d,'==d')
+    //     return a
+
+    //   });
+      val = `${(val / 10000).toFixed(5)}`.replace(/\.(?:0*|(\d+?)0+$)/,'$1');
+     
+    //   val= `${(val / 10000).toFixed(2)}`
+      return `${val}万`;
+    }
+    return val;
+  }
+//   console.log(unitConversion(9811223330000))
+  console.log(unitConversion(800000))
+    </script>
+</body>
+</html>

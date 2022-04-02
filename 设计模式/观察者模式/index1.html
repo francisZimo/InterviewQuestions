@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Observer{
+            constructor(fn){
+                this.cb=fn
+            }
+            update(n){
+                this.cb(n)
+            }
+        }
+        class Subject{
+            constructor(){
+                this.list=[]
+            }
+            addObserver(observer){
+                this.list.push(observer)
+            }
+            notify(n){
+                this.list.forEach(item=>{
+                    item.update(n)
+                })
+            }
+            
+        }
+        const change=(n)=>{
+            console.log('被观察者已经改变了',n)
+        }
+        const ob=new Observer(change)
+        const sub=new Subject()
+        sub.addObserver(ob)
+        sub.notify('我哈哈哈')
+        
+    </script>
+</body>
+</html>

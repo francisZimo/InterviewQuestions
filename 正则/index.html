@@ -143,11 +143,11 @@
         console.log(match_split,match_split.index,match_split[1])
 
         // 提取数据
-        let reg_date_split=/(\d{4})-(\d{2})-(\d{2})/
+        let reg_date_split=/(?:(\d{4})-(\d{2})-(\d{2}))/
         let str_date='2021-08-14'
         console.log(str_date.match(reg_date_split))
-        console.log(RegExp.$1,'==$1')
-        console.log(RegExp.$1,'==$2')
+        console.log(RegExp.$1,'==$1 datte')
+        console.log(RegExp.$2,'==$2',RegExp.$3)
 
         /*
         将以下格式替换为mm/dd/yyy

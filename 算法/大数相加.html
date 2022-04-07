@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function sum(num1,num2){
+            let index=0;
+            let sums=[]
+            let l1=num1.length-1
+            let l2=num2.length-1
+            while(l1>=0||l2>=0||index>0){
+                const item1=l1>=0?+num1.charAt(l1):0
+                const item2=l2>=0?+num2.charAt(l2):0
+                const item=item1+item2+index
+                sums.push(item%10)
+                index=parseInt(item/10)
+                l1--
+                l2--
+            }
+            return sums.reverse().join('')
+        }
+        console.log(sum('11','123'))
+    </script>
+</body>
+</html>

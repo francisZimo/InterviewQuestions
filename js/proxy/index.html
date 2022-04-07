@@ -8,21 +8,62 @@
 </head>
 <body>
     <script>
-        let obj={
-            name:'francis',
-            age:20
+    //     let obj={
+    //         name:'francis',
+    //         age:20
+    //     }
+    //     const proxy= new Proxy(obj,{
+    //         get:(target,propKey)=>{
+    //             console.log(propKey,'==propKey')
+    //             if(propKey=='age'){
+    //                 return '我的年纪'
+    //             }
+    //             return target[propKey]
+    //         }
+    //     })
+    //    console.log(proxy.name,'xx')  
+    //    console.log(proxy.age)  
+
+    function sum(a,b){
+        return a+b
+    }
+    const handler = {
+        apply: function(target, thisArg, argumentsList) {
+            console.log(target,'==target',thisArg)
+            console.log(`Calculate sum: ${argumentsList}`);
+            // expected output: "Calculate sum: 1,2"
+
+            return target(argumentsList[0], argumentsList[1]) * 10;
         }
-        const proxy= new Proxy(obj,{
-            get:(target,propKey)=>{
-                console.log(propKey,'==propKey')
-                if(propKey=='age'){
-                    return '我的年纪'
-                }
-                return target[propKey]
-            }
-        })
-       console.log(proxy.name,'xx')  
-       console.log(proxy.age)  
+    };
+    const proxy1 = new Proxy(sum, handler);
+    console.log(sum(1, 2));
+    console.log(proxy1(1, 2));
+
+    function monster1(disposition) {
+        this.disposition = disposition;
+    }
+    const handler1 = {
+        construct(target, args) {
+            console.log('monster1 constructor called');
+            // expected output: "monster1 constructor called"
+
+            return new target(...args);
+        }
+        };
+
+const proxy2 = new Proxy(monster1, handler1);
+console.log(new proxy2('fierce').disposition);
+
+var p3 = new Proxy({}, {
+  defineProperty: function(target, prop, descriptor) {
+    console.log('called: ' + prop);
+    return true;
+  }
+});
+
+var desc = { configurable: true, enumerable: true, value: 10 };
+Object.defineProperty(p3, 'a', desc); // "called: a"
     </script>
 </body>
 </html>

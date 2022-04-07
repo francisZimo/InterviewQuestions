@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function shuffle(source) {
+            const arr = source.slice()
+            for (let i = 0; i < arr.length; i++) {
+                const j = getRandomInt(i)
+                swap(arr, i, j)
+            }
+            return arr
+            }
+
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * (max + 1))
+            }
+
+            function swap(arr, i, j) {
+                const t = arr[i]
+                arr[i] = arr[j]
+                arr[j] = t
+            }
+
+            let s=[1,2,3,4,5]
+            console.log(shuffle(s))
+    </script>
+</body>
+</html>

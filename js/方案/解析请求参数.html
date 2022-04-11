@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const getUrlParams = (url) => {
+
+  const obj = {}
+  url.replace(/([^?#=&]+)=([^?#=&]+)/g, (...res) => {
+      console.log(res,'==res')
+    obj[res[1]] = res[2]
+  })
+  url.replace(/#([^?#=&]+)/g, (...res) => {
+    obj.HASH = res[1]
+  })
+  return obj
+}
+let s='http://a.html?name=q&age=22'
+console.log(getUrlParams(s),'hah')
+    </script>
+</body>
+</html>

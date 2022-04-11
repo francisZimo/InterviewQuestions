@@ -8,9 +8,13 @@
   </head>
   <body>
     <script>
-      let s = 2;
+      let s = 1;
       switch (s) {
-        case 1 || 2:
+        // case 1 || 2:
+        //   console.log("输出12");
+        //   break;
+        case 1:
+        case 2:
           console.log("输出12");
           break;
         case 3:
@@ -21,13 +25,30 @@
           break;
       }
 
-      let template = (args) => {
-        console.log(args, "===xxx");
-      };
-      const defaultParams = template.bind({});
-      defaultParams.args={
-          name:'测试'
+      // let template = (args) => {
+      //   console.log(args, "===xxx");
+      // };
+      // const defaultParams = template.bind({});
+      // defaultParams.args={
+      //     name:'测试'
+      // }
+
+      const a1={
+        name:'11',
+        sex:0,
+        info:{
+          age:20
+        }
       }
+      function change(obj){
+        let s=Object.assign({},obj)
+        console.log(s,'init')
+        s.name='哈哈'
+        s.info.age=30
+        console.log(s,'==s')
+      }
+      change(a1)
+      console.log(a1)
     </script>
   </body>
 </html>

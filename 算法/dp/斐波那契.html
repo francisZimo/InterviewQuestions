@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var fib = function(n) {
+            if(n<=1) return n
+            let dp=[]
+            // 1.确定dp数组以及下表的含义 第i个数的斐波那契数值是dp[i]
+            dp[0]=0 // 3.dp数组初始化
+            dp[1]=1
+            for(let i=2;i<=n;i++){ // 4.遍历顺序
+                // 5.举例推导dp数组
+                dp[i]=dp[i-1]+dp[i-2] // 2.递推公式
+            }
+            return dp[n]
+        };
+        console.time('start')
+        console.log(fib(500))
+        console.timeEnd('start')
+
+        var fib1 = function(n) {
+            if(n<=1) return n
+            return fib1(n-1)+fib(n-2)
+        };
+
+        console.time('start1')
+        console.log(fib1(500))
+        console.timeEnd('start1')
+
+    </script>
+</body>
+</html>

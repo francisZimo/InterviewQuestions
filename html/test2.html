@@ -5,23 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+      .box{
+        display: none;
+      }
+      .innerBox{
+        width:100px;
+        height:100px;
+        background-color: red;
+        animation:  moveRight 4s forwards;
+      }
+      @keyframes moveRight {
+        from{
+          margin:0
+        }
+        to{
+          margin: 200px
+        }
+      }
+    </style>
 </head>
 <body>
     <a href="/some-other-page" id="link">Go to Page</a>
-
+    <div class='box'>
+      <div class='innerBox'></div>
+    </div>
 <script>
-  document.getElementById('link').addEventListener('click', (e) => {
-    fetch("/log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        some: "data"
-      }),
-      keepalive: true
-    });
-  });
+  setTimeout(()=>{
+    document.getElementsByClassName('box')[0].style='display:block'
+  },5000)
+  // document.getElementById('link').addEventListener('click', (e) => {
+  //   fetch("/log", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       some: "data"
+  //     }),
+  //     keepalive: true
+  //   });
+  // });
+
+  
 </script>
 </body>
 </html>

@@ -22,22 +22,26 @@
         // promiseFunction().then(console.log)  //1
         // promiseFunction().then(console.log)  //2
         // promiseFunction().then(console.log)  //3
-        let firstFn = firstPromise(promiseFunction);
+        let firstFn = firstPromise1(promiseFunction);
         console.log(firstFn,'===firstFn')
         firstFn().then(console.log); // 1
         firstFn().then(console.log); // 1
         firstFn().then(console.log); // 1
         
-
-        function firstPromise(fn){
-            let p=null
-            return function(){
-                console.log(p,'pp')
-                return p?p:(p=fn().finally(()=>{p=null}))
+        function firstPromise1(fn){
+            let flag=null
+            return function (){
+                return flag?flag:(flag=fn().finally(()=>{p=null}))
             }
-            
-           
         }
+
+        // function firstPromise(fn){
+        //     let p=null
+        //     return function(){
+        //         console.log(p,'pp')
+        //         return p?p:(p=fn().finally(()=>{p=null}))
+        //     }  
+        // }
     </script>
 </body>
 </html>

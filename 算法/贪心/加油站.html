@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var canCompleteCircuit = function(gas, cost) {
+            let  curNum=0;
+            let totalNum=0;
+            let start=0;
+            for(let i=0;i<gas.length;i++){
+                totalNum+=gas[i]-cost[i]
+                curNum+=gas[i]-cost[i]
+                if(curNum<0){
+                    curNum=0;
+                    start=i+1
+                }
+            }
+            if(totalNum<0){
+                return -1
+            }
+            return start
+        }
+        let gas = [1,2,3,4,5]
+        let cost = [3,4,5,1,2]
+        console.log(canCompleteCircuit(gas,cost),'==ceshi')
+
+    </script>
+</body>
+</html>

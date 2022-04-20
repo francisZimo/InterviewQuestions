@@ -1,4 +1,4 @@
-// 给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数
+// 【189】轮转数组 给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数
 
 // 旋转数组
 // pop shift
@@ -68,4 +68,4 @@ let nums2 = [-1]
 let k=3
 // console.log(arrayRotate1(nums,k))
 // console.log(arrayRotate2(nums,k))
-console.log(arrayRotate3(nums2,k),'==xx')
+// console.log(arrayRotate3(nums2,k),'==xx')

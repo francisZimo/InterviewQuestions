@@ -17,10 +17,10 @@
         console.log('xxx_love_study_1.mp4'.replace(/\b/g, '❤️')) // ❤️xxx_love_study_1❤️.❤️mp4❤️
         console.log('xxx_love_study_1.mp4'.replace(/\B/g, '❤️')) // x❤️x❤️x❤️_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1.m❤️p❤️4
         console.log('xxx_love_study_1.mp4'.replace('xxx', '❤️')) // ❤️_love_study_1.mp4
-        console.log('xxx_l-ove_study_1.mp4'.replace(/(?=[xxx-])/g, '❤️'),'flag') // ❤️xxx_love_study_1.mp4 正向先行断言
-        console.log('xxx_love_study_1.mp4'.replace(/(?<=xxx)/g, '❤️')) //xxx❤️_love_study_1.mp4
-        console.log('xxx_love_study_1.mp4'.replace(/(?!xxx)/g, '❤️')) // x❤️x❤️x❤️_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️  前不匹配
-        console.log('xxx_love_study_1.mp4'.replace(/(?<!xxx)/g, '❤️')) //❤️x❤️x❤️x_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️ 后不匹配
+        console.log('xxx_l-ove_study_1.mp4'.replace(/(?=xxx_)/g, '❤️'),'flag') // ❤️xxx_love_study_1.mp4 正向先行断言
+        console.log('xxx_love_study_1.mp4'.replace(/(?<=xxx)/g, '❤️')) //xxx❤️_love_study_1.mp4 正后发断言
+        console.log('xxx_love_study_1.mp4'.replace(/(?!xxx)/g, '❤️')) // x❤️x❤️x❤️_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️  前不匹配 负先行断言
+        console.log('xxx_love_study_1.mp4'.replace(/(?<!xxx)/g, '❤️')) //❤️x❤️x❤️x_❤️l❤️o❤️v❤️e❤️_❤️s❤️t❤️u❤️d❤️y❤️_❤️1❤️.❤️m❤️p❤️4❤️ 后不匹配 负后发断言
         //数字的千分位分割法 将123456789转化为123,456,789
         console.log('123456789'.replace(/(?=\d{3}$)/g,',')) // 123456,789
         console.log('123456789'.replace(/(?=(\d{3})+$)/g,',')) // ,123,456,789

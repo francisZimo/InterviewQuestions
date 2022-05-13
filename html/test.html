@@ -5,9 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src='./tools-lib-umd.js'></script>
   </head>
   <body>
     <script>
+      console.log(xyTools.getParams(),'==params')
       let s = 1;
       switch (s) {
         // case 1 || 2:
@@ -49,6 +51,16 @@
       }
       change(a1)
       console.log(a1)
+
+      function transform(target){
+        const res=[]
+        while(target){
+          res.push(target%2)
+          target=parseInt(target/2)
+        }
+        return res.reverse().join('')
+      }
+      console.log(transform(8),'==进制转换')
     </script>
   </body>
 </html>

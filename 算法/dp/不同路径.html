@@ -1,0 +1,32 @@
+<html>
+    62.
+    <script>
+        
+        // ---------------
+        // 1. 确定dp含义 dp[i][j] 表示从[0,0]到dp[i][j] 有多少条路径
+        // 2. 确定dp公式 dp[i][j-1] + dp[i-1][j] 只能从两个方向来
+        // 3. dp初始化 从[0,0] 到[i,0] 只用一条路径 [0,j]同理
+        // 4. dp遍历顺序 从左方和上方推导而来
+        // 5. 举例推导数组
+        function uniquePaths(m,n){
+            let arr=Array(m).fill(Array(n))
+            for(let i=0;i<m;i++){
+                arr[i][0]=1
+            }
+            console.log(arr,'s1')
+            for(let i=0;i<n;i++){
+                arr[0][i]=1
+            }
+            for(let i=1;i<m;i++){
+                for(let j=1;j<n;j++){
+                    arr[i][j]=arr[i-1][j]+arr[i][j-1]
+                }
+            }
+          
+            return arr[m-1][n-1]
+        }
+        console.log(uniquePaths(3,3))
+        console.log(uniquePaths(7,3))
+        // console.log(uniquePaths(3,3))
+    </script>
+</html>

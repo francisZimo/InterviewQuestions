@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let s='abacddddeeaadaaa'
+        function fn(s){
+            const arr=s.split('')
+            arr.sort()
+            
+            let num=1
+            if(!arr.length){
+                return null
+            }
+            if(arr.length===1){
+                return arr[0]
+            }
+            let res={
+                num:1,
+                char:arr[0]
+            }
+            console.log(arr,'==arr')
+            for(let i=1;i<arr.length;i++){
+                if(arr[i-1]===arr[i]){
+                    num++
+                    if(num>res.num){
+                        res.num=num
+                        res.char=arr[i]
+                    }
+                }else{
+                        num=1
+                    }
+            }
+            console.log(res)
+            return res.char
+        }
+        console.log(fn(s))
+
+
+//         let w=Array.from({length:100},((v,i
+// )=>i+1)
+        let w=Array.from({length:100},(v,i)=>{
+            return i+1
+        })
+        console.log(w,'==w')
+    </script>
+</body>
+</html>

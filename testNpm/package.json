@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@xes/xueyan-tools": "^0.0.1"
+    "@smart-mini-cli/testdemo": "^1.0.0"
   }
 }

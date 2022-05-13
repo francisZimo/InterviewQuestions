@@ -61,7 +61,7 @@
         if(i>0&&nums[i]===nums[i-1]){
           continue
         }
-        let left=index+1;
+        let left=i+1;
         let right=length-1;
 
         while(left<right){
@@ -71,7 +71,7 @@
           }else if(sum<0){
             left++
           }else{
-            res.push(nums[0],nums[left],nums[right])
+            res.push([nums[i],nums[left],nums[right]])
             while(left<right&&nums[left]===nums[left+1]){left++}
             while(left<right&&nums[right]===nums[right-1]){right--}
             left++;
@@ -81,9 +81,51 @@
       }
       return res
     }
-    let nums = [-1, 0, 1, 2, -1, -4]
+
+    function treeSum2(nums){
+      const ln=nums.length
+      if(ln<3){
+        return nums
+      }
+      const res=[]
+    
+      nums.sort((a,b)=>a-b)
+      for(let i=0;i<nums.length;i++){
+
+        // for(let j=i;j<)
+        
+        if(i>0&&nums[i]===nums[i-1]){
+          continue
+        }
+        let left=i+1
+        let right=ln-1
+        while(left<right){
+          console.log(nums[i],nums[left],nums[right],'===组')
+          const sum=nums[i]+nums[left]+nums[right]
+          if(sum>0){
+            right--
+            continue
+          }else if(sum<0){
+            left++
+            continue
+          }
+         
+          res.push([nums[i],nums[left],nums[right]])
+          left++
+          right--
+          // 优化-start
+          while(left<right&&nums[left]===nums[left+1]){left++}
+          while(left<right&&nums[right]===nums[right-1]){right--}
+          // 优化-end
+
+        }
+      }
+      return res
+    }
+    let nums = [-1,-1,-1, 0, 1,1,1,2, -1, -4]
     // treeSum1(nums)
-    console.log(treeSum(nums))
+    // console.log(treeSum(nums))
+    console.log(treeSum2(nums))
 </script>
 </body>
 </html>

@@ -31,6 +31,9 @@
         const isPromise=(obj)=>{
             return !!obj&&(typeof obj==='object'|| typeof obj==='function')&&typeof obj.then ==='function'
         }
+        const isPromise1=(obj)=>{
+            return !!obj&&(typeof obj==='object'||typeof obj==='function')&&typeof obj.then==='function'
+        }
         function race1(args){
             if(!args||!Array.isArray(args)) return
             

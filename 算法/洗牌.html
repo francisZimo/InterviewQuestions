@@ -17,18 +17,38 @@
             return arr
             }
 
-            function getRandomInt(max) {
-                return Math.floor(Math.random() * (max + 1))
-            }
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * (max + 1))
+        }
 
-            function swap(arr, i, j) {
-                const t = arr[i]
-                arr[i] = arr[j]
-                arr[j] = t
-            }
+        function swap(arr, i, j) {
+            const t = arr[i]
+            arr[i] = arr[j]
+            arr[j] = t
+        }
 
-            let s=[1,2,3,4,5]
-            console.log(shuffle(s))
+        
+
+        function shuffle1(source){
+            const arr=source.slice()
+            for(let i=0;i<arr.length;i++){
+                const j=getRandom1(i)
+                swap1(arr,i,j)
+            }
+            return arr
+        }
+        function getRandom1(max){
+            return Math.floor(Math.random()*(max+1))
+        }
+        function swap1(arr,i,j){
+            let temp=arr[i]
+            arr[i]=arr[j]
+            arr[j]=temp
+        }
+
+        // let s=[1,2,3,4,5]
+        let s=[1,2]
+        console.log(shuffle1(s))
     </script>
 </body>
 </html>

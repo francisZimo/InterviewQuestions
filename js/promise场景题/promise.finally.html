@@ -21,11 +21,22 @@
             const P=this.constructor;
             return this.then(  // then 直接执行 返回 then(() =>value)
                 (value)=>{
-                console.log(value,'==value')
                 return P.resolve(callback()).then(() =>value)
             },(reason)=>{
                 return P.resolve(callback()).then(()=>{console.log('错误'); throw reason})
             })
+        }
+
+
+        Promise.prototype.finally2=function(callback){
+            const p=this.constructor
+            return this.then(
+                (value)=>{
+                    return p.resolve(callback()).then(()=>value)
+                },(reason)=>{
+                    return p.resolve(callback()).then(()=>{throw reason})
+                }
+            )
         }
         //finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。
         // Promise.resolve(2).then(() => {}, () => {}).finally((value)=>{
@@ -49,7 +60,8 @@
         //     console.log('wocccccxxx5555')
         //     throw 'new xx'
         // })
-        Promise.reject(6).finally1(()=>{
+        Promise.resolve(6).finally2(()=>{
+            console.log('哈哈')
             // throw 'nihao'
         }).then(value=>{
             console.log(value)

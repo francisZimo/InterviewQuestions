@@ -12,7 +12,8 @@
 </template>
 
 <script>
-
+import {add} from '@smart-mini-cli/testdemo'
+import {subtract} from '@smart-mini-cli/use'
 import ParentChild from './components/transferProps'
 import CustomModel from './components/customVModel'
 import NextTick from './components/nextTick'
@@ -32,7 +33,12 @@ export default {
     LifeCycle,
     ShoppingCart
 
-  }
+  },
+  mounted() {
+    // console.log(add(3,7),'==add')
+    console.log('1111',add(1,2))
+    console.log('222',subtract(10,2))
+  },
 }
 </script>
 

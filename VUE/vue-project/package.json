@@ -8,7 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@xes/xueyan-tools": "0.0.4",
+    "@smart-mini-cli/testdemo": "^1.0.0",
+    "@smart-mini-cli/use": "1.0.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vuex": "^3.6.0"

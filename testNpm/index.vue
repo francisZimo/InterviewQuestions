@@ -4,7 +4,9 @@
 
 <script lang='ts'>
 import { defineComponent, reactive,toRefs} from 'vue'
-import {lottie169Adaptation} from '@xes/xueyan-tools'
+// import {lottie169Adaptation} from '@xes/xueyan-tools'
+import {add} from '@smart-mini-cli/testdemo'
+console.log(add(1,2))
 interface DataProps {}
 export default defineComponent( {
     name: '',

@@ -9,58 +9,71 @@
   </head>
   <body>
     <script>
-      console.log(xyTools.getParams(),'==params')
-      let s = 1;
-      switch (s) {
-        // case 1 || 2:
-        //   console.log("输出12");
-        //   break;
-        case 1:
-        case 2:
-          console.log("输出12");
-          break;
-        case 3:
-          console.log("输出3");
-          break;
-        default:
-          console.log("输出默认");
-          break;
-      }
-
-      // let template = (args) => {
-      //   console.log(args, "===xxx");
-      // };
-      // const defaultParams = template.bind({});
-      // defaultParams.args={
-      //     name:'测试'
+      // console.log(xyTools.getParams(),'==params')
+      // let s = 1;
+      // switch (s) {
+      //   // case 1 || 2:
+      //   //   console.log("输出12");
+      //   //   break;
+      //   case 1:
+      //   case 2:
+      //     console.log("输出12");
+      //     break;
+      //   case 3:
+      //     console.log("输出3");
+      //     break;
+      //   default:
+      //     console.log("输出默认");
+      //     break;
       // }
 
-      const a1={
-        name:'11',
-        sex:0,
-        info:{
-          age:20
-        }
-      }
-      function change(obj){
-        let s=Object.assign({},obj)
-        console.log(s,'init')
-        s.name='哈哈'
-        s.info.age=30
-        console.log(s,'==s')
-      }
-      change(a1)
-      console.log(a1)
+      // // let template = (args) => {
+      // //   console.log(args, "===xxx");
+      // // };
+      // // const defaultParams = template.bind({});
+      // // defaultParams.args={
+      // //     name:'测试'
+      // // }
 
-      function transform(target){
-        const res=[]
-        while(target){
-          res.push(target%2)
-          target=parseInt(target/2)
-        }
-        return res.reverse().join('')
+      // const a1={
+      //   name:'11',
+      //   sex:0,
+      //   info:{
+      //     age:20
+      //   }
+      // }
+      // function change(obj){
+      //   let s=Object.assign({},obj)
+      //   console.log(s,'init')
+      //   s.name='哈哈'
+      //   s.info.age=30
+      //   console.log(s,'==s')
+      // }
+      // change(a1)
+      // console.log(a1)
+
+      // function transform(target){
+      //   const res=[]
+      //   while(target){
+      //     res.push(target%2)
+      //     target=parseInt(target/2)
+      //   }
+      //   return res.reverse().join('')
+      // }
+      // console.log(transform(8),'==进制转换')
+
+      function test_2(fn){
+        let name='tony'
+        fn()
       }
-      console.log(transform(8),'==进制转换')
+      function test_1(){
+        let name='tom'
+        function f1(){
+          console.log(name,'==name test_1')
+        }
+        test_2(f1)
+      }
+      test_1()
     </script>
   </body>
 </html>

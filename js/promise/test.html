@@ -9,17 +9,39 @@
 <body>
     <script>
         let p=new Promise((resolve,reject)=>{
-            throw new Error('你好')
-            // reject('nihao')
-            // console.l('nihao')
+            // throw new Error('你好')
+            reject('nihao')
+            // console.log('123')
+            // resolve('123')
+            
         })
-        p.then((value)=>{
-            console.log(value,'s')
-        },(err)=>{
-            console.log(err,'erro')
-        }).catch(err=>{
-            console.log('catch',err)
+        // p.then((value)=>{
+        //     console.log(value,'s')
+        // },(err)=>{
+        //     console.log(err,'erro1')
+        // }).catch(err=>{
+        //     console.log('catch1',err)
+        // })
+        // console.log('1')
+        /////====
+        // p.then((value)=>{
+        //     console.log(value,'s')
+        //     return 100
+        // },(err)=>{
+        //     console.log(err,'erro1')
+        //     return 200
+        // }).then((value)=>{
+        //     console.log('第二个promise_resolve',value)
+        // },(value)=>{
+        //     console.log('第二个promise_reject',value)
+        // })
+        //====
+        p.then().then().then((value)=>{
+            console.log('resoves',value)
+        },(value)=>{
+            console.log('reject',value)
         })
+        console.log('1')
     </script>
 </body>
 </html>

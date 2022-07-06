@@ -8,10 +8,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@smart-mini-cli/testdemo": "^1.0.1",
-    "@smart-mini-cli/use": "^1.0.1",
+    "@smart-mini-cli/use": "^1.1.2",
+    "@vueuse/core": "^8.4.2",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "vue": "^3.2.36"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

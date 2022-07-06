@@ -70,5 +70,44 @@
         
 
     </script>
+
+    <script>
+        
+        function wrapPromise(userPromise){
+            let abort;
+            let innerPromise=new Promise((resolve,reject)=>{
+                abort=reject;
+            })
+            let racePromise=Promise.race([userPromise,innerPromise]) //添加控制走向失败逻辑
+            racePromise.abort=abort
+            return racePromise;
+        }
+
+        // mock模拟： 超过1s不采用请求结果
+        let p=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                // 模拟请求
+                resolve('成功')
+            },2000)
+        })
+        // wrap 包裹自定义请求
+        p=wrapPromise(p)
+        setTimeout(()=>{
+            p.abort('超时终止')
+        },1000) // 1000 || 3000
+
+        p.then(data=>{
+            // 超时时长：3000 输出：成功 
+            console.log(data,'resolve') 
+        }).catch(err=>{
+             // 超时时长：1000 输出：超时终止 
+            console.log(err,'catch')
+        })
+
+        // Promise.race([
+        //     promise1,
+        //     timer(5000)
+        // ])
+    </script>
 </body>
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Subject{
+            constructor(name){
+                this.name=name
+                this.state=''
+                this.list=[]
+            }
+            attach(observer){
+                this.list.push(observer)
+            }
+            setState(state){
+                this.state=state
+                this.list.forEach((item)=>{
+                    item.update(this)
+                })
+            }
+        }
+
+        class Observer{
+            constructor(name){
+                this.name=name
+            }
+            update(info){
+                console.log(info,'=info',this)
+                console.log(info.name+':'+this.name+info.state)
+            }
+        }
+        const dady=new Observer('爸爸')
+        const mami=new Observer('妈妈')
+        const baby=new Subject('宝宝')
+        baby.attach(dady)
+        baby.attach(mami)
+        baby.setState('我哭了')
+    </script>
+</body>
+</html>

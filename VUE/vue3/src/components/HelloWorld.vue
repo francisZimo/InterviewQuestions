@@ -1,9 +1,10 @@
 <template>
   <div class="hello">
-    <h1>宽：{{w}}</h1>
-    <h2>高：{{h}}</h2>
+    <h1>宽：{{width}}</h1>
+    <h2>高：{{height}}</h2>
+    <h2>age:{{age}}</h2>
     <!-- <h1>{{ msg }}</h1> -->
-    <p>
+    <!-- <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
@@ -28,7 +29,7 @@
       <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -36,6 +37,7 @@
 import {ref} from 'vue'
 // import {} from ''
 import { useWindowResize } from '@smart-mini-cli/use'
+// import {useWindowResize} from './useTest'
 // export default {
 //   name: 'HelloWorld',
 //   props: {
@@ -46,12 +48,35 @@ import { useWindowResize } from '@smart-mini-cli/use'
 //   }
 // }
 
-const w=ref(1)
-const h=ref(2)
-console.log(useWindowResize,'==ss')
+// const w=ref(1)
+// const h=ref(1)
+// console.log(useWindowResize,'==ss')
 const {width,height}=useWindowResize()
-w.value=width
-h.value=height
+// setInterval(()=>{
+//   console.log(width,'=xxxw222')
+// },2000)
+console.log(width,'==value')
+function test(){
+  const age=ref('tony')
+  setTimeout(()=>{
+    age.value='xxx'
+  },3000)
+  return {
+    age
+  }
+}
+const {age} = test()
+console.log(age,'==age')
+
+// w.value=width
+// h.value=height
+// onMounted(()=>{
+//   const {width,height}=useWindowResize()
+// w.value=width
+// h.value=height
+// })
+
+
 
 </script>
 

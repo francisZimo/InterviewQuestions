@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function *gen(){
+        //     return 'first generator'
+        // }
+        // let generatorResult=gen()
+        // console.log(generatorResult.next(),'==next')
+        // console.log(generatorResult,'==result')
+
+        function* g1(){
+            let s1=yield 'first';
+            console.log(s1)
+            yield '2';
+            yield '3';
+        }
+        let test=g1()
+        console.log(test.next())
+        console.log(test.next('你好'))
+    </script>
+</body>
+</html>

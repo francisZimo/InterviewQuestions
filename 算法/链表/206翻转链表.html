@@ -40,6 +40,47 @@
         var  reverseList = function(head){
             return reverse(null,head)
         }
+
+
+        // 双指针
+        var reverseList=function(head){
+            if(!head||!head.next) return
+            let pre=null,cur=head,tmp=null
+            while(cur){
+                tmp=cur.next
+                cur.next=pre
+                pre=cur
+                cur=tmp
+                console.log(pre,cur,tmp,'=1')
+            }
+            return pre
+        }
+
+        // 递归
+        var reverseList=function(head){
+            const reverse=(pre,cur)=>{
+                if(!cur) return pre
+                const tmp=cur.next
+                cur.next=pre
+                pre=cur
+                return reverse(pre,tmp)
+            }
+            return reverse(null,head)
+        }
+        
+        
+        const testObj={
+            val:1,
+            next:{
+                val:2,
+                next:{
+                    val:3,
+                    next:null
+                }
+            }
+        }
+        console.log(reverseList(testObj),'==reverseList')
+        
     </script>
 </body>
 </html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+    <script>
+        function ListNode(val,next){
+            this.val=val?val:0;
+            this.next=next?next:null
+        }
+        // 迭代
+        var swapPairs = function (head) {
+            const dummyNode=new ListNode(0,head)
+            if(!head||!head.next){
+                return head
+            } 
+            let pre=dummyNode
+      
+            while(pre.next&&pre.next.next){
+                const tmp=pre.next.next
+                const cur=pre.next
+                cur.next=tmp.next
+                tmp.next=cur
+                pre.next=tmp
+                pre=cur
+            }
+            return dummyNode.next
+        }
+        // 递归
+        var swapPairs = function (head) {
+            if(!head||!head.next){
+                return head
+            }
+            let cur=head.next
+            let next=swapPairs(cur.next)
+            cur.next=head
+            head.next=next
+            return cur
+        }
+        const testStr={
+            val:1,
+            next:{
+                val:2,
+                next:{
+                    val:3,
+                    next:{
+                        val:4,
+                        next:null
+                    }
+                }
+            }
+        }
+        console.log(swapPairs(testStr),'==swapPairs')
+    </script>
+</body>
+</html>

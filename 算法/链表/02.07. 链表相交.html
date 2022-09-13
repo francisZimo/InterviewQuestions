@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
+    </p>
+    <script>
+        var getIntersectionNode = function(headA, headB) {
+            const getLength=(head)=>{
+                if(!head) return 0
+                let count=0
+                while(head){
+                    count++
+                    head=head.next
+                }
+                return count
+            }
+            const lengthA=getLength(headA)
+            const lengthB=getLength(headB)
+            let diff=0
+            if(lengthA>lengthB){
+                diff=lengthA-lengthB
+            }else{
+                diff=lengthB-lengthA
+                const tmp=headB
+                headB=headA
+                headA=tmp
+            }
+            while(diff--){
+                headA=headA.next
+            }
+            while(headA){
+                const nodeA=headA
+                const nodeB=headB
+                if(nodeA===nodeB){
+                    return nodeA
+                }
+                headA=headA.next
+                headB=headB.next
+            }
+            return null
+        };
+    </script>
+</body>
+</html>

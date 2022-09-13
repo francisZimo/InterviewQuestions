@@ -6,10 +6,10 @@ master 1
 master 2
 
 master 3
-<<<<<<< HEAD
+
 dev5
 
 dev6
-=======
+
 master 4
->>>>>>> c741c39... feat: master4
+

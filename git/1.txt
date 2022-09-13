@@ -3,8 +3,9 @@ text2
 text3
 
 master 1
-<<<<<<< HEAD
 master 2
 
 dev4
 dev5
+
+dev6

@@ -4,3 +4,5 @@ test3
 test4
 ==new
 test5
+==666
+test6

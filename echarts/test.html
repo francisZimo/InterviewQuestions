@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ECharts</title>
+<!-- 引入 echarts.js -->
+<script type="text/javascript" src="./echarts.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<style type="text/css">
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+ 
+html {
+	/* background-image: url('/cityGuardServer/assets/image-analysis-body.png'); */
+}
+ 
+div {
+	
+}
+</style>
+</head>
+<body style="background-color: rgba(ffffaa)">
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 100%; height: 100%; margin: 0 auto;"></div>
+	<script type="text/javascript">
+
+		var url = document.location.toString();
+		console.log(url);
+		var arrUrl = url.split("?");
+		var carParam = arrUrl[1].split("&");
+		var carParamArr = carParam[0].split("=");
+		var regionParamArr = carParam[1].split("=");
+		var car_number = decodeURI(carParamArr[1]).toString();
+		var region = decodeURI(regionParamArr[1]).toString();
+		//console.log(car_number +" " + region);
+		//var param = "{\"args\":'{\"region\":\"1\",\"car_number\":"+car_number+"}'}";
+		var param = "{\"region\":" + region + ",\"car_number\":\"" + car_number
+				+ "\"}";
+ 
+		var mapObj = new Map();
+ 
+		//var param = "{args:'{\"region\":\"1\",\"car_number\":\"云aaa\"}'}";
+		var myChart = echarts.init(document.getElementById('main'));
+		var master;
+		//节点的分类数据以及图例显示数据
+		var categories = [ {
+			name : '车',
+			itemStyle : {
+				color : '#fc0800'
+			}
+		}, {
+			name : '人',
+			itemStyle : {
+				color : '#E29E00'
+			}
+		}, {
+			name : '人绑定其他车',
+			itemStyle : {
+				color : '#0be200'
+			}
+		} ];
+		var option = {
+			//图例显示 每个图例样式需要在一个对象里写出来
+			legend : [ {
+				data : categories.map(function(a) {
+					return a.name;
+				}),
+				textStyle : {
+					color : "#ffffff"
+				}
+			} ],
+			//连线和节点 提示框内容
+			tooltip : {
+				//回调函数显示
+				formatter : function(params) {
+					str = params.data.name;
+					return str;
+				},
+				backgroundColor : '#8CC7B5',
+				padding : [ 5, 10, 5, 10 ],
+				textStyle : {
+					fontFamily : 'Courier New'
+				}
+			},
+			animationDuration : 1500,
+			animationEasingUpdate : 'quinticInOut',
+			//各个系列显示的数据格式
+			series : [ {
+				//节点、连线样式
+				itemStyle : {
+					normal : {
+						//添加阴影 
+						borderColor : '#fff',
+						borderWidth : 1,
+						shadowBlur : 10,
+						ShadowColor : 'rgab(0,0,0,0.3)',
+ 
+						lineStyle : {
+							color : '#ffffff',
+							curveness : 0.3,
+							width : 3,
+							opacity : 0.7
+						},
+					},
+ 
+				},
+ 
+				//节点显示的标签内容
+				label : {
+					position : 'right',
+					formatter : '{b}',
+					//回调函数显示
+					/* formatter : function(params) {
+						str = params.data.id;
+						return str;
+					}, */
+					show : true,
+					textStyle : {
+						color : '#ffffff'
+					},
+				},
+				categories : categories,
+				force : {
+					initLayout : 'circular',//初始布局
+					repulsion : [ 60, 120 ],//斥力大小
+					edgeLength : [ 30, 100 ],
+					layoutAnimation : true,
+				},
+ 
+				animation : false,
+				name : "",
+				type : 'graph',//关系图类型
+				layout : 'force',//引力布局
+				roam : true,//可以拖动
+				focusNodeAdjacency : true,
+				emphasis : {
+					lineStyle : {
+						width : 8
+					}
+				},
+				//节点和关联数据置空，下面Ajax获取数据填充即可
+				nodes : [],
+				links : []
+			} ]
+		}
+		myChart.setOption(option);
+        //记录所有节点
+		var allArr = [];
+        //记录需要显示的节点
+		var display = [];
+        //记录连接信息，通过这个数组得到节点 子节点关系
+		var linkArr = [];
+		//异步获取数据
+		$.ajax({
+			type : "POST",
+			url : "/projectname/analysis_car/car_graph_history?args="
+					+ param,
+			dataType : "json",
+			data : {},
+			success : function(data) {
+				console.log(data.nodes);
+				console.log(data.links);
+				linkArr = data.links;
+				allArr = data.nodes;
+				display = allArr.filter(function(x, index) {
+					return x.category != 2;
+				});
+				console.log(display);
+				myChart.setOption({
+					series : [ {
+						nodes : display,
+						links : data.links
+					/* nodes : [{symbol: "circle", symbolSize: 27, name: "n0", id: "云A2RG210", category: 0},
+					         {symbol: "circle", symbolSize: 27, name: "n1", id: "云A2RG20", category: 0}],
+					links : [{source:"云A2RG210",target:"云A2RG20"}] */
+					} ]
+				});//将option添加到mychart中
+			},
+			error : function(err) {
+				console.log(param);
+			}
+		});
+		//下面为点击某个节点之后进行的操作，其实就是像display加入要显示的子节点.节点的显示和隐藏只是改变节点data数组即可，link始终不需要改变。
+		myChart.on('click', function(params) {
+            //本次点击需要添加或删除的节点
+			var addArr = [];
+            //记录本次点击需要添加的元素是否已经在display数组中，如果在，说明本次点击需要从    
+            //display中删除掉addArr中节点；不在，需要添加到待显示数组display中
+			var exist = false;
+			if (params.data.category == '1') {
+				var temp = linkArr.filter(function(x, index) {
+					if (x.source == params.data.id) {
+						return x;
+					}
+				});
+				console.log(temp);
+				//判断display里面是否有本次添加的元素，如果有，说明节点已经显示，就去删除
+				for (var k = 0; k < display.length; k++) {
+					for (var i = 0; i < temp.length; i++) {
+						if (display[k].id == temp[i].target) {
+							exist = true;
+							break;
+							console.log(x.id);
+						}
+					}
+					if (exist) {
+						break;
+					}
+				}
+				console.log(exist);
+				//得到需要添加或删除的节点元素
+				allArr.forEach(function(x, index, a) {
+					temp.forEach(function(y, indey, b) {
+						if (x.id == y.target) {
+							addArr.push(x);
+						}
+					});
+				});
+			} else {
+				return;
+			}
+			if (!exist) {
+				display = display.concat(addArr);
+			} else {
+				var disTemp = [];
+				for (var i = 0; i < display.length; i++) {
+					var del = false;
+					for (var j = 0; j < addArr.length; j++) {
+ 
+						if (display[i].id == addArr[j].id) {
+							del = true;
+							break;
+						}
+					}
+					if (!del) {
+						disTemp.push(display[i]);
+					}
+				}
+				display = disTemp;
+			}
+			myChart.setOption({
+				series : [ {
+					nodes : display,
+				} ]
+			});
+		});
+	</script>
+</body>
+</html>

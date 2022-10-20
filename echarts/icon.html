@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./echarts.js"></script>
+  </head>
+  <body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <!-- <button #> </button> -->
+    <script type="text/javascript">
+
+
+
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById("main"));
+
+      option = {
+        xAxis: {
+            type: 'category',
+          data: ["A", "B", "C", "D", "E"],
+        },
+      
+        yAxis: {},
+        tooltip:{
+                show:true,
+                trigger:'axis'
+            },
+        series: [
+          {
+            data: [10, 22, 28, 23, 19],
+            type: "line",
+            smooth: true,
+            symbol: "circle",
+            symbolSize: 50, // 大小 区分显示与隐藏
+            symbol:
+              "image://https://static0.xesimg.com/staticxes/chess/best.png",
+            showSymbol: false, // 是否显示 symbol, 如果 false 则只有在 tooltip hover 的时候显示。
+
+            // emphasis: {
+            //   itemStyle: {
+            //     symbol: "circle",
+            //     symbolSize: 50, // 大小 区分显示与隐藏
+            //     symbol:
+            //       "image://https://static0.xesimg.com/staticxes/chess/best.png",
+            //   },
+            // },
+            
+            // emphasis: {
+            //   itemStyle: {
+            //     color: "rgba(55,167,137,1)",
+            //     borderWidth: 18,
+            //     borderColor: "rgba(55,138,119,0.42)",
+            //   },
+            // },
+
+            // emphasis : {label : {show: true}}
+          },
+        ],
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+      setTimeout(()=>{
+        myChart.dispatchAction({
+            type: 'highlight',
+            dataIndex: 1 // 只能是数字而非数组(无效)
+        })
+        myChart.dispatchAction({
+            type: 'highlight',
+            dataIndex: 2 // 只能是数字而非数组
+        })
+      },1000)
+      
+    </script>
+  </body>
+</html>

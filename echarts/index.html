@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./echarts.js"></script>
+  </head>
+  <body>
+    <div
+      style="width:20px; height: 20px; background:url(https://static0.xesimg.com/staticxes/chess/right.png);background-size:100% "
+    ></div>
+    <div id="main" style="width: 300px;height:300px;"></div>
+    <!-- <button #> </button> -->
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById("main"));
+      option = {
+        xAxis: {
+          type: "category",
+          axisPointer: {
+            snap: true,
+            lineStyle: {
+              color: "#7581BD",
+              width: 2,
+            },
+            label: {
+              show: true,
+              formatter: function(params) {
+                console.log(params, "==label");
+                // return echarts.format.formatTime('yyyy-MM-dd', params.value);
+              },
+              backgroundColor: "#7581BD",
+            },
+            handle: {
+              show: true,
+              color: "#7581BD",
+            },
+          },
+          data: ["1", "2", "3", "4"],
+        },
+        yAxis: {},
+        tooltip: {
+          show: true,
+          trigger: "axis",
+        },
+        series: [
+          {
+            // data: [10, 22, 28, 23, 19],
+            data: [
+              {
+                name: "A",
+                value: 10,
+                symbolSize: 20,
+                symbol:
+                  "image://https://static0.xesimg.com/staticxes/chess/best.png",
+                itemStyle: {
+                  opacity: 0,
+                },
+                emphasis: {
+                  itemStyle: {
+                    opacity: 1,
+                  },
+                },
+              },
+              {
+                name: "B",
+                value: 20,
+                symbolSize: 20,
+                symbol:
+                  "image://https://static0.xesimg.com/staticxes/chess/good.png",
+              },
+              {
+                name: "C",
+                value: 30,
+                symbolSize: 20,
+                symbol:
+                  "image://https://static0.xesimg.com/staticxes/chess/best.png",
+              },
+              {
+                name: "D",
+                value: -10,
+                symbolSize: 20,
+                symbol:
+                  "image://https://static0.xesimg.com/staticxes/chess/good.png",
+              },
+            ],
+            type: "line",
+            smooth: true,
+            tooltip: {
+              show: true,
+              trigger: "item",
+              formatter: function(params) {
+                // var str = `<div style = "background:url(https://static0.xesimg.com/staticxes/chess/right.png}) no-repeat center center ;width:60px;height:60px; "></div>`;
+                var str =
+                  ' <div style="width:20px; height: 20px; background:url(https://static0.xesimg.com/staticxes/chess/right.png);border: 1px solid red; background-size:100%; border-radius:50%; overflow:hidden; "  ></div>';
+                return 'hahah';
+              },
+              borderWidth: 0,
+              padding: 0,
+              backgroundColor: "transparent",
+              borderColor: "transparent",
+              extraCssText: "box-shadow: none",
+              textStyle: {
+                width: 0,
+                height: 0,
+              },
+              position: function(point, params, dom) {
+                // console.log(point,params,dom,'=params')
+                return "inside";
+              },
+            },
+          },
+        ],
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+      setTimeout(() => {
+        // myChart.dispatchAction({
+        //   type: "highlight",
+        //   dataIndex: 1, // 只能是数字而非数组(无效)
+        // });
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: 3, // 只能是数字而非数组(无效)
+        });
+        // myChart.dispatchAction({
+        //     type: 'highlight',
+        //     dataIndex: 2 // 只能是数字而非数组
+        // })
+      }, 1000);
+      setTimeout(() => {
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: 1, // 只能是数字而非数组(无效)
+        });
+      }, 1500);
+      // myChart.on("selectchanged", function(params) {
+      //   console.log(params, "==selectChange");
+      // });
+      myChart.on("click", function(params) {
+        console.log("click", params);
+       
+      });
+      myChart.on("legendselectchanged", function(params) {
+        console.log("legendselectchanged");
+        
+      });
+      myChart.on("mouseup", function(params) {
+        console.log("mouseup");
+       
+      });
+      myChart.on("mouseover", function(params) {
+        console.log("mouseover");
+       
+      });
+      myChart.on("mousedown", function(params) {
+        console.log("mousedown");
+       
+      });
+
+      myChart.on("axisareaselected", function() {
+        console.log("axisareaselected");
+        var series0 = chart.getModel().getSeries()[0];
+        var series1 = chart.getModel().getSeries()[1];
+        var indices0 = series0.getRawIndicesByActiveState("active");
+        var indices1 = series1.getRawIndicesByActiveState("active");
+        console.log(indices0, indices1);
+      });
+      myChart.on("highlight", function() {
+        console.log("highlight");
+      });
+
+      myChart.on("brushSelected", function(params) {
+        console.log('brushSelected')
+        var brushComponent = params.batch[0];
+
+        var sum = 0; // 统计选中项的数据值的和
+
+        for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {
+          // 对于每个 series：
+          var dataIndices = brushComponent.selected[sIdx].dataIndex;
+
+          for (var i = 0; i < dataIndices.length; i++) {
+            var dataIndex = dataIndices[i];
+            sum += dataBySeries[sIdx][dataIndex];
+          }
+        }
+        console.log(sum); // 用某种方式输出统计值。
+      });
+      myChart.on('mousemove','xAxis.axisPointer.handle',function (params){
+        console.log(params,'handle')
+      })
+      var data1 = [];
+    </script>
+  </body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./echarts.js"></script>
+  </head>
+  <body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <button onClick="changeData('all')">全部</button>
+    <button onClick="changeData('best')">最好</button>
+    <button onClick="changeData('good')">好</button>
+    <button onClick="changeData('bad')">坏</button>
+    <hr />
+    <button onClick="setHighLight(0)">最好</button>
+    <button onClick="setHighLight(1)">好</button>
+    <button onClick="setHighLight(2)">坏</button>
+    <button onClick="setHighLight(3)">最坏</button>
+    <script type="text/javascript">
+      function setHighLight(index) {
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: index,
+        });
+        myChart.dispatchAction({
+          type: "toolTip",
+          seriesIndex: 0,
+          dataIndex: index,
+        });
+      }
+      function changeData(type) {
+        if (type === "all") {
+          myChart.setOption(getOption(dataAll));
+        }
+        if (type === "best") {
+          myChart.setOption(getOption(data1));
+        }
+        if (type === "good") {
+          myChart.setOption(getOption(data2));
+        }
+        if (type === "bad") {
+          myChart.setOption(getOption(data3));
+        }
+      }
+      var dataAll = [
+        {
+          name: "best",
+          value: 10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#ff1e77",
+              opacity: 1,
+            },
+          },
+        },
+        {
+          name: "good",
+          value: 20,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#d6e80e",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "bad",
+          value: 30,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0e13e8",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "worst",
+          value: -10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0ee881",
+              opacity: 1,
+            },
+          },
+        },
+      ];
+      var data1 = [
+        {
+          name: "A",
+          value: 10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#ff1e77",
+              opacity: 1,
+            },
+          },
+        },
+        {
+          name: "B",
+          value: 20,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#d6e80e",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "C",
+          value: 30,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0e13e8",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "D",
+          value: -10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0ee881",
+              opacity: 0,
+            },
+          },
+        },
+      ];
+      var data2 = [
+        {
+          name: "A",
+          value: 10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#ff1e77",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "B",
+          value: 20,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#d6e80e",
+              opacity: 1,
+            },
+          },
+        },
+        {
+          name: "C",
+          value: 30,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0e13e8",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "D",
+          value: -10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0ee881",
+              opacity: 0,
+            },
+          },
+        },
+      ];
+
+      var data3 = [
+        {
+          name: "A",
+          value: 10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#ff1e77",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "B",
+          value: 20,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#d6e80e",
+              opacity: 0,
+            },
+          },
+        },
+        {
+          name: "C",
+          value: 30,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0e13e8",
+              opacity: 1,
+            },
+          },
+        },
+        {
+          name: "D",
+          value: -10,
+          symbol: "circle",
+          itemStyle: {
+            // 设置symbol的颜色
+            normal: {
+              color: "#0ee881",
+              opacity: 0,
+            },
+          },
+        },
+      ];
+
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById("main"));
+
+      const getOption = (data) => {
+        return {
+          color: ["#fff"],
+          xAxis: {
+            type: "category",
+            data: ["最佳", "好", "坏", "最坏"],
+            axisTick: {
+              show: false,
+            },
+            axisLine: {
+              show: false,
+            },
+            splitLine: {
+              show: false,
+            },
+            splitNumber: 1,
+            axisLabel: {
+              show: false
+            }
+          },
+          yAxis: {
+            // axisTick: {
+            //   show: false,
+            // },
+            // axisLine: {
+            //   show: false,
+            // },
+            // splitLine: {
+            //   show: true,
+            // },
+            // max:'dataMax',
+            // axisLabel: {
+            //   show: true,
+            //   formatter:function(value){
+            //     if(value===0){
+            //         return 0
+            //     }
+            //     return ''
+            //   }
+            // }
+           
+          },
+          tooltip: {
+            show: true,
+            trigger: "axis",
+          },
+          series: [
+            {
+              data,
+              type: "line",
+              smooth: true,
+              type: "line",
+              //   color: ['#1FE3B3'],
+              //   symbol: 'circle', // 设置拐点为实心圆
+              symbolSize: 12, // 设置折线上圆点大小
+              type: "line",
+              smooth: true,
+              tooltip: {
+                show: true,
+                trigger: "item",
+                formatter: function(params) {
+                    // console.log(params,'==params')
+                  // var str = `<div style = "background:url(https://static0.xesimg.com/staticxes/chess/right.png}) no-repeat center center ;width:60px;height:60px; "></div>`;
+                  
+                  var url='https://static0.xesimg.com/staticxes/chess/right.png'
+                  if(params.name==='best'){
+                    url='https://static0.xesimg.com/staticxes/chess/best.png'
+                  }
+                  if(params.name==='good'){
+                    url='https://static0.xesimg.com/staticxes/chess/right.png'
+                  }
+                  if(params.name==='bad'){
+                    url='https://static0.xesimg.com/staticxes/chess/bad.png'
+                  }
+                  if(params.name==='worst'){
+                    url='https://static0.xesimg.com/staticxes/chess/worst.png'
+                  }
+                  var str =
+                    `<div style="width:20px; height: 20px; background:url(${url}); background-size:100%; border-radius:50%; overflow:hidden; "  ></div>`;
+                  return str;
+                },
+                borderWidth: 0,
+                padding: 0,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
+                extraCssText: "box-shadow: none",
+                textStyle: {
+                  width: 0,
+                  height: 0,
+                },
+                position: 'inside',
+              },
+              lineStyle: {
+                color: "#ff0000",
+              },
+            },
+          ],
+        };
+      };
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(getOption(dataAll));
+
+      myChart.on("click", function(params) {
+        console.log("click", params.name);
+       
+      });
+      //   setTimeout(()=>{
+      //     myChart.setOption(getOption(data2))
+      //   },2000)
+
+      //   setTimeout(()=>{
+      //     myChart.setOption(getOption(data3))
+      //   },3000)
+    </script>
+  </body>
+</html>

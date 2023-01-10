@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html::-webkit-scrollbar {
+            width: 10px;
+        }
+        html::-webkit-scrollbar-thumb {
+            /* background: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0.3)),to(rgba(0,0,0,0.7)));
+            background: linear-gradient(180deg,rgba(0,0,0,0.3),rgba(0,0,0,0.7)); */
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            /* box-shadow: inset 2px 2px 2px hsla(0,0%,100%,.25), inset -2px -2px 2px rgba(0,0,0,.25); */
+        }
+        html::-webkit-scrollbar-track {
+            background-color: transparent;
+            /* background-color: rgba(0,0,0,0.3); */
+            /* background: linear-gradient(90deg,#201c29,#201c29 1px,#100e17 0,#100e17); */
+        }
+
+        body{
+            /* width: 1900px; */
+            height: 1900px;
+        }
+        .wrapper{
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            
+        }
+        .inner{
+            width: 500px;
+            height: 500px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="inner"></div>
+    </div>
+</body>
+</html>

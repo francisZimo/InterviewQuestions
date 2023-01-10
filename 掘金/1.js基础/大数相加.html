@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let str1='12'
+        let str2='999999'
+        function add(a,b){
+            const maxLn=Math.max(a.length,b.length)
+            const str1=a.padStart(maxLn,0)
+            const str2=b.padStart(maxLn,0)
+            let flag=0; // 进位
+            let result='';
+            for(let i=maxLn-1;i>=0;i--){
+                const sum=Number(str1[i])+Number(str2[i])+flag
+                flag=(sum/10)>>0
+                const index=sum%10
+                result=index+result
+            }
+            if(flag===1){
+                result='1'+result
+            }
+            return result
+        }
+        console.log(add(str1,str2))
+        
+    </script>
+</body>
+</html>

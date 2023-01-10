@@ -40,7 +40,22 @@
             return res.reverse().join('')
             
         }
-        console.log(sum1('11','123'))
+        const sum2=(str1,str2)=>{
+            let index=0; ln1=str1.length-1;ln2=str2.length-1;
+            const res=[]
+            while(index>0||ln1>=0||ln2>=0){
+                const n1=ln1>=0?+str1.charAt(ln1):0
+                const n2=ln2>=0?+str2.charAt(ln2):0
+                const sum=n1+n2+index
+                index=parseInt(sum/10)
+                res.push(sum%10)
+                ln1--
+                ln2--
+
+            }
+            return res.reverse().join('')
+        }
+        console.log(sum2('111','123'))
     </script>
 </body>
 </html>

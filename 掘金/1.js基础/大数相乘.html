@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         let str1='12'
+         let str2='999999'
+         function multiply(a,b){
+            const maxLn=Math.max(a.length,b.length)
+            const s1=a.padStart(maxLn,0)
+            const s2=b.padStart(maxLn,0)
+            let flag=0
+            let result=''
+            for(let i=maxLn-1;i>=0;i--){
+                let count=0
+                if(!Number(s1[i])||!Number(s2[i])){
+                    // count=
+                }else{
+                    count =Number(s1[i])*Number(s2[i])+flag
+                }
+               
+                const tmp=count/10>>0
+                const index=count%10
+                result=index+result
+            }
+            if(flag>0){
+                result=flag+result
+            }
+            return result
+         }
+         console.log(multiply(str1,str2))
+    </script>
+</body>
+</html>

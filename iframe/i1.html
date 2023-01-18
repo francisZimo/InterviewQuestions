@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <body>
+      我是 1.html, 下面嵌套 2.html
+      <iframe src="http://127.0.0.1:8000/i2.html" name="child"></iframe>
+      <script>
+        function hello() {
+          console.log("this is 1.html");
+        }
+
+        var iframe = document.getElementsByTagName("iframe")[0];
+        console.log("contentWindow 🥝", iframe.contentWindow); // 能访问
+        console.log("contentDocument 🥝", iframe.contentDocument); // 能访问
+
+        // 注意访问方式, 需要在 onload 后才能取到值
+        // console.log( iframe.contentWindow.hello() ) // Uncaught TypeError: iframe.contentWindow.hello is not a function
+
+        iframe.onload = function() {
+          console.log(iframe.contentWindow.hello(), "==hello"); // this is 2.html //  输出 Location 对象， 依然要在 iframe.onload 中访问
+          console.log(
+            "contentWindow.location 🥝",
+            iframe.contentWindow.location
+          ); //  iframe.contentWindow.location.host : 127.0.0.1:8000 //  xxx.hash:     "" //  xxx.host:     "127.0.0.1:8000" //  xxx.hostname: "127.0.0.1" //  xxx.href:     "http://127.0.0.1:8000/2.html" //  xxx.origin:   "http://127.0.0.1:8000" //  xxx.pathname: "/2.html" //  xxx.port:     "8000" //  xxx.protocol: "http:" //  ... // 有相同的源 我们可以进行任何操作
+          iframe.contentDocument.body.innerHTML = "<p>hi, i am ur father !</p>";
+          console.log(iframe.contentDocument.getElementsByTagName("p"), "==p");
+
+          // onload发送消息
+          let childFrame = window.frames.child;
+          console.log(window.frames, "==framesList", window.frames.child);
+          childFrame.postMessage("i am father", "http://127.0.0.1:8000");
+        };
+
+        // iframe.contentWindow.location = 'http://www.360doc.com'; // 可以直接修改 iframe 地址, 不受同源策略的限制。 有的网站不支持被iframe引用, 所以会报错。 注意区分错误信息。
+        // onload发送消息
+        let childFrame = window.frames.child;
+        console.log(window.frames, "==framesList", window.frames.child);
+        childFrame.postMessage("第一次发送", "http://127.0.0.1:8000");
+
+        window.addEventListener("message", function(event) {
+          console.log(event, "==event");
+          if (event.origin !== "http://127.0.0.1:8000") {
+            // 来自未知的源的内容，我们忽略它
+            return;
+          }
+          if (window === event.source) {
+            return;
+          }
+          console.log('父亲收到了')
+          console.log("received:", event.data);
+        });
+      </script>
+    </body>
+  </body>
+</html>

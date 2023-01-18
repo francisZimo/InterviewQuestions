@@ -1,39 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-         let str1='12'
-         let str2='999999'
-         function multiply(a,b){
-            const maxLn=Math.max(a.length,b.length)
-            const s1=a.padStart(maxLn,0)
-            const s2=b.padStart(maxLn,0)
-            let flag=0
-            let result=''
-            for(let i=maxLn-1;i>=0;i--){
-                let count=0
-                if(!Number(s1[i])||!Number(s2[i])){
-                    // count=
-                }else{
-                    count =Number(s1[i])*Number(s2[i])+flag
-                }
-               
-                const tmp=count/10>>0
-                const index=count%10
-                result=index+result
-            }
-            if(flag>0){
-                result=flag+result
-            }
-            return result
-         }
-         console.log(multiply(str1,str2))
+      let str1 = "12";
+      let str2 = "999999";
+
+      //      const len1=num1.length
+      //   const len2=num2.length
+      //   const pos=new Array(len1+len2).fill(0)
+
+      //   for(let i=len1-1;i>=0;i--){
+      //     const n1=+num1[i]
+      //     for(let j=len2-1;j>=0;j--){
+      //       const n2=+num2[j]
+      //       const multi=n1*n2
+      //       const sum=pos[i+j+1]+multi
+      //       pos[i+j+1]=sum%10
+      //       pos[i+j]+=parseInt(sum/10)
+      //     }
+      //   }
+      //   let resStr=pos.join('')
+      // p 1/12
+      function multiply1(str1, str2) {
+        const ln1 = str1.length;
+        const ln2 = str2.length;
+        const pos = new Array(ln1 + ln2).fill(0);
+        console.log("p1", pos);
+        for (let i = ln1 - 1; i >= 0; i--) {
+          const n1 = +str1[i];
+          for (let j = ln2 - 1; j >= 0; j--) {
+            const n2 = +str2[j];
+            const multi = n1 * n2;
+            const sum = pos[i + j + 1] + multi;
+            pos[i + j + 1] = sum % 10;
+            pos[i + j] += parseInt(sum / 10);  // 注意 + =    
+          }
+        }
+        console.log(pos, "==position");
+        // let str=position.join('')
+        // while(str[0]==='0'){
+        //     str=str.substring(1)
+        // }
+        // return str
+      }
+      console.log(multiply1(str1, str2), "==result");
     </script>
-</body>
+  </body>
 </html>

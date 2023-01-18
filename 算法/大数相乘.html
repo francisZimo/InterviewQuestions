@@ -29,37 +29,16 @@
       return resStr.length?resStr:'0'
     }
 
-    let s1='222'
-    let s2='111'
-    // console.log( multiply(s1,s2))
+    let s1='12'
+    let s2='999999'
+    console.log( multiply(s1,s2))
 
     // let reg=/^[0]+/g
     // let s='003004'
     // s=s.replace(reg,'')
     // console.log(s)
     
-    function multiply1(str1,str2){
-        const ln1=str1.length;
-        const ln2=str2.length;
-        const position=Array(ln1+ln2).fill(0)
-        for(let i=ln1;i>-0;i--){
-            const n1=+str1[i]
-            for(let j=ln2;j>-0;j--){
-                const n2=+str2[j]
-                const sum=n1*n2+position[i+j+1]
-                const tmp=sum/10>>0
-                position[i+j+1]=sum%10
-                position[i+i]=tmp
-            }
-        }
-        let str=position.join('')
-        while(str[0]==='0'){
-            str=str.substring(1)
-        }
-        return str
-    }
-    console.log( multiply(s1,s2))
-
+ 
 </script>
 </body>
 </html>

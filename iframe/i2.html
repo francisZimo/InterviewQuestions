@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    我是 2.html
+    <script>
+      function hello() {
+        console.log("this is 2.html");
+      }
+
+      // if (window === window.top) {
+      //   alert("不是在 iframe 中打开的");
+      // } else {
+      //   alert("在 iframe 中打开的");
+      // }
+
+      window.addEventListener("message", function(event) {
+        console.log(event, "==event");
+        if (event.origin !== "http://127.0.0.1:8000") {
+          // 来自未知的源的内容，我们忽略它
+          console.log("不是8000消息");
+          return;
+        }
+        if (window === event.source) {
+          // chrome 下, 页面初次加载后会触发一次 message 事件, event.source 是 window 对象
+          // 此时 event.source.postMessage 会形成死循环
+          // 因此，要跳过第一次的初始化触发的情况
+          console.log("类型相同");
+          return;
+        }
+        console.log("child received:", event.data,event);
+        // 可以使用 event.source.postMessage(...) 向回发送消息
+        event.source.postMessage("i am 2.html 小弟");
+      });
+
+      window.onload=function(){
+        console.log('向父亲发送消息')
+        window.parent.postMessage({name:'tom'},'http://127.0.0.1:8000')
+      }
+
+    //   window.parent.postMessage({name:'tom',age:'12'},'http://127.0.0.1:8000')
+     
+      
+    </script>
+  </body>
+</html>

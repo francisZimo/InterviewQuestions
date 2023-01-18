@@ -8,7 +8,7 @@
 </head>
 <body>
     <script>
-        let str1='12'
+        let str1='1222'
         let str2='999999'
         function add(a,b){
             const maxLn=Math.max(a.length,b.length)
@@ -29,6 +29,22 @@
         }
         console.log(add(str1,str2))
         
+        // p 1/12
+        function add1(str1,str2){
+            let index=0,ln1=str1.length-1,ln2=str2.length-1;
+            const res=[]
+            while(index>0||ln1>=0||ln2>=0){
+                const num1=ln1>=0?+str1.charAt(ln1):0
+                const num2=ln2>=0?+str2.charAt(ln2):0
+                const sum=num1+num2+index
+                index=sum/10>>0
+                res.push(sum%10)
+                ln1--
+                ln2--
+            }
+            return res.reverse().join('')
+        }
+        console.log(add1(str1,str2))
     </script>
 </body>
 </html>

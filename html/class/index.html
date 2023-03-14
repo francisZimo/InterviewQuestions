@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class CustomerService {
+        constructor() {
+          console.log('开始');
+        }
+        speak() {
+          console.log('nihao');
+        }
+      }
+      //   console.log(CustomerService.prototype);
+      //   console.log(Object.keys(CustomerService.prototype));
+      //   console.log(Object.keys(CustomerService.prototype).includes('speak'));
+
+      console.log(Object.getOwnPropertyNames(CustomerService.prototype));
+      console.log(Reflect.ownKeys(CustomerService.prototype));
+      console.log(Reflect.ownKeys(CustomerService.prototype).includes('speak'));
+    </script>
+  </body>
+</html>

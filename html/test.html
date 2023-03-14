@@ -5,9 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src='./tools-lib-umd.js'></script>
+    <style>
+      p {
+        font-size: 14px;
+        color: red;
+        white-space: nowrap;
+      }
+    </style>
+    <script src="./tools-lib-umd.js"></script>
   </head>
   <body>
+    <p>
+      我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字我是不折行的文字
+    </p>
     <script>
       // console.log(xyTools.getParams(),'==params')
       // let s = 1;
@@ -62,18 +72,18 @@
       // }
       // console.log(transform(8),'==进制转换')
 
-      function test_2(fn){
-        let name='tony'
-        fn()
+      function test_2(fn) {
+        let name = 'tony';
+        fn();
       }
-      function test_1(){
-        let name='tom'
-        function f1(){
-          console.log(name,'==name test_1')
+      function test_1() {
+        let name = 'tom';
+        function f1() {
+          console.log(name, '==name test_1');
         }
-        test_2(f1)
+        test_2(f1);
       }
-      test_1()
+      test_1();
     </script>
   </body>
 </html>

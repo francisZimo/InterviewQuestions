@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js"></script> -->
+    <!-- <script src="https://pixijs.download/release/pixi.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.4.3/pixi.min.js"></script>
+    <script src="./js/keyboard.js"></script>
+    <script src="./js/hitTestRectangle.js"></script>
+
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // let type = 'WebGL';
+      // if (!PIXI.utils.isWebGLSupported()) {
+      //   type = 'canvas';
+      // }
+
+      // PIXI.utils.sayHello(type);
+
+      //Create a Pixi Application
+      let app = new PIXI.Application({
+        width: 256,
+        height: 256,
+        antialias: true,
+        transpant: false,
+        resolution: 1,
+      });
+      app.renderer.view.style.position = 'absolute';
+      app.renderer.view.style.display = 'block';
+      app.renderer.autoResize = true;
+      app.renderer.resize(window.innerWidth, window.innerHeight);
+
+      app.sortableChildren = true;
+      //Add the canvas that Pixi automatically created for you to the HTML document
+      document.body.appendChild(app.view);
+
+      const loader = PIXI.loader;
+      const TextureCache = PIXI.utils.TextureCache;
+      const resources = PIXI.loader.resources;
+      const Sprite = PIXI.Sprite;
+
+      // loader.add('images/cat.jpg').load(setup);
+
+      // function setup() {
+      //   let cat = new PIXI.Sprite(
+      //     PIXI.loader.resources['images/cat.jpg'].texture
+      //   );
+      //   cat.x = 99;
+      //   cat.y = 99;
+      //   cat.scale.set(0.5, 0.5);
+      //   cat.anchor.x = 0.5;
+      //   cat.anchor.y = 0.5;
+      //   // cat.pivot.set(32, 32); // 像素
+      //   cat.rotation = 0.5;
+      //   app.stage.addChild(cat);
+      // }
+
+      // loader.add('images/tileset.png').load(tileSetup);
+
+      // function tileSetup() {
+      //   let texture = TextureCache['images/tileset.png'];
+      //   let rectangle = new PIXI.Rectangle(94, 64, 32, 32);
+
+      //   texture.frame = rectangle;
+      //   let rocket = new Sprite(texture);
+
+      //   rocket.x = 32;
+      //   rocket.y = 32;
+
+      //   app.stage.addChild(rocket);
+      // }
+
+      // 纹理贴图
+      let id, dungeon, explorer, treasure, door;
+      let state = play;
+      loader.add('images/texture.json').load(setup);
+
+      function setup() {
+        console.log('加载完毕');
+        id = PIXI.loader.resources['images/texture.json'].textures;
+        dungeon = new Sprite(id['dungeon.png']);
+        dungeon.zIndex = 1;
+        app.stage.addChild(dungeon);
+
+        explorer = new Sprite(id['explorer.png']);
+        explorer.x = 68;
+        explorer.vx = 0;
+        explorer.vy = 0;
+        //Center the explorer vertically
+        explorer.y = app.stage.height / 2 - explorer.height / 2;
+        explorer.zIndex = 1;
+        app.stage.addChild(explorer);
+
+        treasure = new Sprite(id['treasure.png']);
+        app.stage.addChild(treasure);
+        treasure.x = app.stage.width - treasure.width - 48;
+        treasure.y = app.stage.height / 2 - treasure.height / 2;
+        treasure.zIndex = 1;
+        app.stage.addChild(treasure);
+
+        door = new Sprite(id['door.png']);
+        door.width = 40;
+        door.height = 40;
+        door.position.set(32, 0, 20, 20);
+        door.zIndex = 1;
+        app.stage.addChild(door);
+
+        let numberOfBlobs = 6,
+          spacing = 48,
+          xOffset = 150;
+
+        //Make as many blobs as there are `numberOfBlobs`
+        for (let i = 0; i < numberOfBlobs; i++) {
+          //Make a blob
+          let blob = new Sprite(id['blob.png']);
+          blob.width = 40;
+          blob.height = 40;
+
+          //Space each blob horizontally according to the `spacing` value.
+          //`xOffset` determines the point from the left of the screen
+          //at which the first blob should be added.
+          let x = spacing * i + xOffset;
+
+          //Give the blob a random y position
+          //(`randomInt` is a custom function - see below)
+          let y = randomInt(0, app.stage.height - blob.height);
+
+          //Set the blob's position
+          blob.x = x;
+          blob.y = y;
+
+          //Add the blob sprite to the stage
+          blob.zIndex = 1;
+          app.stage.addChild(blob);
+          app.ticker.add((delta) => gameLoop(delta));
+        }
+      }
+
+      // function gameLoop(delta, ctrObj) {
+      //   state(delta, ctrObj);
+      // }
+      // function play(delta, ctrObj) {
+      //   //Move the cat 1 pixel
+
+      //   ctrObj.vx = 1;
+      //   ctrObj.vy = 2;
+
+      //   //Apply the velocity values to the cat's
+      //   //position to make it move
+
+      //   ctrObj.y += ctrObj.vy;
+      //   // ctrObj.x = Math.random() > 0.5 ? ctrObj.x + 1 : ctrObj.x - 1;
+      //   ctrObj.x += ctrObj.vx;
+
+      //   //Optionally use the `delta` value
+      //   //cat.x += 1 + delta;
+      // }
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      // 键盘控制
+
+      //Capture the keyboard arrow keys
+      let left = keyboard('ArrowLeft'),
+        up = keyboard('ArrowUp'),
+        right = keyboard('ArrowRight'),
+        down = keyboard('ArrowDown');
+
+      //Left arrow key `press` method
+      left.press = () => {
+        console.log('left press');
+        //Change the cat's velocity when the key is pressed
+        explorer.vx = -5;
+        explorer.vy = 0;
+      };
+
+      //Left arrow key `release` method
+      left.release = () => {
+        //If the left arrow has been released, and the right arrow isn't down,
+        //and the cat isn't moving vertically:
+        //Stop the cat
+        if (!right.isDown && explorer.vy === 0) {
+          explorer.vx = 0;
+        }
+      };
+
+      //Up
+      up.press = () => {
+        explorer.vy = -5;
+        explorer.vx = 0;
+      };
+      up.release = () => {
+        if (!down.isDown && explorer.vx === 0) {
+          explorer.vy = 0;
+        }
+      };
+
+      //Right
+      right.press = () => {
+        explorer.vx = 5;
+        explorer.vy = 0;
+      };
+      right.release = () => {
+        if (!left.isDown && explorer.vy === 0) {
+          explorer.vx = 0;
+        }
+      };
+
+      //Down
+      down.press = () => {
+        explorer.vy = 5;
+        explorer.vx = 0;
+      };
+      down.release = () => {
+        if (!up.isDown && explorer.vx === 0) {
+          explorer.vy = 0;
+        }
+      };
+
+      // //Set the game state
+      // state = play;
+
+      // //Start the game loop
+      // app.ticker.add(delta => gameLoop(delta));
+
+      function gameLoop(delta) {
+        //Update the current game state:
+        state(delta);
+      }
+
+      function play(delta) {
+        //Use the cat's velocity to make it move
+        explorer.x += explorer.vx;
+
+        explorer.y += explorer.vy;
+        //check for a collision between the cat and the box
+        if (hitTestRectangle(explorer, treasure)) {
+          //if there's a collision, change the message text
+          //and tint the box red
+          treasure.visible = false;
+        }
+      }
+
+      let rectangle = new PIXI.Graphics();
+      rectangle.beginFill(0x66ccff);
+      rectangle.lineStyle(4, 0xff3300, 1);
+      rectangle.drawRect(0, 0, 64, 64);
+      rectangle.endFill();
+      rectangle.x = 170;
+      rectangle.y = 170;
+      rectangle.zIndex = 100;
+      app.stage.addChild(rectangle);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+  </head>
+  <body>
+    <script>
+      let app = new PIXI.Application({ width: 640, height: 360 });
+      document.body.appendChild(app.view);
+      const dude = PIXI.Sprite.from('examples/assets/eggHead.png');
+      dude.tint = Math.random() * 0xffffff;
+      dude.anchor.set(0.5);
+      dude.x = Math.random() * app.screen.width;
+      dude.y = Math.random() * app.screen.height;
+      app.stage.addChild(dude);
+    </script>
+  </body>
+</html>

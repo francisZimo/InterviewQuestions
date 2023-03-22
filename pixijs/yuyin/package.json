@@ -1,0 +1,53 @@
+{
+  "name": "after-class-base2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "rawFeCliTemplate": "base-webpack",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "packer dev --env-LINE=proxy --env-ERUDA=true",
+    "dev:debug": "packer dev --env-LINE=proxy  --env-ERUDA=true --debug-servebuild",
+    "build": "packer build",
+    "build:test": "npm run build -- --env-LINE=test --env-ERUDA=true",
+    "build:gray": "npm run build -- --env-LINE=gray",
+    "build:prod": "npm run build -- --env-LINE=prod",
+    "build:upmap": "npm run build -- --postmap",
+    "build:ana": "npm run build -- --ana",
+    "dev:ana": "npm run dev -- --ana",
+    "preview": "packer build  --preview",
+    "lint": "node ./lint-script/index.js",
+    "postinstall": "husky install"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "-": "^0.0.1",
+    "@babel/runtime-corejs3": "^7.18.3",
+    "@xes/web-log": "^1.0.49",
+    "@xes/wxjsbridge": "^1.0.37",
+    "@xes/xes-axios": "^3.1.2",
+    "core-js": "^3.22.8",
+    "eruda": "^2.4.1",
+    "lib-flexible": "^0.3.2",
+    "pixi-filters": "^5.2.0",
+    "pixi.js": "^7.2.0",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.2",
+    "@commitlint/config-conventional": "^17.0.2",
+    "@xes/eslint-plugin-fe": "^2.0.31",
+    "@xes/packer": "^6.1.100",
+    "autoprefixer": "^10.4.7",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.1",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.0",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "typescript": "^4.9.3"
+  }
+}

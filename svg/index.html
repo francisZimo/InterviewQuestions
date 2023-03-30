@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <svg class="box">
+      <path
+        fill="none"
+        stroke="#f40"
+        stroke-width="10"
+        d="M 10,10 h 30
+          m  0,10 h 30
+          m  0,10 h 30
+          M 140,20 h 30
+          "
+      />
+    </svg> -->
+    <!-- <svg>
+      <path
+        fill="none"
+        stroke="red"
+        d="M 10,50
+           Q 25,25 40,50"
+      />
+    </svg> -->
+    <svg stroke-width="5">
+      <!-- 背景圆形 -->
+      <circle cx="150" cy="75" r="50" stroke="#ebeef5" fill="none"></circle>
+
+      <!-- 进度条 -->
+      <circle
+        class="process-circle"
+        cx="150"
+        cy="75"
+        r="50"
+        stroke="#20a0ff"
+        transform="rotate(-90 150 75)"
+        fill="none"
+        stroke-dasharray="314"
+        stroke-dashoffset="157"
+      ></circle>
+    </svg>
+  </body>
+</html>

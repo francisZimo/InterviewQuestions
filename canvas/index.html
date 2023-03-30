@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #countdown {
+        width: 200px;
+        height: 200px;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="countdown" width="200" height="200"></canvas>
+    <script>
+      // 获取canvas元素
+      var canvas = document.getElementById('countdown');
+      var ctx = canvas.getContext('2d');
+
+      // 设置倒计时的总时间和开始时间
+      var totalTime = 60;
+      var startTime = Date.now();
+      var speed = (2 * Math.PI) / (60000 / 50);
+
+      // 设置渐变的颜色
+      var gradient = ctx.createLinearGradient(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+      gradient.addColorStop(0, '#f17171');
+      gradient.addColorStop(0, '#ff0000');
+
+      //   gradient.addColorStop(0, '#ff0000');
+      //   gradient.addColorStop(0.5, '#ffff00');
+      //   gradient.addColorStop(1, '#00ff00');
+
+      var centerX = canvas.width / 2;
+      var centerY = canvas.height / 2;
+      var radius = canvas.width / 2 - 10;
+      var angle = -Math.PI / 2;
+
+      function drawDot() {
+        var x = centerX + radius * Math.cos(angle);
+        var y = centerY + radius * Math.sin(angle);
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.closePath();
+        angle += speed;
+      }
+
+      // 定义一个函数，用于绘制倒计时图形
+      function drawCountdown(remainingTime) {
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制圆形背景
+        ctx.beginPath();
+        ctx.arc(
+          canvas.width / 2,
+          canvas.height / 2,
+          canvas.width / 2 - 10,
+          0,
+          2 * Math.PI
+        );
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = '#eee';
+        ctx.stroke();
+
+        const xRadian =
+          -Math.PI / 2 +
+          ((totalTime - remainingTime) * 2 * Math.PI) / totalTime;
+        // 绘制圆形进度条
+        ctx.beginPath();
+        ctx.arc(
+          canvas.width / 2,
+          canvas.height / 2,
+          canvas.width / 2 - 10,
+          xRadian,
+          -Math.PI / 2,
+          false
+        );
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = gradient;
+        ctx.stroke();
+
+        // 两端圆形
+
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(canvas.width / 2, 10, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 移动圆点
+        // angle = -90 + ((totalTime - remainingTime) * totalTime) / 360;
+        // console.log(angle, '==angle');
+        drawDot();
+
+        // 绘制倒计时文字
+        ctx.font = 'bold 50px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#333';
+        ctx.fillText(
+          Math.floor(remainingTime),
+          canvas.width / 2,
+          canvas.height / 2
+        );
+      }
+
+      // 定义一个函数，用于更新倒计时
+      function updateCountdown() {
+        // 计算当前时间和剩余时间
+        var currentTime = Date.now();
+        var remainingTime = totalTime - (currentTime - startTime) / 1000;
+
+        // 如果剩余时间小于0，停止倒计时
+        if (remainingTime < 0) {
+          clearInterval(intervalId);
+          remainingTime = 0;
+        }
+
+        // 更新倒计时图形
+        drawCountdown(remainingTime);
+      }
+
+      // 初始化倒计时图形
+      drawCountdown(totalTime);
+
+      // 定时更新倒计时
+      var intervalId = setInterval(updateCountdown, 50);
+    </script>
+  </body>
+</html>

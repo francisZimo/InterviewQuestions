@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg class="svg-wrap">
+      <text class="text" x="60" y="75">CLICK HERE</text>
+      <rect class="rect" x="40" y="35" />
+    </svg>
+
+    <style>
+      .svg-wrap {
+        stroke-width: 3px;
+        background-color: black;
+      }
+
+      .rect {
+        height: 60px;
+        width: 220px;
+        stroke: #fff;
+        fill: transparent;
+        stroke-dasharray: 220 60;
+        stroke-dashoffset: 30;
+        stroke-width: 4px;
+      }
+
+      .text {
+        fill: #1287f4;
+        font-size: 30px;
+      }
+
+      .svg-wrap:hover .rect {
+        animation: line-move 5s linear forwards;
+      }
+
+      /* .svg-wrap:hover .text {
+        fill: #fff;
+        transition: all 1s ease-in-out;
+      } */
+
+      @keyframes line-move {
+        0% {
+          stroke-dasharray: 220 60;
+          stroke-dashoffset: -260;
+          stroke-width: 4px;
+          stroke: #e32727;
+        }
+        to {
+          stroke-dasharray: 560;
+          stroke-dashoffset: 0;
+          stroke-width: 2px;
+          stroke: #1234f4;
+        }
+      }
+    </style>
+  </body>
+</html>

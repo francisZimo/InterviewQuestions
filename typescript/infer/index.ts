@@ -22,7 +22,7 @@ const demo = [
   },
 ];
 
-type ElementOfArr<T> = T extends Array<infer U> ? U : never;
+export type ElementOfArr<T> = T extends Array<infer U> ? U : never;
 
 // type ListItem = ElementOfArr<typeof demo>;
 // // {

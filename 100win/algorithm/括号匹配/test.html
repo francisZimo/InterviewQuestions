@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var isValid = function (s) {
+        const map = {
+          '}': '{',
+          ']': '[',
+          ')': '(',
+        };
+        const stack = [];
+        const arr = s.split('');
+        console.log('arr', arr, '==arr');
+        const ln = arr.length;
+        for (let i = 0; i < ln; i++) {
+          const item = arr[i];
+          if (map[item]) {
+            console.log(map[item], '====map[item]');
+            const pop = stack.pop();
+            console.log(arr, '==arr1');
+            console.log(pop, '==pop', map[item]);
+            if (pop !== map[item]) {
+              return false;
+            }
+          } else {
+            console.log('push', item, '==item');
+            stack.push(item);
+          }
+        }
+        return stack.length === 0;
+      };
+      console.log(isValid('[]'));
+    </script>
+  </body>
+</html>

@@ -19,7 +19,7 @@
 //     return stack.length === 0
 // }
 
-var isValid = function (s) {
+export function isValid(s) {
     const map = {
         '}': '{',
         ']': '[',
@@ -27,7 +27,6 @@ var isValid = function (s) {
     }
     const stack = []
     const arr = s.split('')
-    console.log('arr', arr, '==arr')
     const ln = arr.length
     for (let i = 0; i < ln; i++) {
         const item = arr[i]
@@ -36,11 +35,31 @@ var isValid = function (s) {
                 return false
             }
         } else {
-            console.log('push', item, '==item')
             stack.push(item)
         }
     }
     return arr.length === 0
 };
 
-export default isValid;
+export function isValid2(s) {
+    const map = new Map(
+        [
+            ['}', '{'],
+            [']', '['],
+            [')', '(']
+        ]
+    )
+    const arr = s.split('')
+    const ln = arr.length
+    const stack = []
+    for (let i = 0; i < ln; i++) {
+        if (map.has(arr[i])) {
+            if (stack.pop() !== map.get(arr[i])) {
+                return false
+            }
+        } else {
+            stack.push(arr[i])
+        }
+    }
+    return stack.length === 0
+}

@@ -1,13 +1,13 @@
-import {
-    arrayRotate1,
-    arrayRotate2,
-    arrayRotate3
-} from './array-rotate189'
+// import {
+//     arrayRotate1,
+//     arrayRotate2,
+//     arrayRotate3
+// } from './array-rotate189'
 
 import {
-    arrayRoate
+    arrayRoate1
 } from './array-rotate-23year'
-const rotate = arrayRoate
+const rotate = arrayRoate1
 
 describe('数组旋转', () => {
     it('正常情况', () => {

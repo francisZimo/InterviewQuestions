@@ -9,21 +9,42 @@
 //     return end.concat(pre)
 // }
 
-export function arrayRoate(arr, k) {
+// export function arrayRoate1(arr, k) {
+//     const ln = arr.length
+//     if (ln < 2) return arr
+//     k = Math.abs(k % ln)
+//     reverse(arr, 0, ln - 1)
+//     reverse(arr, 0, k - 1)
+//     reverse(arr, k, ln - 1)
+//     return arr
+// }
+
+// function reverse(arr, start, end) {
+//     while (start < end) {
+//         let temp = arr[start]
+//         arr[start++] = arr[end]
+//         arr[end--] = temp
+//     }
+
+// }
+
+// 23/5/22
+
+export function arrayRoate1(arr, k) {
+    console.log('测试开始')
     const ln = arr.length
-    if (ln < 2) return arr
     k = Math.abs(k % ln)
-    reverse(arr, 0, ln - 1)
-    reverse(arr, 0, k - 1)
-    reverse(arr, k, ln - 1)
+    arr.reverse()
+    // reverse1(arr, 0, ln - 1)
+    reverse1(arr, 0, k - 1)
+    reverse1(arr, k, ln - 1)
     return arr
 }
 
-function reverse(arr, start, end) {
+function reverse1(arr, start, end) {
     while (start < end) {
-        let temp = arr[start]
+        const tmp = arr[start]
         arr[start++] = arr[end]
-        arr[end--] = temp
+        arr[end--] = tmp
     }
-
 }

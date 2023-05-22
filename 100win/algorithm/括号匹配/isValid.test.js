@@ -1,5 +1,10 @@
 // import isValid from './isValid'
-import isValid from './isValid-23yead'
+import {
+    isValid as test,
+    isValid2
+} from './isValid-23yead'
+
+const isValid = isValid2
 
 describe('括号匹配', () => {
     it('匹配1', () => {

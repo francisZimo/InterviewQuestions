@@ -1,10 +1,51 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { fabric } from 'fabric';
 
+// const CanvasHistory = fabric.CanvasHistory;
+
+// const rect = new fabric.Rect({
+//   top: 30, // 距离容器顶部 30px
+//   left: 30, // 距离容器左侧 30px
+//   width: 100, // 宽 100px
+//   height: 60, // 高 60px
+//   fill: 'red', // 填充 红色
+// });
+
+// // 在canvas画布中加入矩形（rect）。add是“添加”的意思
+// canvas.add(rect);
+var state = [];
+var mods = 0;
+var canvas: any;
+var currentStep = -1;
+const isOpenDraw = ref(false);
+
 function init() {
-  const canvas = new fabric.Canvas('c'); // 这里传入的是canvas的id
+  canvas = new fabric.Canvas('c', {
+    isDrawingMode: isOpenDraw.value,
+  }); // 这里传入的是canvas的id
+  // 设置画笔颜色
+  canvas.freeDrawingBrush.color = '#11999e';
+  // 设置画笔粗细
+  canvas.freeDrawingBrush.width = 10;
+  canvas.on(
+    'object:modified',
+    function () {
+      console.log('modified');
+      updateModifications(true);
+    },
+    'object:added',
+    function () {
+      console.log('added');
+      updateModifications(true);
+    }
+  );
+  // 引入CanvasHistory类并创建history对象
   // const c1=new fabric.
+
+  // 创建波浪线路径
+  // 给canvas添加监听器
+
   // 创建一个长方形
   const rect = new fabric.Rect({
     top: 30, // 距离容器顶部 30px
@@ -16,39 +57,56 @@ function init() {
 
   // 在canvas画布中加入矩形（rect）。add是“添加”的意思
   canvas.add(rect);
-  // 创建波浪线路径
-  var path = 'M0,150 Q30,200 70,150 T150,150';
-  var wave = new fabric.Path(path, {
-    stroke: 'blue',
-    strokeWidth: 3,
-    fill: '',
-  });
-
-  // window.fabric.canvas.add(wave);
-  canvas.add(wave);
-  wave.set({ top: 50, left: 50 }).setCoords();
-
-  // 创建动画效果
-  var angle = 0;
-  function animate() {
-    // 计算波浪线顶点位置
-    var points = wave.path;
-    for (var i = 1; i < points.length - 1; i += 2) {
-      points[i].y = 150 + Math.sin(angle + ((i - 1) / 2) * 0.2) * 25;
-    }
-    wave.path = points;
-    wave.setCoords();
-
-    // 更新角度值
-    angle += 0.05;
-
-    // 重绘canvas
-    canvas.renderAll();
-
-    // 启动下一帧动画
-    requestAnimationFrame(animate);
+  updateModifications(true);
+}
+function updateModifications(savehistory: boolean) {
+  // if (savehistory === true) {
+  //   const myjson = JSON.stringify(canvas);
+  //   state.push(myjson);
+  //   console.log(state, '==save', mods);
+  // }
+  var obj = JSON.stringify(canvas.toObject());
+  state.push(obj);
+  console.log(obj, '===save');
+  currentStep++;
+}
+function redo() {
+  console.log('redo');
+  // if (mods > 0) {
+  //   canvas.clear().renderAll();
+  //   canvas.loadFromJSON(state[state.length - 1 - mods + 1]);
+  //   canvas.renderAll();
+  //   //console.log("geladen " + (state.length-1-mods+1));
+  //   mods -= 1;
+  //   console.log('state ' + state.length);
+  //   console.log('mods ' + mods);
+  // }
+  if (currentStep < state.length - 1) {
+    currentStep++;
+    console.log(state, '===redo', currentStep);
+    canvas.loadFromJSON(state[currentStep], function () {
+      canvas.renderAll();
+    });
   }
-  animate();
+}
+function undo() {
+  console.log('undo');
+  // if (mods < state.length) {
+  //   canvas.clear().renderAll();
+  //   canvas.loadFromJSON(state[state.length - 1 - mods - 1]);
+  //   canvas.renderAll();
+  //   console.log('geladen ' + (state.length - 1 - mods - 1));
+  //   console.log('state ' + state.length);
+  //   mods += 1;
+  //   console.log('mods ' + mods);
+  // }
+  if (currentStep > 0) {
+    currentStep--;
+    console.log(state, '===undo', currentStep);
+    canvas.loadFromJSON(state[currentStep], function () {
+      canvas.renderAll();
+    });
+  }
 }
 
 // 需要在页面容器加载完才能开始初始化（页面加载完才找到 canvas 元素）
@@ -57,6 +115,18 @@ function init() {
 onMounted(() => {
   init(); // 执行初始化函数
 });
+
+const handleRedo = () => {
+  redo();
+};
+const handleUndo = () => {
+  undo();
+};
+
+const handleDraw = () => {
+  isOpenDraw.value = !isOpenDraw.value;
+  canvas.isDrawingMode = isOpenDraw.value;
+};
 </script>
 
 <template>
@@ -66,6 +136,9 @@ onMounted(() => {
     id="c"
     style="border: 1px solid #ccc"
   ></canvas>
+  <button @click="handleUndo">undo</button>
+  <button @click="handleRedo">redo</button>
+  <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
 </template>
 
 <style scoped>

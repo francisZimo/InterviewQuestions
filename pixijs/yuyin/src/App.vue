@@ -1,16 +1,13 @@
 <template>
-  <div>语音测试</div>
-  <div class="con-wrapper" ref="conDom" v-html="testCon"></div>
   <div class="btn" @click="handleRoute('bowen')">波纹</div>
   <div class="btn" @click="handleRoute('game')">游戏</div>
+  <div class="btn" @click="handleRoute('base')">基础</div>
   <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-const conDom: Ref<HTMLDivElement | null> = ref(null);
-const testCon: Ref<string> = ref('');
 
 const router = useRouter();
 

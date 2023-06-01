@@ -6,7 +6,6 @@
 import { ref, Ref, onMounted } from 'vue';
 import * as PIXI from 'pixi.js';
 import { ShockwaveFilter } from 'pixi-filters';
-import { appendToMemberExpression } from '@babel/types';
 const conDom: Ref<HTMLDivElement | null> = ref(null);
 
 onMounted(() => {

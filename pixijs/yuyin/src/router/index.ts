@@ -8,6 +8,8 @@ const AboutPage = () => import('@src/pages/AboutPage.vue');
 const NotFound = () => import('@src/pages/not-found/index.vue');
 const BoWen = () => import('@src/pages/bolang/index.vue');
 const Dragon = () => import('@src/pages/game/index.vue');
+const Base = () => import('@src/pages/base/index.vue');
+const Mask = () => import('@src/pages/base/mask/index.vue');
 
 const routes = [
   {
@@ -21,6 +23,16 @@ const routes = [
   {
     path: '/game',
     component: Dragon
+  },
+  {
+    path: '/base',
+    component: Base,
+    children: [
+      {
+        path: 'mask',
+        component: Mask
+      }
+    ]
   }
 ];
 

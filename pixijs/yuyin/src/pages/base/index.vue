@@ -1,6 +1,8 @@
 <template>
   <div class="child-opt">
     <button class="btn" @click="handleRoute('mask')">mask</button>
+    <button class="btn" @click="handleRoute('spine')">spine</button>
+    <button class="btn" @click="handleRoute('spine2')">spine2</button>
   </div>
 
   <router-view></router-view>

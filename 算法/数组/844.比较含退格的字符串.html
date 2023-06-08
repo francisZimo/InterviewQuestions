@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      给定 s 和 t
+      两个字符串，当它们分别被输入到空白的文本编辑器后，如果两者相等，返回 true
+      。# 代表退格字符。 注意：如果对空文本输入退格字符，文本继续为空。
+    </p>
+    <p>输入：s = "ab##", t = "c#d#" 输出：true 解释：s 和 t 都会变成 ""。</p>
+    <script>
+      // 栈
+      var backspaceCompare = function (s, t) {
+        let s1 = [],
+          t1 = [];
+        for (let i = 0; i < s.length; i++) {
+          if (s[i] !== '#') {
+            s1.push(s[i]);
+          } else {
+            s1.pop();
+          }
+        }
+        for (let i = 0; i < t.length; i++) {
+          if (t[i] !== '#') {
+            t1.push(t[i]);
+          } else {
+            t1.pop();
+          }
+        }
+        return s1.join('') === t1.join('');
+      };
+
+      var backspaceCompare = function (s, t) {};
+      // 快慢指针
+    </script>
+  </body>
+</html>

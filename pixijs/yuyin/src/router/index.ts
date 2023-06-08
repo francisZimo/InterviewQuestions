@@ -10,6 +10,8 @@ const BoWen = () => import('@src/pages/bolang/index.vue');
 const Dragon = () => import('@src/pages/game/index.vue');
 const Base = () => import('@src/pages/base/index.vue');
 const Mask = () => import('@src/pages/base/mask/index.vue');
+const Spine = () => import('@src/pages/base/spine/index.vue');
+const Spine2 = () => import('@src/pages/base/spine-2/index.vue');
 
 const routes = [
   {
@@ -31,6 +33,14 @@ const routes = [
       {
         path: 'mask',
         component: Mask
+      },
+      {
+        path: 'spine',
+        component: Spine
+      },
+      {
+        path: 'spine2',
+        component: Spine2
       }
     ]
   }

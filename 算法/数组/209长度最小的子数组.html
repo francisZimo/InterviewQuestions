@@ -30,8 +30,27 @@
         }
         return min === Infinity ? 0 : subLength;
       };
+
+      var minSubArrayLen = function (target, nums) {
+        let left = 0;
+        let right = 0;
+        let sum = 0;
+        let subLength = 0;
+        let res = Infinity;
+        while (right < nums.length) {
+          sum += nums[right];
+          while (sum >= target) {
+            sum -= nums[left];
+            subLength = right - left + 1;
+            res = Math.min(res, subLength);
+            left++;
+          }
+          right++;
+        }
+        return res === Infinity ? 0 : res;
+      };
       const array = [2, 3, 1, 2, 4, 3];
-      const target = 30;
+      const target = 3;
       console.log(minSubArrayLen(target, array), '==最小');
     </script>
   </body>

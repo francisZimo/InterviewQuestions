@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>与54 同理</p>
+    <p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。</p>
+    输入：matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出：[1,2,3,6,9,8,7,4,5]
+    <script>
+      function spiralOrder(matrix) {
+        const ln = matrix.length;
+        let loop = (ln / 2) >> 0;
+        let startX = (startY = 0);
+        let offset = 1;
+        let res = [];
+        const mid = ln % 2;
+        while (loop--) {
+          let row = startX;
+          let col = startY;
+          while (col < startY + ln - offset) {
+            res.push(matrix[row][col++]);
+          }
+          while (row < startX + ln - offset) {
+            res.push(matrix[row++][col]);
+          }
+          while (col > startY) {
+            res.push(matrix[row][col--]);
+          }
+          while (row > startX) {
+            res.push(matrix[row--][col]);
+          }
+        }
+        if (mid === 1) {
+          res.push(matrix[mid][mid]);
+        }
+        return res;
+      }
+      const arr = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      console.log('offer', spiralOrder(arr));
+    </script>
+  </body>
+</html>

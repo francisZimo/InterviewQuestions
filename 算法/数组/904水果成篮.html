@@ -53,7 +53,30 @@
         }
         return res;
       };
-      const arr = [0, 0, 1, 0, 0, 1, 1, 2];
+
+      var totalFruit = function (fruits) {
+        let left = (right = 0);
+        let res = -Infinity;
+        const valueMap = new Map();
+        while (right < fruits.length) {
+          const item = fruits[right];
+          valueMap.set(item, valueMap.has(item) ? valueMap.get(item) + 1 : 1);
+          while (valueMap.size > 2) {
+            const leftItem = fruits[left];
+            valueMap.set(leftItem, valueMap.get(leftItem) - 1);
+            if (valueMap.get(leftItem) === 0) {
+              valueMap.delete(leftItem);
+            }
+            left++;
+          }
+          const subLen = right - left + 1;
+          res = Math.max(res, subLen);
+          right++;
+        }
+        return res;
+      };
+
+      const arr = [0, 0, 1, 1, 2];
       console.log(totalFruit(arr), '===ceshi');
     </script>
   </body>

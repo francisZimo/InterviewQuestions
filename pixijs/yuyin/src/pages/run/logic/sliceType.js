@@ -1,4 +1,4 @@
-function SliceType() {}
+export default function SliceType() {}
 
 SliceType.FRONT = 0;
 SliceType.BACK = 1;

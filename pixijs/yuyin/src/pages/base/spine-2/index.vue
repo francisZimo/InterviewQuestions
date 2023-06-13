@@ -22,7 +22,7 @@ onMounted(() => {
   function onAssetsLoaded(dragonAsset) {
     console.log(dragonAsset, '===dragonAsset');
     const person = new Spine(dragonAsset.spineData);
-    person.position.set(300, 500);
+    person.position.set(100, 500);
     app.stage.addChild(person);
 
     person.state.setAnimation(0, 'angry_sender_0', true);

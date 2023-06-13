@@ -2,13 +2,14 @@
   <div class="btn" @click="handleRoute('bowen')">波纹</div>
   <div class="btn" @click="handleRoute('game')">游戏</div>
   <div class="btn" @click="handleRoute('base')">基础</div>
+  <div class="btn" @click="handleRoute('run')">run</div>
+
   <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
 const router = useRouter();
 
 const handleRoute = (params: string) => {

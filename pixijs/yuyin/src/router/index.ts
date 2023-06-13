@@ -4,19 +4,22 @@ import { createRouter, createWebHashHistory } from 'vue-router';
  * 这里尽量使用懒加载方式去写
  */
 const HomePage = () => import('@src/pages/home/index.vue');
-const AboutPage = () => import('@src/pages/AboutPage.vue');
-const NotFound = () => import('@src/pages/not-found/index.vue');
 const BoWen = () => import('@src/pages/bolang/index.vue');
 const Dragon = () => import('@src/pages/game/index.vue');
 const Base = () => import('@src/pages/base/index.vue');
 const Mask = () => import('@src/pages/base/mask/index.vue');
 const Spine = () => import('@src/pages/base/spine/index.vue');
 const Spine2 = () => import('@src/pages/base/spine-2/index.vue');
+const Run = () => import('@src/pages/run/index.vue');
 
 const routes = [
   {
     path: '/',
     component: HomePage
+  },
+  {
+    path: '/run',
+    component: Run
   },
   {
     path: '/bowen',

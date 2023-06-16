@@ -1,7 +1,9 @@
 import * as PIXI from 'pixi.js';
 import Scroller from './scroll';
 import SpineBody from './spine';
-export default class Main {
+import Score from './score'
+class Main {
+
     static SCROLL_SPEED = 5;
     static MAX_SCROLL_SPEED = 15;
     static SCROLL_ACCELERATION = 0.005;
@@ -12,24 +14,26 @@ export default class Main {
             height: 384,
             backgroundColor: 'rgba(0,0,0,1)'
         });
+        this.app = app;
         app.stage.interactive = true;
-        const container = new PIXI.Container({
+        const gameContainer = new PIXI.Container({
             width: 512,
             height: 384,
         });
-        container.position.x = 0;
-        container.position.y = 0;
-        container.interactive = true
-        container.sortableChildren = true;
-        this.container = container;
-        app.stage.addChild(container);
-
+        this.bullets = []
+        this.score = 0; // 分数
+        gameContainer.position.x = 0;
+        gameContainer.position.y = 0;
+        gameContainer.interactive = true
+        gameContainer.sortableChildren = true;
+        this.gameContainer = gameContainer;
+        app.stage.addChild(gameContainer);
         dom.appendChild(app.view)
-        this.app = app;
         this.loadSpriteSheet();
 
 
     }
+
 
     loadSpriteSheet() {
         var loader = PIXI.Assets;
@@ -48,12 +52,25 @@ export default class Main {
 
     spriteSheetLoaded() {
         console.log('加载完毕')
-        const scroller = new Scroller(this.container);
-        this.spineBody = new SpineBody(this.container)
-
+        const scroller = new Scroller(this.gameContainer);
+        this.spineBody = new SpineBody(this.gameContainer, this.app)
+        this.scoreBoard = new Score(this.app)
         this.app.ticker.add(() => {
             scroller.moveViewportXBy(Main.SCROLL_SPEED);
+            this.scoreBoard.updateScore(this.score)
         })
     }
 
 }
+
+function createGame() {
+    let game;
+    return (dom = document.body) => {
+        if (!game) {
+            game = new Main(dom)
+        }
+        return game
+    }
+}
+
+export default createGame()

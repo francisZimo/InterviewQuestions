@@ -9,7 +9,7 @@ import Main from './logic/main.js';
 const conDom: Ref<HTMLElement | null> = ref(null);
 
 onMounted(() => {
-  new Main(conDom.value);
+  Main(conDom.value);
 });
 </script>
 

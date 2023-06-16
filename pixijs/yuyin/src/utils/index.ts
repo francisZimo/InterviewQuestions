@@ -5,3 +5,4 @@ export * from './common';
 export * from './jsBridge';
 export * from './validate';
 export * from './dom';
+export * from './pixiTools';

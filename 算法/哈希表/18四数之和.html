@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      题意：给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums
+      中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target
+      相等？找出所有满足条件且不重复的四元组。 注意：
+      答案中不可以包含重复的四元组。 示例： 给定数组 nums = [1, 0, -1, 0, -2,
+      2]，和 target = 0。 满足要求的四元组集合为： [ [-1, 0, 0, 1], [-2, -1, 1,
+      2], [-2, 0, 0, 2] ] #
+    </p>
+    <script>
+      var fourSum = function (nums, target) {
+        nums.sort((a, b) => a - b);
+        const res = [];
+        const ln = nums.length;
+        if (ln < 4) return res;
+        for (let i = 0; i < ln - 3; i++) {
+          const item1 = nums[i];
+          if (item1 > target && (nums[i] >= 0 || target >= 0)) return res; //剪枝
+          if (i > 0 && item1 === nums[i - 1]) continue;
+          for (let j = i + 1; j < ln - 2; j++) {
+            const item2 = nums[j];
+            if (j > i + 1 && item2 === nums[j - 1]) continue;
+            let L = j + 1;
+            let R = ln - 1;
+            while (L < R) {
+              const sum = item1 + item2 + nums[L] + nums[R];
+              if (sum < target) {
+                L++;
+              } else if (sum > target) {
+                R--;
+              } else {
+                res.push([item1, item2, nums[L], nums[R]]);
+                while (L < R && nums[L] === nums[L + 1]) {
+                  L++;
+                }
+                while (L < R && nums[R] === nums[R - 1]) {
+                  R--;
+                }
+                L++;
+                R--;
+              }
+            }
+          }
+        }
+        return res;
+      };
+
+      const nums = [1, 0, -1, 0, -2, 2];
+      const res = fourSum(nums, 0);
+      console.log(res, '===cc');
+    </script>
+  </body>
+</html>

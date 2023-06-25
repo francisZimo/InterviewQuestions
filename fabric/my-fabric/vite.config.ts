@@ -1,7 +1,14 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+// 本地服务器配置
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 3000,
+    open: true,
+    host: true,
+  },
   plugins: [vue()],
-})
+});

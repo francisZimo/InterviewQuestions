@@ -1,3 +1,16 @@
+<template>
+  <canvas
+    width="400"
+    height="400"
+    id="c"
+    style="border: 1px solid #ccc"
+  ></canvas>
+  <button @click="handleUndo">undo</button>
+  <button @click="handleRedo">redo</button>
+  <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
+  <button @click="handleInput">输入文字</button>
+</template>
+
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { fabric } from 'fabric';
@@ -24,6 +37,25 @@ function init() {
   canvas = new fabric.Canvas('c', {
     isDrawingMode: isOpenDraw.value,
   }); // 这里传入的是canvas的id
+
+  const cursorUrl = 'https://ossrs.net/wiki/images/figma-cursor.png';
+  canvas.defaultCursor = `url(" ${cursorUrl} "), auto`;
+  canvas.hoverCursor = `url(" ${cursorUrl} "), auto`;
+  canvas.moveCursor = `url(" ${cursorUrl} "), auto`;
+  // canvas.defaultCursor = `pointer`;
+  // canvas.hoverCursor = `pointer`;
+  // canvas.moveCursor = `pointer`;
+
+  window.addEventListener('mousedown', function (e) {
+    var objectsList = canvas.getObjects();
+    var iTextsList = objectsList.filter(function (object) {
+      return object instanceof fabric.IText;
+    });
+    iTextsList.forEach(function (iText) {
+      iText.exitEditing();
+    });
+  });
+
   // 设置画笔颜色
   canvas.freeDrawingBrush.color = '#11999e';
   // 设置画笔粗细
@@ -60,11 +92,6 @@ function init() {
   updateModifications(true);
 }
 function updateModifications(savehistory: boolean) {
-  // if (savehistory === true) {
-  //   const myjson = JSON.stringify(canvas);
-  //   state.push(myjson);
-  //   console.log(state, '==save', mods);
-  // }
   var obj = JSON.stringify(canvas.toObject());
   state.push(obj);
   console.log(obj, '===save');
@@ -72,15 +99,6 @@ function updateModifications(savehistory: boolean) {
 }
 function redo() {
   console.log('redo');
-  // if (mods > 0) {
-  //   canvas.clear().renderAll();
-  //   canvas.loadFromJSON(state[state.length - 1 - mods + 1]);
-  //   canvas.renderAll();
-  //   //console.log("geladen " + (state.length-1-mods+1));
-  //   mods -= 1;
-  //   console.log('state ' + state.length);
-  //   console.log('mods ' + mods);
-  // }
   if (currentStep < state.length - 1) {
     currentStep++;
     console.log(state, '===redo', currentStep);
@@ -91,15 +109,6 @@ function redo() {
 }
 function undo() {
   console.log('undo');
-  // if (mods < state.length) {
-  //   canvas.clear().renderAll();
-  //   canvas.loadFromJSON(state[state.length - 1 - mods - 1]);
-  //   canvas.renderAll();
-  //   console.log('geladen ' + (state.length - 1 - mods - 1));
-  //   console.log('state ' + state.length);
-  //   mods += 1;
-  //   console.log('mods ' + mods);
-  // }
   if (currentStep > 0) {
     currentStep--;
     console.log(state, '===undo', currentStep);
@@ -125,21 +134,52 @@ const handleUndo = () => {
 
 const handleDraw = () => {
   isOpenDraw.value = !isOpenDraw.value;
+  3;
   canvas.isDrawingMode = isOpenDraw.value;
+  canvas.freeDrawingCursor =
+    'url("https://ossrs.net/wiki/images/figma-cursor.png"), auto';
+  // setTimeout(() => {
+  //   console.log('==cccc');
+  //   // canvas.hoverCursor = 'pointer';
+  //   const cursorUrl = 'https://ossrs.net/wiki/images/figma-cursor.png';
+  //   canvas.defaultCursor = `url(" ${cursorUrl} "), auto`;
+  //   canvas.hoverCursor = `url(" ${cursorUrl} "), auto`;
+  //   canvas.moveCursor = `url(" ${cursorUrl} "), auto`;
+  // }, 2000);
+};
+
+const handleInput = () => {
+  const text = new fabric.IText('', {
+    left: 100,
+    top: 100,
+    fontFamily: 'Comic Sans',
+  });
+  canvas.add(text);
+  text.enterEditing();
+
+  // text.onDeselect = () => {
+  //   console.log('onDeselected');
+  // };
+
+  // // 画布处于失活状态监听
+  // text.on('deselected', function (options) {
+  //   console.log('deselected', options);
+  //   // console.log(text.text);
+  //   // canvas.remove(text);
+  //   // canvas.add(text);
+  //   // canvas.renderAll();
+  // });
+
+  // // 失活编辑状态监听
+  // text.on('editing:exited', function (options) {
+  //   console.log('editing:exited', options);
+  // });
+
+  // setTimeout(() => {
+  //   text.exitEditing();
+  // }, 10000);
 };
 </script>
-
-<template>
-  <canvas
-    width="400"
-    height="400"
-    id="c"
-    style="border: 1px solid #ccc"
-  ></canvas>
-  <button @click="handleUndo">undo</button>
-  <button @click="handleRedo">redo</button>
-  <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
-</template>
 
 <style scoped>
 .logo {

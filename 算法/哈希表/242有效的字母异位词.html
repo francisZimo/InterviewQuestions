@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var isAnagram = function (s, t) {
+        if (s.length !== t.length) return false;
+        const resSet = new Array(26).fill(0);
+        const base = 'a'.charCodeAt();
+        for (const i of s) {
+          resSet[i.charCodeAt() - base]++;
+        }
+        console.log(resSet, '==resSet');
+        for (const i of t) {
+          console.log(resSet[i.charCodeAt() - base], '==t');
+          if (!resSet[i.charCodeAt() - base]) return false;
+          console.log(i.charCodeAt(), '==charCode');
+          resSet[i.charCodeAt() - base]--;
+        }
+        return true;
+      };
+
+      var isAnagram1 = function (s, t) {
+        if (s.length !== t.length) {
+          return false;
+        }
+        const resAry = new Array(26);
+      };
+
+      var isAnagram = function (s, t) {
+        if (s.length !== t.length) return false;
+        const sMap = {};
+        const tMap = {};
+        for (let i = 0; i < s.length; i++) {
+          if (sMap[s[i]]) {
+            sMap[s[i]]++;
+          } else {
+            sMap[s[i]] = 1;
+          }
+        }
+
+        for (let i = 0; i < t.length; i++) {
+          if (tMap[t[i]]) {
+            tMap[t[i]]++;
+          } else {
+            tMap[t[i]] = 1;
+          }
+        }
+        const newS = sort(sMap);
+        const newT = sort(tMap);
+
+        console.log(JSON.stringify(newS), JSON.stringify(newT), 'ppp');
+        if (JSON.stringify(newS) === JSON.stringify(newT)) {
+          return true;
+        }
+        return false;
+      };
+
+      var sort = function (obj) {
+        let keys = Object.keys(obj).sort();
+        console.log(keys);
+        const newObj = {};
+        keys.forEach((key) => {
+          newObj[key] = obj[key];
+        });
+        return newObj;
+      };
+
+      var isAnagram = (s, t) => {
+        const res = new Array(26).fill(0);
+        const base = 'a'.charCodeAt();
+        for (const i of s) {
+          res[i.charCodeAt() - base]++;
+        }
+        for (const i of t) {
+          res[i.charCodeAt() - base]--;
+        }
+        for (let i = 0; i < res.length; i++) {
+          if (res[i] !== 0) {
+            return false;
+          }
+        }
+        return true;
+      };
+      let s = 'aee';
+      let t = 'eae';
+      console.log(isAnagram(s, t), '==sss');
+      // var isAnagram = function(s, t) {
+      //     if(s.length !== t.length) return false;
+      //     const sMap={}
+      //     const tMap={}
+      //     for(let i=0;i<s.length;i++){
+      //         if(sMap[s[i]]){
+      //             sMap[s[i]]++
+      //         }else{
+      //             sMap[s[i]]=1
+      //         }
+      //     }
+      //     for(let i=0;i<t.length;i++){
+      //         if(tMap[t[i]]){
+      //             tMap[t[i]]++
+      //         }else{
+      //             tMap[t[i]]=1
+      //         }
+      //     }
+      //     if(JSON.stringify(sMap)===JSON.stringify(tMap)){
+      //         return true
+      //     }
+      //     return false
+      // }
+    </script>
+  </body>
+</html>

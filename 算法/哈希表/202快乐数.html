@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        var isHappy=function(n){
-            let set=new Set()
-            while(n!==1&&!set.has(n)){
-                set.add(n)
-                n=getN(n)
-                console.log(n,'=n',set)
+      // var isHappy = function (n) {
+      //   let set = new Set();
+      //   while (n !== 1 && !set.has(n)) {
+      //     set.add(n);
+      //     n = getN(n);
+      //     console.log(n, '=n', set);
+      //   }
+      //   return n === 1;
+      // };
 
-            }
-            return n===1
-        }
+      // var getN = (n) => {
+      //   let sum = 0;
+      //   while (n) {
+      //     sum += (n % 10) * (n % 10);
+      //     n = parseInt(n / 10);
+      //   }
+      //   return sum;
+      // };
 
-        var getN=(n)=>{
-            let sum=0;
-            while(n){
-                sum+=(n%10)*(n%10)
-                n=parseInt(n/10)
-            }
-            return sum
+      const isHappy2 = (num) => {
+        while (true) {
+          if (num === 1) return true;
+          if (set.has(num)) return false;
+          set.add(num);
+          num = getSum(num);
         }
-        console.log(isHappy(2))
+      };
+      const getSum = (num) => {
+        let sum = 0;
+        while (num) {
+          sum += (num % 10) * (num % 10);
+          num = (num / 10) >> 0;
+        }
+        return sum;
+      };
+
+      console.log(isHappy(2));
+      console.log(isHappy2(19));
     </script>
-</body>
+  </body>
 </html>

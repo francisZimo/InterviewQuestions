@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>两个数组的交集：</p>
+    <p>nums1=[1,2,3] nums2=[3,4,2]</p>
+    <script>
+      var intersection = (num1, num2) => {
+        const set1 = new Set(num1);
+        const set2 = new Set(num2);
+        const res = [];
+        for (const num of set1) {
+          if (set2.has(num)) {
+            res.push(num);
+          }
+        }
+        return res;
+      };
+
+      // 简化版本
+      var intersection1 = (num1, num2) => {
+        return Array.from(new Set(num1)).filter((item) =>
+          new Set(num2).has(item)
+        );
+      };
+
+      const num1 = [1, 2, 3];
+      const num2 = [3, 4, 2];
+      const res = intersection1(num1, num2);
+      console.log(res, '==res');
+    </script>
+  </body>
+</html>

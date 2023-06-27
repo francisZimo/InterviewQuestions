@@ -52,9 +52,63 @@
         }
         return res;
       };
+      var fourSum2 = function (nums, target) {
+        nums.sort((a, b) => a - b);
+        const res = [];
+        const len = nums.length;
+        if (len < 4) return res;
+        for (let i = 0; i < len - 3; i++) {
+          const item1 = nums[i];
 
+          if (item1 > target && (nums[i] >= 0 || target >= 0)) return res; //剪枝
+          if (i > 0 && item1 === nums[i - 1]) continue;
+          for (let j = i + 1; j < len - 2; j++) {
+            const item2 = nums[j];
+            if (j > i + 1 && nums[j - 1] === item2) continue;
+            let L = j + 1;
+            let R = len - 1;
+            while (L < R) {
+              const sum = item1 + item2 + nums[L] + nums[R];
+              if (sum < target) {
+                L++;
+              } else if (sum > target) {
+                R--;
+              } else {
+                res.push([item1, item2, nums[L], nums[R]]);
+                while (L < R && nums[L] === nums[L + 1]) {
+                  L++;
+                }
+                while (L < R && nums[R] === nums[R - 1]) {
+                  R--;
+                }
+                L++;
+                R--;
+              }
+            }
+            // while (L < R) {
+            //   const sum = item1 + item2 + nums[L] + nums[R];
+            //   if (sum < target) {
+            //     L++;
+            //   } else if (sum > target) {
+            //     R--;
+            //   } else {
+            //     res.push([item1, item2, nums[L], nums[R]]);
+            //     while (L < R && nums[L] === nums[L + 1]) {
+            //       L++;
+            //     }
+            //     while (L < R && nums[R] === nums[R - 1]) {
+            //       R--;
+            //     }
+            //     L++;
+            //     R--;
+            //   }
+            // }
+          }
+        }
+        return res;
+      };
       const nums = [1, 0, -1, 0, -2, 2];
-      const res = fourSum(nums, 0);
+      const res = fourSum2(nums, 0);
       console.log(res, '===cc');
     </script>
   </body>

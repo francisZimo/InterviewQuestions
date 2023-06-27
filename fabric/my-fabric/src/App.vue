@@ -9,11 +9,22 @@
   <button @click="handleRedo">redo</button>
   <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
   <button @click="handleInput">输入文字</button>
+  <button @click="handleClip">裁剪排除背景图</button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { fabric } from 'fabric';
+import bg from './image.png';
+
+const download = (fileStr: any, filename = `name${new Date().getTime()}`) => {
+  const anchorEl = document.createElement('a');
+  anchorEl.href = fileStr;
+  anchorEl.download = filename;
+  document.body.appendChild(anchorEl); // required for firefox
+  anchorEl.click();
+  anchorEl.remove();
+};
 
 // const CanvasHistory = fabric.CanvasHistory;
 
@@ -30,14 +41,18 @@ import { fabric } from 'fabric';
 var state = [];
 var mods = 0;
 var canvas: any;
+var copyCanvas: any;
 var currentStep = -1;
 const isOpenDraw = ref(false);
 
 function init() {
-  canvas = new fabric.Canvas('c', {
+  copyCanvas = canvas = new fabric.Canvas('c', {
     isDrawingMode: isOpenDraw.value,
   }); // 这里传入的是canvas的id
 
+  // const bgUrl = 'http://img.daimg.com/uploads/allimg/210916/3-210916110348.jpg';
+
+  canvas.setBackgroundImage(bg, canvas.renderAll.bind(canvas));
   const cursorUrl = 'https://ossrs.net/wiki/images/figma-cursor.png';
   canvas.defaultCursor = `url(" ${cursorUrl} "), auto`;
   canvas.hoverCursor = `url(" ${cursorUrl} "), auto`;
@@ -85,6 +100,7 @@ function init() {
     width: 100, // 宽 100px
     height: 60, // 高 60px
     fill: 'red', // 填充 红色
+    // excludeFromExport: true,
   });
 
   // 在canvas画布中加入矩形（rect）。add是“添加”的意思
@@ -106,6 +122,28 @@ function redo() {
       canvas.renderAll();
     });
   }
+}
+
+function handleClip() {
+  copyCanvas.backgroundImage.excludeFromExport = true;
+  console.log(copyCanvas.toObject(), '===canvas222');
+  console.log(copyCanvas, '===canvas', canvas.backgroundImage);
+  console.log(copyCanvas.toDataURL, '===cccxx');
+
+  var tempCanvas = new fabric.Canvas();
+  tempCanvas.loadFromJSON(copyCanvas.toJSON());
+
+  var pngDataUrl = tempCanvas.toDataURL({
+    format: 'png',
+    quality: 1,
+    crossOrigin: 'Anonymous',
+    excludeFromExport: function (object) {
+      console.log(object, '===遍历');
+      return object.excludeFromExport === true; // 只导出 excludeFromExport 为 false 或未设置的对象
+    },
+  });
+  tempCanvas.dispose();
+  download(pngDataUrl);
 }
 function undo() {
   console.log('undo');

@@ -1,10 +1,13 @@
 <template>
-  <canvas
-    width="400"
-    height="400"
-    id="c"
-    style="border: 1px solid #ccc"
-  ></canvas>
+  <div class="wrapper">
+    <canvas
+      width="500"
+      height="500"
+      id="c"
+      style="border: 1px solid #ccc"
+    ></canvas>
+  </div>
+
   <button @click="handleUndo">undo</button>
   <button @click="handleRedo">redo</button>
   <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
@@ -16,6 +19,7 @@
 import { onMounted, ref } from 'vue';
 import { fabric } from 'fabric';
 import bg from './image.png';
+import demo from './09.png';
 
 const download = (fileStr: any, filename = `name${new Date().getTime()}`) => {
   const anchorEl = document.createElement('a');
@@ -49,6 +53,26 @@ function init() {
   copyCanvas = canvas = new fabric.Canvas('c', {
     isDrawingMode: isOpenDraw.value,
   }); // 这里传入的是canvas的id
+
+  // canvas.rotate = Math.PI / 2;
+  // canvas.rotate = 45;
+  // canvas.requestRenderAll();
+  console.log('init');
+
+  const rect1 = new fabric.Rect({
+    left: 100,
+    top: 100,
+    width: 100,
+    height: 100,
+    fill: 'red',
+  });
+
+  // 设置矩形动画
+  rect1.animate('angle', '-50', {
+    onChange: canvas.renderAll.bind(canvas), // 每次刷新的时候都会执行
+  });
+
+  canvas.add(rect1);
 
   // const bgUrl = 'http://img.daimg.com/uploads/allimg/210916/3-210916110348.jpg';
 
@@ -131,19 +155,34 @@ function handleClip() {
   console.log(copyCanvas.toDataURL, '===cccxx');
 
   var tempCanvas = new fabric.Canvas();
-  tempCanvas.loadFromJSON(copyCanvas.toJSON());
+  // console.log(tempCanvas.width, '==??width');
 
-  var pngDataUrl = tempCanvas.toDataURL({
-    format: 'png',
-    quality: 1,
-    crossOrigin: 'Anonymous',
-    excludeFromExport: function (object) {
-      console.log(object, '===遍历');
-      return object.excludeFromExport === true; // 只导出 excludeFromExport 为 false 或未设置的对象
-    },
+  tempCanvas.loadFromJSON(copyCanvas.toJSON(), function () {
+    console.log('加载完毕');
+    // 为什么不是整个画布
+    // 设置tempCanvas的宽高
+    tempCanvas.width = copyCanvas.width;
+    tempCanvas.height = copyCanvas.height;
+    console.log(tempCanvas, '===sss');
+
+    var pngDataUrl = tempCanvas.toDataURL({
+      format: 'png',
+      quality: 1,
+    });
+
+    // tempCanvas.width = copyCanvas.width;
+    // tempCanvas.height = copyCanvas.height;
+
+    // tempCanvas.loadFromJSON(copyCanvas.toJSON());
+    // var pngDataUrl = tempCanvas.toDataURL({
+    //   format: 'png',
+    //   quality: 1,
+    // });
+    // tempCanvas.dispose();
+    download(pngDataUrl);
+    console.log(tempCanvas.toObject(), '===tempCanvasinner');
   });
-  tempCanvas.dispose();
-  download(pngDataUrl);
+  console.log(tempCanvas.toObject(), '===tempCanvasObj');
 }
 function undo() {
   console.log('undo');
@@ -161,8 +200,42 @@ function undo() {
 // onMounted 官方文档说明：https://v3.cn.vuejs.org/guide/composition-api-lifecycle-hooks.html
 onMounted(() => {
   init(); // 执行初始化函数
+  // drawLine();
 });
 
+const drawLine = () => {
+  // 创建波浪线路径对象
+  var path = new fabric.Path('M 0 0');
+  path.set({ left: 100, top: 100, fill: 'transparent', stroke: 'blue' });
+  canvas.add(path);
+
+  // 定义波浪的参数
+  var amplitude = 20; // 波峰高度
+  var frequency = 0.1; // 波浪频率
+  var speed = 0.1; // 波浪速度
+  var offset = 0; // 偏移量
+
+  // 定义更新波浪线形状的函数
+  function updateWave() {
+    var points = [];
+    for (var x = 0; x <= canvas.width; x++) {
+      var y =
+        canvas.height / 2 +
+        Math.sin((x * frequency + offset) * speed) * amplitude;
+      points.push({ x: x, y: y });
+    }
+    var pathData = fabric.util.createPath(fabric.util.makePathSimpler(points), [
+      [fabric.Path.COMMAND_MOVE_TO, points[0].x, points[0].y],
+    ]);
+    path.set({ path: pathData });
+    canvas.renderAll();
+    offset += 0.1;
+  }
+  updateWave();
+
+  // 每100毫秒更新一次波浪线形状
+  // setInterval(updateWave, 100);
+};
 const handleRedo = () => {
   redo();
 };
@@ -176,14 +249,6 @@ const handleDraw = () => {
   canvas.isDrawingMode = isOpenDraw.value;
   canvas.freeDrawingCursor =
     'url("https://ossrs.net/wiki/images/figma-cursor.png"), auto';
-  // setTimeout(() => {
-  //   console.log('==cccc');
-  //   // canvas.hoverCursor = 'pointer';
-  //   const cursorUrl = 'https://ossrs.net/wiki/images/figma-cursor.png';
-  //   canvas.defaultCursor = `url(" ${cursorUrl} "), auto`;
-  //   canvas.hoverCursor = `url(" ${cursorUrl} "), auto`;
-  //   canvas.moveCursor = `url(" ${cursorUrl} "), auto`;
-  // }, 2000);
 };
 
 const handleInput = () => {
@@ -231,5 +296,15 @@ const handleInput = () => {
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+</style>
+<style>
+body {
+  /* background-color: black; */
+}
+.wrapper {
+  width: 300px;
+  height: 300px;
+  overflow: auto;
 }
 </style>

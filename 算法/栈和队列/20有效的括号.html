@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+      有效字符串需满足： 左括号必须用相同类型的右括号闭合。
+      左括号必须以正确的顺序闭合。 注意空字符串可被认为是有效字符串。 示例 1:
+      输入: "()" 输出: true 示例 2: 输入: "()[]{}" 输出: true
+    </p>
+    <script>
+      var isValid = function (s) {
+        const matchMap = {
+          ')': '(',
+          '}': '{',
+          ']': '[',
+        };
+        const stack = [];
+        for (let i in s) {
+          if (matchMap[s[i]]) {
+            if (stack.length > 0 && stack.pop() !== matchMap[s[i]]) {
+              return false;
+            }
+          } else {
+            stack.push(s[i]);
+          }
+        }
+        return stack.length === 0;
+      };
+      const str = '()[]{';
+      const res = isValid(str);
+      console.log(res, '==res');
+    </script>
+  </body>
+</html>

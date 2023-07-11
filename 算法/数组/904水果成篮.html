@@ -21,7 +21,7 @@
       给你一个整数数组 fruits ，返回你可以收集的水果的 最大 数目。
     </p>
     <p>
-      输入：fruits = [0,1,2,2] 输出：3 解释：可以采摘 [1,2,2] 这三棵树。
+      输入：fruits = [0,1,1,2,2,2] 输出：3 解释：可以采摘 [1,2,2] 这三棵树。
       如果从第一棵树开始采摘，则只能采摘 [0,1] 这两棵树。
     </p>
     <script>
@@ -30,6 +30,7 @@
         let left = 0;
         let res = 0;
         const valueMap = new Map();
+        debugger;
         for (let i = 0; i < n; i++) {
           const item = fruits[i];
           if (valueMap.has(item)) {
@@ -54,10 +55,11 @@
         return res;
       };
 
-      var totalFruit = function (fruits) {
+      var totalFruit1 = function (fruits) {
         let left = (right = 0);
         let res = -Infinity;
         const valueMap = new Map();
+        debugger;
         while (right < fruits.length) {
           const item = fruits[right];
           valueMap.set(item, valueMap.has(item) ? valueMap.get(item) + 1 : 1);
@@ -76,7 +78,7 @@
         return res;
       };
 
-      const arr = [0, 0, 1, 1, 2];
+      const arr = [0, 0, 1, 1, 2, 2, 2];
       console.log(totalFruit(arr), '===ceshi');
     </script>
   </body>

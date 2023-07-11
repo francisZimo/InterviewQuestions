@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function TreeNode(val, left, right) {
+        this.val = val === undefined ? 0 : val;
+        this.left = left === undefined ? null : left;
+        this.right = right = undefined ? null : right;
+      }
+
+      function preorderTraversal(cur, ary = []) {
+        if (!cur) return;
+        ary.push(cur.val);
+        preorderTraversal(cur.left, ary);
+        preorderTraversal(cur.right, ary);
+        return ary;
+      }
+      const tree = {
+        val: 1,
+        left: {
+          val: 2,
+          left: {
+            val: 3,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 4,
+            left: null,
+            right: null,
+          },
+        },
+        right: {
+          val: 5,
+          left: {
+            val: 6,
+            left: null,
+            right: null,
+          },
+          right: {
+            val: 7,
+            left: null,
+            right: null,
+          },
+        },
+      };
+
+      function houxuTraversal2(tree) {
+        if (!tree) return;
+        const stack = [];
+        stack.push(tree);
+        const result = [];
+        while (stack.length) {
+          const item = stack.pop();
+          item.left && stack.push(item.left);
+          item.right && stack.push(item.right);
+          result.push(item.val);
+        }
+        return result.reverse();
+      }
+
+      function zhongxu(tree) {
+        const res = [];
+        if (!tree) return res;
+
+        const stack = [];
+        let cur = tree;
+        while (stack.length || cur) {
+          while (cur) {
+            stack.push(cur);
+            cur = cur.left;
+          }
+          console.log(stack, '===stack');
+          const item = stack.pop();
+          //   console.log(item, '===s');
+          res.push(item.val);
+          if (item) cur = item.right;
+        }
+        return res;
+      }
+      // 前：1 2 3 4 5 6 7
+      //   const res = preorderTraversal2(tree, []);
+      const res = zhongxu(tree, []);
+      console.log(res, '===xxx');
+    </script>
+    <script>
+      alert(docuemnt.cookie);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/fabric"></script>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script>
+      // 创建fabric.js画布
+      var canvas = new fabric.Canvas('canvas');
+
+      // 创建贝塞尔曲线的控制点
+      var startPoint = new fabric.Point(100, 100);
+      var controlPoint1 = new fabric.Point(200, 50);
+      var controlPoint2 = new fabric.Point(300, 150);
+      var endPoint = new fabric.Point(400, 100);
+
+      // 创建贝塞尔曲线路径
+      var bezierPath = new fabric.Path(`M ${startPoint.x} ${startPoint.y}
+                                          C ${controlPoint1.x} ${controlPoint1.y}
+                                            ${controlPoint2.x} ${controlPoint2.y}
+                                            ${endPoint.x} ${endPoint.y}`);
+
+      // 设置贝塞尔曲线的样式
+      bezierPath.set({
+        stroke: 'blue',
+        strokeWidth: 2,
+        fill: 'transparent',
+      });
+
+      // 将贝塞尔曲线添加到画布
+      canvas.add(bezierPath);
+    </script>
+  </body>
+</html>

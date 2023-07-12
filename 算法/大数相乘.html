@@ -1,44 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-<script>
-    const multiply=(num1,num2)=>{
-      const len1=num1.length
-      const len2=num2.length
-      const pos=new Array(len1+len2).fill(0)
-    
-      for(let i=len1-1;i>=0;i--){
-        const n1=+num1[i]
-        for(let j=len2-1;j>=0;j--){
-          const n2=+num2[j]
-          const multi=n1*n2
-          const sum=pos[i+j+1]+multi
-          pos[i+j+1]=sum%10
-          pos[i+j]+=parseInt(sum/10)
+  </head>
+  <body>
+    <script>
+      const multiply = (num1, num2) => {
+        const len1 = num1.length;
+        const len2 = num2.length;
+        const pos = new Array(len1 + len2).fill(0);
+
+        for (let i = len1 - 1; i >= 0; i--) {
+          const n1 = +num1[i];
+          for (let j = len2 - 1; j >= 0; j--) {
+            const n2 = +num2[j];
+            const multi = n1 * n2;
+            const sum = pos[i + j + 1] + multi;
+            pos[i + j + 1] = sum % 10;
+            pos[i + j] += parseInt(sum / 10);
+          }
         }
-      }
-      let resStr=pos.join('')
-      while(resStr[0]==='0'){
-        resStr=resStr.substring(1)
-      }
-    //   resStr.replace(/^[0]+/g,'')
-      return resStr.length?resStr:'0'
-    }
+        let resStr = pos.join('');
+        while (resStr[0] === '0') {
+          resStr = resStr.substring(1);
+        }
+        //   resStr.replace(/^[0]+/g,'')
+        return resStr.length ? resStr : '0';
+      };
 
-    let s1='12'
-    let s2='999999'
-    console.log( multiply(s1,s2))
+      function multiply2(num1, num2) {
+        const ln1 = num1.length;
+        const ln2 = num2.length;
 
-    // let reg=/^[0]+/g
-    // let s='003004'
-    // s=s.replace(reg,'')
-    // console.log(s)
-    
- 
-</script>
-</body>
+        // const ary = Array.from({ length: ln1 + ln2 }).fill(0);
+        const ary = new Array(ln1 + ln2).fill(0);
+
+        for (let i = ln1 - 1; i >= 0; i--) {
+          const item1 = +num1[i];
+          for (let j = ln2 - 1; j >= 0; j--) {
+            const item2 = +num2[j];
+            const sum = item1 * item2 + ary[i + j + 1];
+            ary[i + j + 1] = sum % 10;
+            console.log(sum, parseInt(sum / 10), '==最后一次');
+            ary[i + j] += parseInt(sum / 10);
+          }
+        }
+        // for (let i = ln1 - 1; i >= 0; i--) {
+        //   const n1 = +num1[i];
+        //   for (let j = ln2 - 1; j >= 0; j--) {
+        //     const n2 = +num2[j];
+        //     const multi = n1 * n2;
+        //     const sum = ary[i + j + 1] + multi;
+        //     ary[i + j + 1] = sum % 10;
+        //     ary[i + j] += parseInt(sum / 10);
+        //   }
+        // }
+        return ary.join('');
+      }
+      let s1 = '10';
+      let s2 = '10';
+      console.log(multiply(s1, s2));
+      console.log(multiply2(s1, s2));
+
+      // let reg=/^[0]+/g
+      // let s='003004'
+      // s=s.replace(reg,'')
+      // console.log(s)
+    </script>
+  </body>
 </html>

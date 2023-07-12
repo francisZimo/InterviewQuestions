@@ -1,68 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
-<script>
-    let obj={
-      a:{b:{c:1}},
-      d:[1,2]
-    }
-    let res=[]
-    const dfs=(obj,path)=>{
-      console.log(obj,path)
-      Object.keys(obj).forEach((item)=>{
-         path=dfs(obj[item],path.concat(item))
+  </head>
+  <body>
+    <script>
+      let obj = {
+        a: { b: { c: 1 } },
+        d: [1, 2],
+      };
+      let res = [];
+      const dfs = (obj, path) => {
+        Object.keys(obj).forEach((item) => {
+          path = dfs(obj[item], path.concat(item));
+        });
+        return path;
+      };
+      console.log(dfs(obj, []), '===dfs11');
 
-      })
-      return path
-      
-    }
-    // console.log(dfs(obj,[]),'===dfs')
-
-    let obj1={
-      value:1,
-      children:[
-        {
-          value:2,
-          children:[
-            {
-              value:4,
-              children:[
-                {
-                  value:6,
-                },
-                {
-                  value:7,
-                }
-              ]
-            },
-            {
-              value:5
-            }
-          ]
-        },{
-          value:3
+      let obj1 = {
+        value: 1,
+        children: [
+          {
+            value: 2,
+            children: [
+              {
+                value: 4,
+                children: [
+                  {
+                    value: 6,
+                  },
+                  {
+                    value: 7,
+                  },
+                ],
+              },
+              {
+                value: 5,
+              },
+            ],
+          },
+          {
+            value: 3,
+          },
+        ],
+      };
+      const dfs1 = (node, nodeList = []) => {
+        if (!node) {
+          return [];
         }
-      ]
-    }
-    const dfs1=(node,nodeList=[])=>{
-      if(!node){
-        return []
-      }
-      nodeList.push(node.value)
-      if(node.children){
-        const child=node.children
-        child.forEach(item=>{
-          nodeList=dfs1(item,nodeList)
-        })
-        
-      }
-      return nodeList
-    }
-    console.log(dfs1(obj1),'===dfs')
-</script>
-</body>
+        nodeList.push(node.value);
+        if (node.children) {
+          const child = node.children;
+          child.forEach((item) => {
+            nodeList = dfs1(item, nodeList);
+          });
+        }
+        return nodeList;
+      };
+
+      const dfs2 = (node, nodeList = []) => {
+        nodeList.push(node.value);
+        if (node.children) {
+          const child = node.children;
+          child.forEach((item) => {
+            dfs2(item, nodeList);
+          });
+          return nodeList;
+        }
+      };
+      console.log(dfs1(obj1), '===dfs');
+      console.log(dfs2(obj1), '===dfs');
+    </script>
+  </body>
 </html>

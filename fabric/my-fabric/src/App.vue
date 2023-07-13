@@ -13,13 +13,14 @@
   <button @click="handleDraw">画笔{{ isOpenDraw ? '开' : '关' }}</button>
   <button @click="handleInput">输入文字</button>
   <button @click="handleClip">裁剪排除背景图</button>
+  <button @click="finishCorrect">结束批改</button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { fabric } from 'fabric';
 import bg from './image.png';
-import demo from './09.png';
+import CountDuration from './utils/countDuration';
 
 const download = (fileStr: any, filename = `name${new Date().getTime()}`) => {
   const anchorEl = document.createElement('a');
@@ -48,6 +49,27 @@ var canvas: any;
 var copyCanvas: any;
 var currentStep = -1;
 const isOpenDraw = ref(false);
+let countInstance;
+
+// 需要在页面容器加载完才能开始初始化（页面加载完才找到 canvas 元素）
+// onMounted 是 Vue3 提供的一个页面生命周期函数：实例被挂载后调用。
+// onMounted 官方文档说明：https://v3.cn.vuejs.org/guide/composition-api-lifecycle-hooks.html
+onMounted(() => {
+  init(); // 执行初始化函数
+  // drawLine();
+
+  const countCorrectTime = new CountDuration();
+  countInstance = countCorrectTime;
+  countCorrectTime.startCorrection();
+});
+
+function finishCorrect() {
+  if (countInstance) {
+    countInstance.stopCorrectionTimer();
+    const res = countInstance.getTotalCorrectionTime();
+    console.log(res, '===批改时长');
+  }
+}
 
 function init() {
   copyCanvas = canvas = new fabric.Canvas('c', {
@@ -134,7 +156,6 @@ function init() {
 function updateModifications(savehistory: boolean) {
   var obj = JSON.stringify(canvas.toObject());
   state.push(obj);
-  console.log(obj, '===save');
   currentStep++;
 }
 function redo() {
@@ -194,14 +215,6 @@ function undo() {
     });
   }
 }
-
-// 需要在页面容器加载完才能开始初始化（页面加载完才找到 canvas 元素）
-// onMounted 是 Vue3 提供的一个页面生命周期函数：实例被挂载后调用。
-// onMounted 官方文档说明：https://v3.cn.vuejs.org/guide/composition-api-lifecycle-hooks.html
-onMounted(() => {
-  init(); // 执行初始化函数
-  // drawLine();
-});
 
 const drawLine = () => {
   // 创建波浪线路径对象

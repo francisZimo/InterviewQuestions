@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- fabric.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+
+    <!-- @arch-inc/fabricjs-psbrush -->
+    <script src="https://unpkg.com/@arch-inc/fabricjs-psbrush@0.1.3/dist/fabricjs-psbrush.min.js"></script>
+  </head>
+  <body>
+    <canvas id="drawingCanvas" width="500" height="500"></canvas>
+    <script>
+      var canvas = new fabric.Canvas('drawingCanvas');
+      fabric.PSBrushBrush.prototype.forceEnabled = true; // 启用压感支持
+
+      canvas.isDrawingMode = true;
+      canvas.freeDrawingBrush = new fabric.PSBrushBrush(canvas);
+    </script>
+  </body>
+</html>

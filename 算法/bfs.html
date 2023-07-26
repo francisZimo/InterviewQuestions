@@ -42,6 +42,24 @@
         }
         return nodeList;
       };
+
+      const bfs2 = (node) => {
+        const queue = [];
+        const res = [];
+        if (node) {
+          queue.push(node);
+          while (queue.length) {
+            const nodeItem = queue.shift();
+            res.push(nodeItem.value);
+            if (nodeItem.children) {
+              nodeItem.children.forEach((item) => {
+                queue.push(item);
+              });
+            }
+          }
+        }
+        return res;
+      };
       let obj1 = {
         value: 1,
         children: [
@@ -71,6 +89,7 @@
       };
       console.log(bfs(obj1));
       console.log(bfs1(obj1));
+      console.log(bfs2(obj1));
     </script>
   </body>
 </html>

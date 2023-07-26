@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@arch-inc/fabricjs-psbrush": "0.0.20",
     "@types/fabric": "^5.3.2",
     "fabric": "^5.3.0",
+    "pressure": "^2.2.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {

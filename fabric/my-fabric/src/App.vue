@@ -1,12 +1,8 @@
 <template>
-  <div class="wrapper">
-    <canvas
-      width="500"
-      height="500"
-      id="c"
-      style="border: 1px solid #ccc"
-    ></canvas>
-  </div>
+  <!-- <div class="pressure-area" id="pressBox" ref="pressBox"></div> -->
+  <!-- <div class="wrapper"> -->
+  <canvas id="drawBox" style="border: 1px solid red"></canvas>
+  <!-- </div> -->
 
   <button @click="handleUndo">undo</button>
   <button @click="handleRedo">redo</button>
@@ -14,14 +10,29 @@
   <button @click="handleInput">输入文字</button>
   <button @click="handleClip">裁剪排除背景图</button>
   <button @click="finishCorrect">结束批改</button>
+
+  <!-- <PsBrush></PsBrush> -->
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { fabric } from 'fabric';
-import bg from './image.png';
-import CountDuration from './utils/countDuration';
+import { PSBrush } from '../lib/index';
+import Pressure from 'pressure';
+import pressureGlobal from '../lib/pressureCapture';
 
+// import { fabric } from 'fabric';
+// import PsBrush from './components/PSBrush.vue';
+import bg from './image.png';
+// import Pressure from 'pressure';
+import CountDuration from './utils/countDuration';
+// import { PSBrush } from '@arch-inc/fabricjs-psbrush';
+
+let currentPressure = 0;
+
+var path = null;
+var pressurePath = []; // 存储路径点和对应压力值的数组
+
+const pressBox = ref(null);
 const download = (fileStr: any, filename = `name${new Date().getTime()}`) => {
   const anchorEl = document.createElement('a');
   anchorEl.href = fileStr;
@@ -49,18 +60,45 @@ var canvas: any;
 var copyCanvas: any;
 var currentStep = -1;
 const isOpenDraw = ref(false);
-let countInstance;
+var currentPath = null;
+var lastPoint = null;
 
+var curBrush = null;
 // 需要在页面容器加载完才能开始初始化（页面加载完才找到 canvas 元素）
 // onMounted 是 Vue3 提供的一个页面生命周期函数：实例被挂载后调用。
 // onMounted 官方文档说明：https://v3.cn.vuejs.org/guide/composition-api-lifecycle-hooks.html
 onMounted(() => {
+  console.log('https://arch-inc.github.io/fabricjs-psbrush/');
+  console.log('https://www.cnblogs.com/fangsmile/p/14324460.html');
+  console.log(
+    'https://l2j2c3.gitee.io/smooth-signature/demo/index.html',
+    'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
+  );
+  console.log(
+    'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
+  );
   init(); // 执行初始化函数
   // drawLine();
 
-  const countCorrectTime = new CountDuration();
-  countInstance = countCorrectTime;
-  countCorrectTime.startCorrection();
+  // 持续时间统计
+  // const countCorrectTime = new CountDuration();
+  // countInstance = countCorrectTime;
+  // countCorrectTime.startCorrection();
+  // Pressure.set('#pressBox', {
+  //   change: function (force) {
+  //     this.innerHTML = force;
+  //   },
+  // });
+
+  canvas.freeDrawingBrush.width = 20;
+
+  Pressure.set('.upper-canvas', {
+    change: function (force) {
+      pressureGlobal.value = force;
+      console.log('changeforce', force);
+      // this.innerHTML = force;
+    },
+  });
 });
 
 function finishCorrect() {
@@ -72,33 +110,43 @@ function finishCorrect() {
 }
 
 function init() {
-  copyCanvas = canvas = new fabric.Canvas('c', {
-    isDrawingMode: isOpenDraw.value,
+  copyCanvas = canvas = new fabric.Canvas('drawBox', {
+    isDrawingMode: true,
+    enablePointerEvents: true,
+    width: 900, // 宽 100px
+    height: 900, // 高 60px
   }); // 这里传入的是canvas的id
+
+  let brush = new PSBrush(canvas);
+
+  brush.width = 20;
+  brush.color = 'red';
+  // brush.disableTouch = true; // disable touch and only use mouse and pen devices
+  // brush.pressureManager.fallback = 0.3; // fallback value for mouse and touch events
 
   // canvas.rotate = Math.PI / 2;
   // canvas.rotate = 45;
   // canvas.requestRenderAll();
   console.log('init');
-
-  const rect1 = new fabric.Rect({
-    left: 100,
-    top: 100,
-    width: 100,
-    height: 100,
-    fill: 'red',
-  });
+  canvas.freeDrawingBrush = brush;
+  // const rect1 = new fabric.Rect({
+  //   left: 100,
+  //   top: 100,
+  //   width: 100,
+  //   height: 100,
+  //   fill: 'red',
+  // });
 
   // 设置矩形动画
-  rect1.animate('angle', '-50', {
-    onChange: canvas.renderAll.bind(canvas), // 每次刷新的时候都会执行
-  });
+  // rect1.animate('angle', '-50', {
+  //   onChange: canvas.renderAll.bind(canvas), // 每次刷新的时候都会执行
+  // });
 
-  canvas.add(rect1);
+  // canvas.add(rect1);
 
   // const bgUrl = 'http://img.daimg.com/uploads/allimg/210916/3-210916110348.jpg';
 
-  canvas.setBackgroundImage(bg, canvas.renderAll.bind(canvas));
+  // canvas.setBackgroundImage(bg, canvas.renderAll.bind(canvas));
   const cursorUrl = 'https://ossrs.net/wiki/images/figma-cursor.png';
   canvas.defaultCursor = `url(" ${cursorUrl} "), auto`;
   canvas.hoverCursor = `url(" ${cursorUrl} "), auto`;
@@ -118,9 +166,9 @@ function init() {
   });
 
   // 设置画笔颜色
-  canvas.freeDrawingBrush.color = '#11999e';
+
   // 设置画笔粗细
-  canvas.freeDrawingBrush.width = 10;
+  // canvas.freeDrawingBrush.width = 10;
   canvas.on(
     'object:modified',
     function () {
@@ -140,17 +188,17 @@ function init() {
   // 给canvas添加监听器
 
   // 创建一个长方形
-  const rect = new fabric.Rect({
-    top: 30, // 距离容器顶部 30px
-    left: 30, // 距离容器左侧 30px
-    width: 100, // 宽 100px
-    height: 60, // 高 60px
-    fill: 'red', // 填充 红色
-    // excludeFromExport: true,
-  });
+  // const rect = new fabric.Rect({
+  //   top: 30, // 距离容器顶部 30px
+  //   left: 30, // 距离容器左侧 30px
+  //   width: 100, // 宽 100px
+  //   height: 60, // 高 60px
+  //   fill: 'red', // 填充 红色
+  //   // excludeFromExport: true,
+  // });
 
-  // 在canvas画布中加入矩形（rect）。add是“添加”的意思
-  canvas.add(rect);
+  // // 在canvas画布中加入矩形（rect）。add是“添加”的意思
+  // canvas.add(rect);
   updateModifications(true);
 }
 function updateModifications(savehistory: boolean) {
@@ -216,39 +264,6 @@ function undo() {
   }
 }
 
-const drawLine = () => {
-  // 创建波浪线路径对象
-  var path = new fabric.Path('M 0 0');
-  path.set({ left: 100, top: 100, fill: 'transparent', stroke: 'blue' });
-  canvas.add(path);
-
-  // 定义波浪的参数
-  var amplitude = 20; // 波峰高度
-  var frequency = 0.1; // 波浪频率
-  var speed = 0.1; // 波浪速度
-  var offset = 0; // 偏移量
-
-  // 定义更新波浪线形状的函数
-  function updateWave() {
-    var points = [];
-    for (var x = 0; x <= canvas.width; x++) {
-      var y =
-        canvas.height / 2 +
-        Math.sin((x * frequency + offset) * speed) * amplitude;
-      points.push({ x: x, y: y });
-    }
-    var pathData = fabric.util.createPath(fabric.util.makePathSimpler(points), [
-      [fabric.Path.COMMAND_MOVE_TO, points[0].x, points[0].y],
-    ]);
-    path.set({ path: pathData });
-    canvas.renderAll();
-    offset += 0.1;
-  }
-  updateWave();
-
-  // 每100毫秒更新一次波浪线形状
-  // setInterval(updateWave, 100);
-};
 const handleRedo = () => {
   redo();
 };
@@ -319,5 +334,11 @@ body {
   width: 300px;
   height: 300px;
   overflow: auto;
+  margin-top: 30px;
+}
+.pressure-area {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
 }
 </style>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function myInstanceof(instance, origin) {
+        if (instance == null) return false;
+        if (typeof instance !== 'object' && typeof instance !== 'function')
+          return false;
+        while (instance) {
+          if (instance.__proto__ === origin.prototype) return true;
+          instance = instance.__proto__;
+        }
+        return false;
+      }
+      const s = { name: 1 };
+      const obj1 = Object.create(s);
+      console.log(myInstanceof(obj1, Object));
+      console.log(myInstanceof(obj1, 1));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function curry(fn) {
+        const len = fn.length;
+        console.log(len, '===len');
+        let args = [];
+        function _curry(...res) {
+          args = [...args, ...res];
+          if (args.length >= len) {
+            return fn.apply(this, args);
+          } else {
+            return _curry;
+          }
+        }
+        return _curry;
+      }
+
+      function add(a, b, c) {
+        return a + b + c;
+      }
+      const addCurry = curry(add);
+      console.log(addCurry(1)(2)(3));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>
+      "const me=new LazyMan('Hank');"
+      "me.sleep(10).eat('dinner').eat('supper');"
+    </p>
+    <script>
+      class LazyMan {
+        constructor(name) {
+          this.name = name;
+          this.task = [];
+          setTimeout(() => {
+            this.next();
+          }, 0);
+        }
+        next() {
+          const task = this.task.shift();
+          task && task();
+        }
+        eat(food) {
+          const task = () => {
+            console.log(`eat ${food}`);
+            this.next();
+          };
+          this.task.push(task);
+          return this;
+        }
+        sleep(time) {
+          const task = () => {
+            setTimeout(() => {
+              console.log(`sleep ${time} s`);
+              this.next();
+            }, time * 1000);
+          };
+          this.task.push(task);
+          return this;
+        }
+      }
+
+      const me = new LazyMan('Hank');
+      me.eat('apple').sleep(5).eat('dinner').eat('supper');
+    </script>
+  </body>
+</html>

@@ -16,7 +16,6 @@ import { FabricEvent, FabricPointer, FabricPointerEvent } from './utils';
 import PressureManager, { PressureManagerIface } from './PressureManager';
 import PSStroke, { PSStrokeIface } from './PSStroke';
 import PSPoint from './PSPoint';
-import pressure from './pressureCapture';
 
 export interface PSBrushIface extends fabric.BaseBrush {
   pressureManager: PressureManagerIface;
@@ -62,10 +61,9 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @param {Object} pointer
    */
   _drawSegment: function (ctx, p1, p2) {
-    console.log('_drawSegment:');
     var midPoint = p1.midPointFrom(p2);
     ctx.lineWidth = p1.pressure * this.width;
-    console.log(ctx.lineWidth, '===width');
+    console.log(ctx.lineWidth, '===width', this.width);
     ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
     return midPoint;
   },
@@ -105,7 +103,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
     pointer: FabricPointer | FabricEvent,
     ev: FabricEvent
   ) {
-    console.log('mouseMove==1');
     const p = ev ? ev.pointer : pointer;
     const e = ev ? ev.e : pointer['e'] || null;
     if (
@@ -150,7 +147,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @param {Object} ev
    */
   onMouseUp: function (ev?: FabricEvent) {
-    console.error('mouseUp==2');
     const e = ev?.e || null;
     if (
       this.disableTouch &&
@@ -178,7 +174,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
     pointer: FabricPointer,
     ev: FabricPointerEvent
   ) {
-    console.log(Pressure.value, '===pressure0');
     const p = new PSPoint(pointer.x, pointer.y, Pressure.value);
 
     this._reset();
@@ -193,7 +188,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @param {fabricjs.Point} point Point to be added to points array
    */
   _addPoint: function (point) {
-    console.log('addpointer', point);
     if (
       this._points.length > 1 &&
       point.eq(this._points[this._points.length - 1])
@@ -209,9 +203,12 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @private
    */
   _reset: function () {
-    console.log('-reset');
     this._points.length = 0;
+    // debugger;
+    console.log(this.canvas, '==canvas');
+    // this._setBrushStyles(this.canvas.contextTop);
     this._setBrushStyles();
+    console.log(this.color, '===color');
     var color = new fabricjs.Color(this.color);
     this.needsFullRender = color.getAlpha() < 1;
     this._setShadow();
@@ -236,7 +233,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
 
   // 重新绘制路径的所有线段
   _redrawSegments: function (points) {
-    console.log('_redrawSegments');
     const ctx = this.canvas.contextTop;
     this._saveAndTransform(ctx);
     if (this.oldEnd) {
@@ -258,7 +254,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @private
    */
   _render: function () {
-    console.log('-render');
     var ctx = this.canvas.contextTop,
       i,
       len,
@@ -307,7 +302,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @return {String} SVG path
    */
   convertPointsToSVGPath: function (points: PSPoint[]) {
-    console.log('convertPointsToSVGPath');
     var path = [],
       i,
       width = this.width / 1000,
@@ -359,7 +353,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * @return {PSStroke} Path to add on canvas
    */
   createPSStroke: function (points: PSPoint[]) {
-    console.log('createPSStroke');
     // debug statement:
     // console.log(`raw path data (${typeof points}):`, points);
     // console.log(`path data (${typeof pathData}):`, pathData);
@@ -402,7 +395,6 @@ const PSBrushImpl = <any>fabricjs.util.createClass(fabricjs.BaseBrush, {
    * and add it to the fabric canvas.
    */
   _finalizeAndAddPath: function () {
-    console.log('_finalizeAndAddPath');
     var ctx = this.canvas.contextTop;
     ctx.closePath();
 

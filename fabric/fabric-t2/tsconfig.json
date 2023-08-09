@@ -1,0 +1,36 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "target": "ESNext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": false,
+    "strict": true,
+    "noEmit": false,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": false,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "scripthost"
+    ],
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+, "src/**/*.js", "webpack-build/**/*" ]
+}

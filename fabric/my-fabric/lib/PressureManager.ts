@@ -21,14 +21,11 @@ class PressureManager implements PressureManagerIface {
   public constructor(private brush: PSBrushIface) {}
 
   onMouseDown(ev: FabricPointerEvent) {
-    console.error('ceshi11111111');
     const pressure = getPressure(ev, this.fallback);
-    console.log(this.magic, '==magicxx');
     return pressure === this.magic ? this.min : pressure;
   }
 
   onMouseMove(ev: FabricPointerEvent, points: PSPoint[]) {
-    console.error('ceshi11111111');
     const pressure = getPressure(ev, this.fallback),
       pressureShouldBeIgnored =
         this.brush.pressureIgnoranceOnStart >

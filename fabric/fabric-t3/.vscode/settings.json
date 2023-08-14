@@ -1,0 +1,20 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": true
+  },
+  "prettier.enable": false,
+  "eslint.run": "onType",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue",
+    "typescript",
+    "html"
+  ],
+  "eslint.alwaysShowStatus": true,
+  "cSpell.words": [
+    "bizline",
+    "wxjsbridge"
+  ]
+}

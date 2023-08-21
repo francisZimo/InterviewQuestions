@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // lru 缓存
+      class lruCache {
+        constructor(max) {
+          this.cache = new Map();
+          this.max = max;
+        }
+        set(key, value) {
+          if (this.cache.has(key)) {
+            this.cahce.delete(key);
+          }
+          this.cache.set(key, value);
+          if (this.cache.size > this.max) {
+            this.cache.delete(this.cache.keys().next().value);
+          }
+        }
+        get(key) {
+          console.log(this.cache.has(key), '===xxx');
+          if (!this.cache.has(key)) {
+            return null;
+          }
+
+          const value = this.cache.get(key);
+          this.cache.delete(key);
+          this.cache.set(key, value);
+          return value;
+        }
+      }
+      var cache = new lruCache(2);
+      cache.set(0, 1);
+      cache.set(1, 'hello');
+      cache.set(2, 'world');
+      //   console.log(cache.get(0));
+      console.log(cache.get(1));
+      //   console.log(cache.get(2))
+      //   cache.set(3, 'world2');
+
+      //   console.log(cache.get(1));
+    </script>
+  </body>
+</html>

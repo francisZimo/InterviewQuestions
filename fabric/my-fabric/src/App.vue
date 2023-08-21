@@ -4,7 +4,8 @@
   <!-- <Test></Test>
   <img :src="imgUrl" alt="" />
   {{ Board.curIndex }} -->
-  <canvas id="drawBox" style="border: 1px solid red"></canvas>
+  <img :src="imgUrl" alt="" />
+  <!-- <canvas id="drawBox" style="border: 1px solid red"></canvas> -->
   <!-- </div> -->
 
   <!-- <img :src="compressUrl" />
@@ -21,6 +22,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Compressor from 'compressorjs';
+// import { mockData as binaryData } from './hex.js';
+import { mockData1 as binaryData } from './hex1.js';
 // import Test from './components/test.vue';
 // import Board from './global';
 // import { PSBrush } from '../lib/index';
@@ -166,11 +169,20 @@ onMounted(() => {
   // }
   // console.log(uint8Array, '===uint8Array');
 
-  // // 创建Blob对象
-  // const blob = new Blob([uint8Array], { type: 'image/jpeg' });
+  // const arrayBuffer1 = new ArrayBuffer(mockData.length);
+  // const wrapperBuffer = new Int16Array(arrayBuffer1);
+  // for (let i = 0; i < mockData.length; i++) {
+  //   wrapperBuffer[i] = mockData[i];
+  // }
+  // console.log(wrapperBuffer, '==wrapperBuffer');
 
-  // // 创建URL对象，用于生成预览图
-  // imgUrl.value = URL.createObjectURL(blob);
+  // // 创建Blob对象
+  const byteArray = new Uint8Array(
+    binaryData.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
+  );
+  const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+  imgUrl.value = URL.createObjectURL(blob);
 
   // 方法三 直接读取2进制 转换后的unit8Array  读取直接失败
   // const uint8Array = new Uint8Array(binaryData.length);

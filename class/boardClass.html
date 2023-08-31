@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 工具策略类
+      class ToolStrategy {
+        execute(x, y) {}
+      }
+
+      class BrushStrategy extends ToolStrategy {
+        constructor(parent) {
+          super();
+          this.parent = parent;
+        }
+        execute(x, y) {
+          console.log(`使用画笔绘制在坐标 (${x}, ${y})`, this.parent.name);
+        }
+      }
+
+      class EraserStrategy extends ToolStrategy {
+        execute(x, y) {
+          console.log(`使用橡皮擦擦除坐标 (${x}, ${y})`);
+        }
+      }
+
+      // 工厂类
+      class ToolFactory {
+        createTool(toolType, _this) {
+          switch (toolType) {
+            case 'brush':
+              return new BrushStrategy(_this);
+            case 'eraser':
+              return new EraserStrategy();
+            default:
+              throw new Error('Unsupported tool type');
+          }
+        }
+      }
+
+      // Board类
+      class Board {
+        constructor() {
+          this.tool = null;
+          this.name = 'hello';
+        }
+
+        setTool(toolType) {
+          const toolFactory = new ToolFactory();
+          this.tool = toolFactory.createTool(toolType, this);
+        }
+
+        useTool(x, y) {
+          if (this.tool) {
+            this.tool.execute(x, y);
+          }
+        }
+      }
+
+      // 使用示例
+      const board = new Board();
+      board.name = '小王';
+      board.setTool('brush');
+      board.useTool(10, 20);
+
+      board.setTool('eraser');
+      board.useTool(30, 40);
+    </script>
+  </body>
+</html>

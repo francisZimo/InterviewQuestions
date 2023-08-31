@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Search Game</title>
+    <style>
+      .canvas-box {
+        border: 1px solid red;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+      .bg-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas
+      id="myCanvas"
+      width="600"
+      height="600"
+      class="canvas-box front-canvas"
+    ></canvas>
+    <script>
+      const alphabet = [
+        ['A', 'B', 'C', 'D', 'E'],
+        ['F', 'G', 'H', 'I', 'J'],
+        ['K', 'L', 'M', 'N', 'O'],
+        ['P', 'Q', 'R', 'S', 'T'],
+        ['U', 'V', 'W', 'X', 'Y'],
+      ];
+
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+      const cellSize = 70; // 字母单元格的大小
+      const spacing = 20; // 字母之间的间距
+
+      const letters = [];
+      for (let i = 0; i < alphabet.length; i++) {
+        letters[i] = [];
+        for (let j = 0; j < alphabet[i].length; j++) {
+          const x = j * (cellSize + spacing);
+          const y = i * (cellSize + spacing);
+          letters[i][j] = {
+            value: alphabet[i][j],
+            x,
+            y,
+            highlighted: false,
+            color: 'black',
+          };
+        }
+      }
+
+      const words = ['DOG', 'CAT', 'BIRD']; // 单词列表
+
+      let isDragging = false;
+      let startX = -1,
+        startY = -1;
+
+      function drawAlphabet() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < letters.length; i++) {
+          for (let j = 0; j < letters[i].length; j++) {
+            const letter = letters[i][j];
+
+            // 绘制圆形背景
+            if (letter.highlighted) {
+              ctx.fillStyle = 'yellow';
+              ctx.beginPath();
+              ctx.arc(
+                letter.x + cellSize / 2,
+                letter.y + cellSize / 2,
+                cellSize / 2,
+                0,
+                Math.PI * 2
+              );
+              ctx.fill();
+            }
+
+            ctx.fillStyle = letter.color;
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(
+              letter.value,
+              letter.x + cellSize / 2,
+              letter.y + cellSize / 2
+            );
+          }
+        }
+      }
+
+      function drawLine(x1, y1, x2, y2) {
+        const dx = Math.abs(x2 - x1);
+        const dy = Math.abs(y2 - y1);
+
+        const sx = x1 < x2 ? 1 : -1;
+        const sy = y1 < y2 ? 1 : -1;
+
+        let x = x1;
+        let y = y1;
+
+        if (dx > dy) {
+          let err = dx / 2;
+          while (x !== x2) {
+            toggleHighlight(y, x, true);
+            err -= dy;
+            if (err < 0) {
+              y += sy;
+              err += dx;
+            }
+            x += sx;
+          }
+        } else {
+          let err = dy / 2;
+          while (y !== y2) {
+            toggleHighlight(y, x, true);
+            err -= dx;
+            if (err < 0) {
+              x += sx;
+              err += dy;
+            }
+            y += sy;
+          }
+        }
+
+        drawAlphabet();
+      }
+
+      function resetHighlight() {
+        for (let i = 0; i < letters.length; i++) {
+          for (let j = 0; j < letters[i].length; j++) {
+            letters[i][j].highlighted = false;
+          }
+        }
+      }
+
+      function toggleHighlight(row, col, highlighted) {
+        if (
+          row >= 0 &&
+          row < letters.length &&
+          col >= 0 &&
+          col < letters[0].length
+        ) {
+          letters[row][col].highlighted = highlighted;
+        }
+      }
+
+      canvas.addEventListener('mousedown', function (e) {
+        isDragging = true;
+
+        const rect = canvas.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+
+        const col = Math.floor(offsetX / (cellSize + spacing));
+        const row = Math.floor(offsetY / (cellSize + spacing));
+
+        resetHighlight();
+
+        startX = col;
+        startY = row;
+      });
+
+      canvas.addEventListener('mouseup', function () {
+        isDragging = false;
+        resetHighlight();
+      });
+
+      canvas.addEventListener('mousemove', function (e) {
+        if (isDragging) {
+          const rect = canvas.getBoundingClientRect();
+          const offsetX = e.clientX - rect.left;
+          const offsetY = e.clientY - rect.top;
+
+          const col = Math.floor(offsetX / (cellSize + spacing));
+          const row = Math.floor(offsetY / (cellSize + spacing));
+
+          resetHighlight();
+          drawLine(startX, startY, col, row);
+        }
+      });
+
+      drawAlphabet();
+    </script>
+  </body>
+</html>

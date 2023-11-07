@@ -4,8 +4,8 @@
   <!-- <Test></Test>
   <img :src="imgUrl" alt="" />
   {{ Board.curIndex }} -->
-  <img :src="imgUrl" alt="" />
-  <!-- <canvas id="drawBox" style="border: 1px solid red"></canvas> -->
+  <!-- <img :src="imgUrl" alt="" /> -->
+  <canvas id="drawBox" style="border: 1px solid red"></canvas>
   <!-- </div> -->
 
   <!-- <img :src="compressUrl" />
@@ -38,7 +38,7 @@ import { mockData1 as binaryData } from './hex1.js';
 
 // import { fabric } from 'fabric';
 // import PsBrush from './components/PSBrush.vue';
-// import bg from './image.png';
+import bg from './image.png';
 // import bg from './demo.jpeg';
 // import Pressure from 'pressure';
 // import CountDuration from './utils/countDuration';
@@ -96,6 +96,64 @@ var lastPoint = null;
 
 var curBrush = null;
 
+function init() {
+  window.board = canvas = new fabric.Canvas('drawBox', {
+    isDrawingMode: true,
+    enablePointerEvents: true,
+    width: 1000, // 宽 100px
+    height: 500, // 高 60px
+  }); // 这里传入的是canvas的id
+
+  canvas.setBackgroundImage(bg, canvas.renderAll.bind(canvas));
+  // 画笔颜色设置成红色
+  canvas.freeDrawingBrush.color = 'red';
+
+  setInterval(() => {
+    //打印一下当前canvas的内存占有大小
+    // console.log(canvas.toDataURL().length);
+    console.log(
+      'Canvas占用内存大小：' +
+        (canvas.toDataURL().length / (1024 * 1024)).toFixed(2) +
+        ' MB'
+    );
+    //打印当前画布的可用对象
+    console.log(canvas.getObjects());
+
+    // console.log(window.board);
+  }, 3000);
+
+  setTimeout(() => {
+    // 创建文本对象
+
+    // 将文本对象复制并添加到Canvas
+    // let numTexts = 100;
+    // for (let i = 0; i < numTexts; i++) {
+    //   let newText = textObject.clone();
+    //   canvas.add(newText);
+    // }
+
+    // 生成1000条 textObject
+    // let numTexts = 7500;
+    // for (let i = 0; i < numTexts; i++) {
+    //   console.log('创造');
+    //   let textObject = new fabric.Text(`${parseInt(Math.random() * 100)}`, {
+    //     left: 10 + Math.random() * 500,
+    //     top: 10 + Math.random() * 500,
+    //     selectable: false, // 防止选中文本
+    //   });
+    //   let newText = textObject;
+
+    //   canvas.add(newText);
+    // }
+    canvas.renderAll();
+  }, 2000);
+
+  // let brush = new fabric.PSBrush(canvas);
+
+  // brush.width = 5;
+  // brush.color = 'red';
+}
+
 // 需要在页面容器加载完才能开始初始化（页面加载完才找到 canvas 元素）
 // onMounted 是 Vue3 提供的一个页面生命周期函数：实例被挂载后调用。
 // onMounted 官方文档说明：https://v3.cn.vuejs.org/guide/composition-api-lifecycle-hooks.html
@@ -103,16 +161,16 @@ onMounted(() => {
   // setInterval(() => {
   //   Board.setCurIndex(Board.curIndex.value + 1);
   // }, 3000);
-  console.log('https://gs.archinc.jp/#drawing=5e4fa91448c4290030d09661');
-  console.log('https://arch-inc.github.io/fabricjs-psbrush/');
-  console.log('https://www.cnblogs.com/fangsmile/p/14324460.html');
-  console.log(
-    'https://l2j2c3.gitee.io/smooth-signature/demo/index.html',
-    'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
-  );
-  console.log(
-    'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
-  );
+  // console.log('https://gs.archinc.jp/#drawing=5e4fa91448c4290030d09661');
+  // console.log('https://arch-inc.github.io/fabricjs-psbrush/');
+  // console.log('https://www.cnblogs.com/fangsmile/p/14324460.html');
+  // console.log(
+  //   'https://l2j2c3.gitee.io/smooth-signature/demo/index.html',
+  //   'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
+  // );
+  // console.log(
+  //   'https://codesandbox.io/s/experiment-with-undo-psbrush-e884yk?file=/src/index.js:641-696'
+  // );
   init(); // 执行初始化函数
   // drawLine();
 
@@ -176,13 +234,13 @@ onMounted(() => {
   // }
   // console.log(wrapperBuffer, '==wrapperBuffer');
 
-  // // 创建Blob对象
-  const byteArray = new Uint8Array(
-    binaryData.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
-  );
-  const blob = new Blob([byteArray], { type: 'image/jpeg' });
+  // // 创建Blob对象  读取hex 转换后的unit8Array
+  // const byteArray = new Uint8Array(
+  //   binaryData.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
+  // );
+  // const blob = new Blob([byteArray], { type: 'image/jpeg' });
 
-  imgUrl.value = URL.createObjectURL(blob);
+  // imgUrl.value = URL.createObjectURL(blob);
 
   // 方法三 直接读取2进制 转换后的unit8Array  读取直接失败
   // const uint8Array = new Uint8Array(binaryData.length);
@@ -333,7 +391,7 @@ function pressurePen() {
   }
 }
 
-function init() {
+function init1() {
   copyCanvas = canvas = new fabric.Canvas('drawBox', {
     isDrawingMode: true,
     enablePointerEvents: true,
@@ -351,9 +409,9 @@ function init() {
   // canvas.rotate = Math.PI / 2;
   // canvas.rotate = 45;
   // canvas.requestRenderAll();
-  console.log('init');
-  canvas.freeDrawingBrush = brush;
-  pressurePen();
+  // console.log('init');
+  // canvas.freeDrawingBrush = brush;
+  // pressurePen();
   // canvas.freeDrawingBrush = new fabric.InkBrush(canvas, {
   //   width: 20,
   //   opacity: 0.6,

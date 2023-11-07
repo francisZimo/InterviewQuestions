@@ -16,4 +16,45 @@
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
+  <script>
+    let fpsList = [];
+    var lastTime = performance.now();
+    var frame = 0;
+    var lastFameTime = performance.now();
+    var loop = function () {
+      var now = performance.now();
+      var fs = now - lastFameTime;
+      lastFameTime = now;
+      var fps = Math.round(1000 / fs);
+      frame++;
+      if (now > 1000 + lastTime) {
+        var fps = Math.round((frame * 1000) / (now - lastTime));
+        frame = 0;
+        lastTime = now;
+        console.log('1s end：', fps);
+        fpsList.push(fps);
+      }
+      window.requestAnimationFrame(loop);
+    };
+    function isBlocking(fpsList, below = 60, last = 3) {
+      var count = 0;
+      for (var i = 0; i < fpsList.length; i++) {
+        if (fpsList[i] && fpsList[i] < below) {
+          count++;
+          console.log(count, '===当前count');
+        }
+        if (count >= last) {
+          console.log('出现卡顿');
+          count = 0;
+          return true;
+        }
+      }
+      return false;
+    }
+    window.requestAnimationFrame(loop);
+
+    setInterval(() => {
+      isBlocking(fpsList);
+    }, 1000);
+  </script>
 </html>

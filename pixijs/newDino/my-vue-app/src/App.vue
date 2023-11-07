@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { ref, Ref, onMounted } from 'vue';
 import * as PIXI from 'pixi.js';
-import hitTestRectangle from '@/utils/hitTestRectangle';
+import hitTestRectangle from './utils/hitTestRectangle';
 
 const conDom: Ref<HTMLDivElement | null> = ref(null);
 // 游戏得分

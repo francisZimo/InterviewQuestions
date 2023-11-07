@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="http://app.xesv5.com/mark/web/download?key=46efec25-3ba0-4d87-8105-020b1998e38c">点击下载</a>
+    <script>
+      var observer = new PerformanceObserver(function (list) {
+        var perfEntries = list.getEntries();
+        console.log(perfEntries, '===sxx');
+        for (var i = 0; i < perfEntries.length; i++) {
+          console.log(i, '===langTask', perfEntries[i]);
+        }
+      });
+      // register observer for long task notifications
+      observer.observe({ entryTypes: ['longtask'] });
+
+      // 生成for循环1000000次
+      function test() {
+        var arr = [];
+        for (var i = 0; i < 100000000; i++) {
+          arr.push(i);
+        }
+        return arr;
+      }
+      test();
+    </script>
+  </body>
+</html>

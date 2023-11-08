@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@arch-inc/fabricjs-psbrush": "0.0.20",
+    "@interactjs/interact": "^1.10.20",
     "@types/fabric": "^5.3.2",
     "compressorjs": "^1.2.1",
-    "fabric": "^4.6.0",
+    "eruda": "^3.0.1",
+    "fabric": "^5.3.0",
     "image-compressor": "^2.0.3",
     "image-compressor.js": "^1.1.4",
+    "interactjs": "^1.10.20",
     "pressure": "^2.2.0",
     "vue": "^3.2.47"
   },

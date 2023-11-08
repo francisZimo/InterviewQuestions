@@ -1,15 +1,25 @@
 <template>
-  <div class="canvas-wrapper">
-    <Tip :seat-info="seatInfo" v-show="curSeat===oldSeat"></Tip>
-  <canvas id="drawBox" style="border: 1px solid red"></canvas>
+  <div class="canvas-wrapper" >
+    <div id="canvasCon" class="canvasCon">
+      <div class="canvasInner">
+        <Tip :seat-info="seatInfo" v-show="curSeat===oldSeat"></Tip>
+        <canvas id="drawBox" class="drawBox" style="border: 1px solid red"></canvas>
+      </div>
+
+    </div>
+
   </div>
  
 </template>
+
 
 <script setup lang="ts">
 import { onMounted, ref ,reactive} from 'vue';
 import { seatData } from './utils/Data'
 import Tip from './components/tip.vue'
+import {fabric} from 'fabric'
+import interact from 'interactjs';
+
 const seatInfo=reactive({
   title:'',
   top:0,
@@ -19,14 +29,80 @@ const  curSeat=ref(-1)
 const oldSeat=ref(-99)
 
 var canvas: any;
-function init() {
+var touchStartDistance = 0;
+var touchStartScale = 1;
+var boxDom=''
 
+function init() {
+  console.log('wohaha')
+  boxDom=document.getElementById('canvasCon');
+  console.log(fabric,'==fabric.canvas')
  canvas = new fabric.Canvas('drawBox', {
-    width: 1000, // 宽 100px
-    height: 500, // 高 60px
+    width: 200, // 宽 100px
+    height: 200, // 高 60px
     selection:false
   }); // 这里传入的是canvas的id
   
+var angleScale = {
+  angle: 0,
+  scale: 1
+}
+var interactPosition = { x: 0, y: 0 };
+
+const interactInstance = interact('#canvasCon')
+
+interactInstance.gesturable({
+    listeners: {
+      start (event) {
+        angleScale.angle -= event.angle
+
+        console.log(event,'==start')
+        
+      },
+      move (event) {
+        console.log(event,'==move')
+        let currentScale=event.scale*angleScale.scale;
+        // console.log(boxDom,'==boxDom',boxDom.style.transform)
+        // boxDom?.style?.transform = 'scale(' + currentScale + ')';
+        dragMoveListener(event)
+        if(boxDom){
+          boxDom.style.transform = `translate(${interactPosition.x}px, ${interactPosition.y}px) scale(${currentScale})`;
+        }
+        // event.target.style.transform = ` scale(${currentScale})`;
+
+        // // document.body.appendChild(new Text(event.scale))
+        // var currentAngle = event.angle + angleScale.angle
+        // var currentScale = event.scale * angleScale.scale
+
+        // scaleElement.style.transform =
+        //   'rotate(' + currentAngle + 'deg)' + 'scale(' + currentScale + ')'
+
+        // // uses the dragMoveListener from the draggable demo above
+        // dragMoveListener(event)
+      },
+      end (event) {
+        console.log(event,'===end')
+      }
+    }
+  })
+  .draggable({
+    listeners: { move: dragMoveListener }
+  })
+  function dragMoveListener(event){
+    console.log(event,'==eventdragMoveListener')
+
+    interactPosition.x += event.dx;
+    interactPosition.y += event.dy;
+        event.target.style.transform = `translate(${interactPosition.x}px, ${interactPosition.y}px)`;
+   
+  }
+  // interactInstance.draggable({
+  //   listeners: {
+  //     // call this function on every dragmove event
+  //     move: dragMoveListener,
+  //   }
+  // })
+
 
 // canvas.add(path);
 let width=0,position={left:0,top:0,x:0,y:0};
@@ -167,6 +243,8 @@ seatList.forEach((item)=>{
     // 再次点击关闭
 });
 
+
+
   circle.hoverCursor = 'pointer'
   canvas.add(circle);
   // canvas.add(text);
@@ -184,19 +262,18 @@ onMounted(
   ()=>{
   init();}
   )
-
-
-
-
-
 </script>
 
 <style lang="scss" scoped>
+html,body{
+  width: 100%;
+  height:100%;
+}
 .canvas-wrapper{
   position:relative; 
   // background-color: aqua;
-  width: 1000px;
-  height: 500px;
+  width: 100%;
+  height:100%;
 
 }
 .logo {
@@ -212,7 +289,7 @@ onMounted(
   filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
-<style>
+<style >
 body {
   /* background-color: black; */
 }
@@ -232,5 +309,26 @@ body {
 <style>
 canvas {
   touch-action: none;
+}
+.canvasCon{
+  position:absolute;
+
+ border:1px solid green;
+ min-height: 90%;
+    min-width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+.canvasInner{
+  position:relative;
+  display: inline-block;
+}
+.drawBox{
+  width: 200px;
+  height: 200px;
 }
 </style>

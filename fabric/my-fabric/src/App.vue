@@ -6,6 +6,10 @@
   {{ Board.curIndex }} -->
   <!-- <img :src="imgUrl" alt="" /> -->
   <canvas id="drawBox" style="border: 1px solid red"></canvas>
+  <div>
+
+    '
+    '</div>
   <!-- </div> -->
 
   <!-- <img :src="compressUrl" />
@@ -113,8 +117,8 @@ function init() {
     // console.log(canvas.toDataURL().length);
     console.log(
       'Canvas占用内存大小：' +
-        (canvas.toDataURL().length / (1024 * 1024)).toFixed(2) +
-        ' MB'
+      (canvas.toDataURL().length / (1024 * 1024)).toFixed(2) +
+      ' MB'
     );
     //打印当前画布的可用对象
     console.log(canvas.getObjects());
@@ -611,9 +615,11 @@ const handleInput = () => {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
@@ -622,12 +628,14 @@ const handleInput = () => {
 body {
   /* background-color: black; */
 }
+
 .wrapper {
   width: 300px;
   height: 300px;
   overflow: auto;
   margin-top: 30px;
 }
+
 .pressure-area {
   width: 200px;
   height: 200px;

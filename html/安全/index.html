@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <a href="%20javascript:alert('XSS')">我的世界</a>
+     -->
+
+     <div title="comment">5 &lt; 7</div>
+     <div>
+        您搜索的关键词是：&quot;&gt;&lt;script&gt;alert(&#x27;XSS&#x27;);&lt;&#x2F;script&gt;
+      </div>
+     <!-- <script>console.log("</script><script>alert(1)</script>");</script> -->
+    <script>
+       
+        console.log(5<7,'==flag1')
+        let flag= 5 &lt; 7
+        console.log(flag,'==flag')
+    </script>
+</body>
+</html>

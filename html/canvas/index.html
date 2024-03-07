@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <style>
+        #mycanvas{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <img src="./test.jpg" id="testImage">
+    <br>
+    <canvas id="mycanvas" width="800" height="800"></canvas>
+    <script type="text/javascript">
+        var cvs = document.getElementById("mycanvas");
+        var ctx = cvs.getContext("2d");
+        ctx.translate(0, 0);
+        ctx.scale(1,1);
+        var img = document.getElementById("testImage");
+        
+
+        // 画一个正方形
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(200, 0);
+        ctx.lineTo(200, 200);
+        ctx.lineTo(0, 200);
+        ctx.closePath();
+        ctx.stroke();
+
+
+        img.onload = function () {
+            ctx.drawImage(img, 0, 0, 1120, 840, 0, 200, 200, 200);
+        }
+
+        // 1120*840
+    </script>
+</body>
+</html>

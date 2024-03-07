@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let target = {
+            name: 'tom',
+            age: 20
+        }
+        let proxyTarget = new Proxy(target, {
+            set: function (target, name, value, receiver) {
+                console.log('property ', target, receiver);
+                var success = Reflect.set(target, name, value, receiver);
+                if (success) {
+                    console.log('property ' + name + ' on ' + target + ' set to ' + value);
+                }
+                return success;
+            }
+        });
+
+        proxyTarget.name = 'francis'
+
+        var myObject = {
+            foo: 1,
+            bar: 2,
+            get baz() {
+                return this.foo + this.bar;
+            },
+        };
+
+        var myReceiverObject = {
+            foo: 4,
+            bar: 4,
+        };
+
+        console.log(Reflect.get(myObject, 'baz',myReceiverObject),'==baz') 
+
+        let p = {
+  a: 'a'
+};
+
+let handler = {
+  set(target, key, value, receiver) {
+    console.log('set');
+    console.log(receiver, '==receiver',target)
+    Reflect.set(target, key, value, receiver)
+  },
+  defineProperty(target, key, attribute) {
+    console.log('defineProperty');
+    Reflect.defineProperty(target, key, attribute);
+  }
+};
+
+let obj = new Proxy(p, handler);
+obj.a = 'A';
+
+
+const queuedObservers = new Set();
+
+// 观察者
+const observe = fn => queuedObservers.add(fn);
+// 被观察者
+const observable = obj => new Proxy(obj, {set});
+
+function set(target, key, value, receiver) {
+  const result = Reflect.set(target, key, value, receiver);
+  queuedObservers.forEach(observer => observer());
+  return result;
+}
+
+const person = observable({
+  name: '张三',
+  age: 20
+});
+
+function print() {
+  console.log(`${person.name}, ${person.age}`)
+}
+
+observe(print);
+person.name = '李四';
+// 输出
+// 李四, 20
+    </script>
+</body>
+
+</html>

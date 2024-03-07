@@ -24,46 +24,48 @@
     //    console.log(proxy.name,'xx')  
     //    console.log(proxy.age)  
 
-    function sum(a,b){
-        return a+b
-    }
-    const handler = {
-        apply: function(target, thisArg, argumentsList) {
-            console.log(target,'==target',thisArg)
-            console.log(`Calculate sum: ${argumentsList}`);
-            // expected output: "Calculate sum: 1,2"
+//     function sum(a,b){
+//         return a+b
+//     }
+//     const handler = {
+//         apply: function(target, thisArg, argumentsList) {
+//             console.log(target,'==target',thisArg)
+//             console.log(`Calculate sum: ${argumentsList}`);
+//             // expected output: "Calculate sum: 1,2"
 
-            return target(argumentsList[0], argumentsList[1]) * 10;
-        }
-    };
-    const proxy1 = new Proxy(sum, handler);
-    console.log(sum(1, 2));
-    console.log(proxy1(1, 2));
+//             return target(argumentsList[0], argumentsList[1]) * 10;
+//         }
+//     };
+//     const proxy1 = new Proxy(sum, handler);
+//     console.log(sum(1, 2));
+//     console.log(proxy1(1, 2));
 
-    function monster1(disposition) {
-        this.disposition = disposition;
-    }
-    const handler1 = {
-        construct(target, args) {
-            console.log('monster1 constructor called');
-            // expected output: "monster1 constructor called"
+//     function monster1(disposition) {
+//         this.disposition = disposition;
+//     }
+//     const handler1 = {
+//         construct(target, args) {
+//             console.log('monster1 constructor called');
+//             // expected output: "monster1 constructor called"
 
-            return new target(...args);
-        }
-        };
+//             return new target(...args);
+//         }
+//         };
 
-const proxy2 = new Proxy(monster1, handler1);
-console.log(new proxy2('fierce').disposition);
+// const proxy2 = new Proxy(monster1, handler1);
+// console.log(new proxy2('fierce').disposition);
 
-var p3 = new Proxy({}, {
-  defineProperty: function(target, prop, descriptor) {
-    console.log('called: ' + prop);
-    return true;
-  }
-});
+// var p3 = new Proxy({}, {
+//   defineProperty: function(target, prop, descriptor) {
+//     console.log('called: ' + prop);
+//     return true;
+//   }
+// });
 
-var desc = { configurable: true, enumerable: true, value: 10 };
-Object.defineProperty(p3, 'a', desc); // "called: a"
+// var desc = { configurable: true, enumerable: true, value: 10 };
+// Object.defineProperty(p3, 'a', desc); 
+
+    
     </script>
 </body>
 </html>

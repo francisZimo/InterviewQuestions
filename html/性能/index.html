@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box-con{
+            width: 400px;
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="memoryChart" style="width: 400px; height: 300px;"></div>
+    <p>游离Dom</p>
+    <button id="btn">Add</button>
+    <div class="box-con" id="container"></div>
+    <script>
+      var tempList=[]
+  
+      function fn() {
+        var ul = document.createElement('ul')
+        for (var i = 0; i < 5000; i++) {
+          var li = document.createElement('li')
+          li.innerHTML = i+"我是擦开始两地分居阿克琉斯大家福利卡就是的发啦开始江东父老卡是江东父老卡上的疯狂拉升江东父老卡上的反馈啦就是地方"
+          ul.appendChild(li)
+        }
+        tempList.push(new Array(10000))
+        document.getElementById('container').appendChild(ul)
+      }
+  
+      document.getElementById('btn').addEventListener('click',fn)
+    </script>
+     <div id="memoryChart" style="width: 400px; height: 300px;"></div>
+     <script>
+         // 初始化 ECharts 实例
+         const memoryChart = echarts.init(document.getElementById('memoryChart'));
+ 
+         // 初始数据
+         let xAxisData = [];
+         let seriesData = [];
+ 
+         // 更新图表数据
+         function updateMemoryChart() {
+             const memory = performance.memory;
+             const usedMemory = memory.usedJSHeapSize / (1024 * 1024); // Convert to MB
+                console.log(usedMemory,'==me    ')
+             // 实时更新 x 轴数据和内存占用数据
+             xAxisData.push(new Date().toLocaleTimeString());
+             seriesData.push(usedMemory.toFixed(2));
+ 
+             // 限制数据长度，只保留最近的 50 个数据点
+             if (xAxisData.length > 50) {
+                 xAxisData.shift();
+                 seriesData.shift();
+             }
+ 
+             // 更新图表
+             memoryChart.setOption({
+                 xAxis: {
+                     data: xAxisData
+                 },
+                 series: [{
+                     data: seriesData
+                 }]
+             });
+         }
+ 
+         // 初始配置
+         memoryChart.setOption({
+             xAxis: {
+                 type: 'category',
+                 data: xAxisData
+             },
+             yAxis: {
+                 type: 'value'
+             },
+             series: [{
+                 data: seriesData,
+                 type: 'line'
+             }]
+         });
+         updateMemoryChart()
+         // 每 5 秒更新一次图表
+         setInterval(updateMemoryChart, 5000);
+     </script>
+</body>
+</html>

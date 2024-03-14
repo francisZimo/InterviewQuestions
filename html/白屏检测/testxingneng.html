@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class base{
+            constructor(){
+                this.name = "base"
+            }
+            say(){
+                console.log(this.name)
+            }
+        }
+        console.time("start")
+        for(let i=0;i<10000;i++){
+            console.log(i)
+            const newBase = new base()
+        }
+        console.timeEnd("start")
+    </script>
+</body>
+</html>

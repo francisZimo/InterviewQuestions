@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .myClass {
+            border: 1px solid red;
+        }
+        .bitCanvas{
+            width: 1000px;
+            height: 1000px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="count"></div>
+    <button onclick="handleBtnAdd()">点击我</button>
+    <canvas class="myClass" id="canvas1"></canvas>
+    <canvas class="bitCanvas" id="canvas-bitmap"></canvas>
+
+    <script>
+        var windowCount = 0;
+        var offscreen = new OffscreenCanvas(400, 400);
+        var offscreenCtx = offscreen.getContext('2d');
+        offscreenCtx.beginPath();
+        offscreenCtx.lineWidth = 10;
+        offscreenCtx.strokeStyle = "orange";
+        offscreenCtx.strokeRect(50, 50, 100, 100);
+        offscreenCtx.stroke();
+        offscreenCtx.closePath();
+        var canvas1 = document.getElementById("canvas1");
+        var ctx1 = canvas1.getContext("2d");
+        ctx1.drawImage(offscreen, 0, 0, 200, 200);
+    </script>
+    <script>
+        var worker2 = null,
+            canvasBitmap, ctxBitmap;
+        const dpr=window.devicePixelRatio || 1;
+        function init() {
+            canvasBitmap = document.getElementById('canvas-bitmap');
+            
+            canvasBitmap.width = 1000*dpr;
+            canvasBitmap.height = 1000*dpr;
+            ctxBitmap = canvasBitmap.getContext('2d');
+            ctxBitmap.scale(dpr,dpr);
+            worker2 = new Worker('./bitmap_worker.js');
+            worker2.postMessage({
+                msg: 'init'
+            });
+            worker2.onmessage = function (e) {
+                console.log('eeee==',e)
+                ctxBitmap.drawImage(e.data.imageBitmap, 0, 0);
+            }
+        }
+
+        function redraw() {
+            ctxBitmap.clearRect(0, 0, canvasBitmap.width, canvasBitmap.height)
+            worker2.postMessage({
+                msg: 'draw'
+            });
+        }
+
+        init()
+
+        setInterval(() => {
+            windowCount++;
+            document.getElementById('count').innerText = windowCount;
+        }, 1000);
+
+        function handleBtnAdd(){
+            console.log('handle')
+        }
+    </script>
+</body>
+
+</html>

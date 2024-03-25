@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .canvasBox {
+            border: 1px solid red;
+        }
+        /* .canvas1{
+            width: 300px;
+            height: 300px;
+        }  */
+    </style>
+</head>
+
+<body>
+    <canvas class="canvasBox" id="canvas"></canvas>
+    <canvas class="canvasBox canvas1" id="canvas1"></canvas>
+    <div class="options">
+        <button onclick="zoomIn()">放大 +</button>
+        <button onclick="zoomOut()">缩小 -</button>
+        <!-- <button onclick="reset()">还原</button> -->
+      </div>
+    <script>
+        // 高清canvas
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        window.ctx=ctx
+        console.log(canvas.width, canvas.height,'==width,height');
+        ctx.beginPath();
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "orange";
+        // ctx.moveTo(100, 100);
+        // ctx.lineTo(400, 400);
+        ctx.strokeRect(50, 50, 100, 100);
+        ctx.stroke();
+        ctx.closePath();
+    </script>
+    <script>
+        const canvas1 = document.getElementById("canvas1");
+        window.canvas1=canvas1
+        const ctx1 = canvas1.getContext("2d");
+        var scale=1;
+
+        // 获取缩放倍率
+        const getPixelRatio = (context) => {
+            return window.devicePixelRatio || 1;
+        };
+
+        const ratio = getPixelRatio();
+        console.log(ratio,'==ratio')
+        // 保存原来的宽高
+        const oldWidth = canvas1.width;
+        const oldHeight = canvas1.height;
+
+        // canvas画布进行放大
+        // canvas1.width = canvas1.width * ratio;
+        // canvas1.height = canvas1.height * ratio;
+        let dpr= window.devicePixelRatio;
+        let changeWidth=dpr*1000
+        canvas1.width = dpr*1000;
+        canvas1.height = dpr*1000;
+
+        canvas1.style="width:800px;height:800px;"
+
+        ctx1.scale(dpr, dpr)
+        // // 在css里将宽高设置为原来的大小
+        // canvas1.style.width = oldWidth + "px";
+        // canvas1.style.height = oldHeight + "px";
+
+        // 考虑到内容的缩放，将ctx缩放
+        // ctx1.scale(ratio, ratio);
+
+        
+        draw()
+  
+        ctx1.fillStyle = 'red';
+        ctx1.fillRect(800, 800, 100, 100);
+
+        const baseImg=canvas1.toDataURL('image/png', 1.0);
+        console.log(baseImg,'==baseImg')
+
+        // ctx1.fillStyle = 'green';
+        // ctx1.fillRect(150, 150, 50, 50);
+
+        function zoomIn(){
+            canvas1.width = 800;
+            scale+=0.1;
+            ctx1.scale(scale, scale);
+            draw()
+        }
+
+        function zoomOut(){
+            canvas1.width = 800;
+            scale-=0.1;
+            ctx1.scale(scale, scale);
+            draw()
+
+        }
+
+
+
+
+        console.log(canvas1.width,canvas1.height,'==width,height');
+
+
+        function draw(){
+
+            ctx1.beginPath();
+            ctx1.lineWidth = 10;
+            ctx1.strokeStyle = "orange";
+            ctx1.strokeRect(50, 50, 100, 100);
+            ctx1.stroke();
+            ctx1.closePath();
+        }
+
+
+        setTimeout(()=>{
+            window.ctx.drawImage(canvas1,0,0,100,100)
+        },3000)
+    </script>
+    
+</body>
+
+</html>

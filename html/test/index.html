@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>hah1</div>
+    <img src="test.png" alt="">
+    <div>hah2</div>
+    <img src="/Users/wangyongju/Documents/个人资料/dailyQuestions/html/test/test.png" alt="">
+    <script>
+        // 动态加载图片
+        var img = new Image();
+        img.src = './test.png';
+        img.onload = function() {
+            document.body.appendChild(img);
+        }
+
+    </script>
+</body>
+</html>

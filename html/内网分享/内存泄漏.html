@@ -8,7 +8,9 @@
 </head>
 
 <body>
-    <div id="startBtn">hahah</div>
+    <div id="startBtn">创建</div>
+    <div id="destory">销毁</div>
+    <div id="fn">正常函数执行</div>
     <script>
         var arr = [];
         startBtn.addEventListener("click", function () {
@@ -17,6 +19,21 @@
             arr.push(b);
             console.log('ha')
         });
+        destory.addEventListener("click", function () {
+            arr = [];
+            console.log('destory')
+        });
+
+        fn.addEventListener("click", function () {
+            let a = new Array(100000).fill(1);
+            arr.push(a)
+            setTimeout(() => {
+                // arr=[];
+                a=null
+            }, 2000)
+        });
+
+        
     </script>
 </body>
 

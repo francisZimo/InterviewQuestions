@@ -19,5 +19,17 @@
         }
 
     </script>
+    <script>
+        // api请求： http://jsonplaceholder.typicode.com/posts/2
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://jsonplaceholder.typicode.com/posts/2', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        }
+        xhr.send();
+        
+    </script>
 </body>
 </html>

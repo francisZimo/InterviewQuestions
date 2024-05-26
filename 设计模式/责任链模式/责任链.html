@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>作者：嘿哟写bug呢 链接：https://www.jianshu.com/p/0731e71475b2 来源：简书 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+    <script>
+      var ming = function (next, subject) {
+        console.log(next);
+
+        if (subject === '1+1') {
+          console.log('这题我会是2');
+        } else {
+          next(subject); //我不知道下一个节点是谁，反正把请求往后面传递
+        }
+      };
+
+      var zhang = function (next, subject) {
+        if (subject === '1-1') {
+          console.log('这题我会是0');
+        } else {
+          next(subject); //我不知道下一个节点是谁，反正把请求往后面传递
+        }
+      };
+
+      var wang = function (next, subject) {
+        if (subject === '1*1') {
+          console.log('这题我会是1');
+        } else {
+          next(subject); //我不知道下一个节点是谁，反正把请求往后面传递
+        }
+      };
+
+      var Chain = function () {
+        this.line = [];
+
+        this.index = 0;
+      };
+
+      Chain.prototype.add = function (fn) {
+        this.line.push(fn);
+      };
+
+      Chain.prototype.exec = function () {
+        this.line[this.index](this.next.bind(this), ...arguments);
+      };
+
+      Chain.prototype.next = function () {
+        var fn = this.line[++this.index];
+
+        if (fn) {
+          fn.apply(this, [this.next.bind(this), ...arguments]);
+        } else {
+          console.log('end');
+        }
+      };
+
+      var studentChain = new Chain();
+
+      studentChain.add(ming);
+
+      studentChain.add(zhang);
+
+      studentChain.add(wang);
+
+      studentChain.exec('1+1');
+    </script>
+  </body>
+</html>

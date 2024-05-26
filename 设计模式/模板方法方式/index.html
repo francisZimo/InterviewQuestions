@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        #### 模板方法模式
+
+        定义：基于继承的设计模式，在父类中定义需要实现的方法，并定义好方法的执行逻辑，子类只需实现对应方法即可
+
+        简介：模板方法模式是一种只需通过继承就可以实现的简单模式。这种模式在前端框架中十分常见，vue、react的组件定义都用到了该模式。大家思考下为什么我们在vue组件中定义的生命周期函数会按照给定的顺序执行呢？通过下面的简单示例来了解下。
+
+        作者：嘿哟写bug呢
+        链接：https://www.jianshu.com/p/0731e71475b2
+        来源：简书
+        著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+    </p>
+    <script>
+        var Vue = function (config) { // 父类
+
+            this.config = config
+
+        }
+
+        // 定义需要实现的方法
+
+        Vue.prototype.created = function () {}
+
+        Vue.prototype.mounted = function () {}
+
+        Vue.prototype.destoryed = function () {}
+
+        // 定义执行逻辑
+
+        Vue.prototype.init = function () {
+
+            this.created()
+
+            this.mounted()
+
+            this.destoryed()
+
+        }
+
+        var Button = function (config) {
+
+            Vue.call(this, config)
+
+        }
+
+        Button.prototype = new Vue()
+
+        Button.prototype.created = function () {
+
+            console.log('button created')
+
+        }
+
+        Button.prototype.mounted = function () {
+
+            console.log('button mounted')
+
+        }
+
+        Button.prototype.destoryed = function () {
+
+            console.log('button destoryed')
+
+        }
+
+        var button = new Button()
+        button.init()
+    </script>
+</body>
+
+</html>

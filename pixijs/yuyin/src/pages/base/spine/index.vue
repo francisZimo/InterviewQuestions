@@ -51,7 +51,6 @@ onMounted(() => {
     const dragon = new Spine(dragonAsset.spineData);
     dragon.position.set(400, 400);
     app.stage.addChild(dragon);
-
     dragon.state.setAnimation(0, 'flying', true);
   }
 });

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/eruda/3.0.1/eruda-polyfill.js"></script>
+    <script src="./signal.js"></script>
+</head>
+
+<body>
+    <button onclick="handleClick()">耗时计算</button>
+    <button onClick="handleMsg()">模拟发送数据</button>
+    <script>
+        // window.location.search='?cw_platform=windows'
+        window.transmitToCourseware=function(data){
+            console.log('收到数据',data,JSON.stringify(data))
+      
+            window.receiveFromCourseware(data)
+        }
+
+        let msgId=0
+        function handleMsg(){
+            console.log('开始发送数据')
+            let data={
+                type:'msg',
+                data:++msgId
+            }
+            window.transmitToCourseware(data)
+            console.log('数据发送完毕')
+        }
+
+
+        let ary=[]
+        let s=0
+         
+       function handleClick(){
+        console.log('开始计算')
+        for(let i=0;i<2000000000;i++){
+            s++
+        }
+        console.log('计算完毕')
+        s=0;
+        }
+
+       
+    </script>
+</body>
+</html>

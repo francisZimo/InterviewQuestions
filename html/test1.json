@@ -1,0 +1,56 @@
+{
+  "gameModuleList": [
+    {
+      "name": "mb_framework-1.1.91",
+      "md5": "b7f1e1e583b1d04fc218d61cd889650b"
+    },
+    {
+      "name": "mb_courseware-1.2.95",
+      "md5": "17795a72bdc0c96f9108112d029fd7a1"
+    },
+    {
+      "name": "mb_common_res-1.0.42",
+      "md5": "b6125ca693f4204b40667f4d50544092"
+    },
+    {
+      "name": "mb_common_components-1.0.15",
+      "md5": "fc8b48c59745bd6e3fe0dc411a684792"
+    },
+    {
+      "name": "mb_drag_base-1.0.8",
+      "md5": "a31388ac52e7293ad68f8810b8bbe05c"
+    },
+    {
+      "name": "mb_keyboard_new-1.1.15",
+      "md5": "ba2185f112a6bfcd70c9433e77a47dd2"
+    },
+    {
+      "name": "mb_keyboard-1.0.3",
+      "md5": "76b45309c8b88e379d5ee057e5a8335e"
+    },
+    {
+      "name": "mb_microphone-1.0.95",
+      "md5": "b053060bf0845bdbaf5003693e434302"
+    },
+    {
+      "name": "mb_xiaolaba-1.0.1",
+      "md5": "cc34ce3d9420a05d0a5aed88c75961d0"
+    },
+    { "name": "mb_drag_template-1.0.23" }
+  ],
+  "gameResList": [{ "name": "df5affd0", "md5": "c2fa9c856113fefebecda0950d2a0132" }],
+  "remoteConfig": {
+    "resHost": "https://static0.xesimg.com/",
+    "resRouter": "mobby-game/mobby/coursewares_editor_res/",
+    "entranceRouter": "mobby-game/mobby/coursewares_ab/",
+    "moduleRouter": "mobby-game/mobby/coursewares_ab/",
+    "dynamicResRouter": "mobby-game/mobby/coursewares_dynamic_res/"
+  },
+  "localConfig": {
+    "resHost": "http://localhost:7543/",
+    "entranceRouter": "engines/",
+    "moduleRouter": "templates/",
+    "resRouter": "coursewares/",
+    "dynamicResRouter": "coursewares_dynamic_res/"
+  }
+}

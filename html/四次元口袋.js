@@ -1,0 +1,298 @@
+// step1: 未来课件
+
+// 互动规则：1. 单人发言  2.同时发言 3.顺次发言
+// 互动形式: 1.音频 2.视频 3.音视频
+// 互动角色: 1.班长 2.学习委员 3.老师 4.其他
+// 技能：  1.发宝箱 2.开盲盒 3.打下课铃 4.发卡
+
+
+let part1=
+{
+    name:'学生6人上台',
+    stuHotArea:{
+        count:6,
+        areaTag:'学生',
+        interactRule:'同时发言',
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    interactType:'音频',
+                    role:'',
+                }
+            }
+        ],
+    },
+
+}
+
+let part2=
+{
+    name:'班长上台',
+  
+    stuHotArea:{
+        count:6,
+        interactRule:'同时发言',
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    interactType:'音频',
+                    role:''
+                }
+            }
+        ],
+    },
+    stageHotArea:{
+        count:1,
+        interactRule:'单人音频',
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    interactType:'单音频',
+                    role:'班长'
+                }
+            }
+        ],
+    }
+}
+
+let part3=
+{
+    name:'班长发技能',
+    stuHotArea:{
+        count:6,
+        interactRule:'同时发言',
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    interactType:'音频',
+                    role:''
+                }
+            }
+        ],
+    },
+    stageHotArea:{
+        count:1,
+        interactRule:'单人音频',
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    interactType:'单音频',
+                    role:'班长'
+                }
+            }
+        ],
+    },
+    skillHotArea:{
+        count:1,
+        location:[
+            {
+                id:1,
+                x:10,
+                y:10,
+                w:10,
+                h:10,
+                other:{
+                    roleId:'role1',
+                    skill:'发宝箱',
+                    material:'三国卡片'
+                }
+            }
+        ],
+    }
+}
+
+
+
+s=
+{
+    name:'学生六人上台',  
+    stuHotArea:{
+    count:6,
+    interactRule:'同时发言',
+    location:[
+        {
+            id:1,
+            x:10,
+            y:10,
+            w:10,
+            h:10
+        }
+    ],
+    }
+}
+
+a={
+    name:'学生六人上台',  
+    stuHotArea:{
+     name:'学生热区',
+     tag:'stu',
+     count:6,
+     location:[
+        {
+            id:'stu_1',
+            x:10,
+            y:10,
+            w:10,
+            h:10,
+            other:{
+                interactRule:'同时发言',
+                interactType:'音频',
+                role:''
+            }
+        }
+    ],
+    }
+}
+
+module=
+{
+    part1:{
+        name:'学生六人上台', 
+        stuHotArea:{
+            name:'学生热区',
+            tag:'stu',
+            count:6,
+            location:[
+               {
+                   id:'stu_1',
+                   x:10,
+                   y:10,
+                   w:10,
+                   h:10,
+                   other:{
+                       interactRule:'同时发言',
+                       interactType:'音频',
+                       role:''
+                   }
+               }
+           ],
+        }   
+    },
+    part2:{
+        name:'班长上台', 
+        stuHotArea:{
+            name:'学生热区',
+            tag:'stu',
+            count:6,
+            location:[
+               {
+                   id:'stu_1',
+                   x:10,
+                   y:10,
+                   w:10,
+                   h:10,
+                   other:{
+                       interactRule:'同时发言',
+                       interactType:'音频',
+                       role:''
+                   }
+               }
+           ],
+        },
+        stageHotArea:{
+            name:'上台热区',
+            tag:'stage',
+            count:1,
+            interactRule:'单人音频',
+            location:[
+                {
+                    id:"stag_1",
+                    x:10,
+                    y:10,
+                    w:10,
+                    h:10,
+                    other:{
+                        interactType:'单音频',
+                        role:'班长ID'
+                    }
+                }
+            ],
+        }
+    },
+    part3:{
+        name:'班长发技能', 
+        stuHotArea:{
+            name:'学生热区',
+            tag:'stu',
+            count:6,
+            location:[
+               {
+                   id:'stu_1',
+                   x:10,
+                   y:10,
+                   w:10,
+                   h:10,
+                   other:{
+                       interactRule:'同时发言',
+                       interactType:'音频',
+                       role:''
+                   }
+               }
+           ],
+        },
+        stageHotArea:{
+            name:'上台热区',
+            tag:'stage',
+            count:1,
+            interactRule:'单人音频',
+            location:[
+                {
+                    id:"stag_1",
+                    x:10,
+                    y:10,
+                    w:10,
+                    h:10,
+                    other:{
+                        interactType:'单音频',
+                        role:'班长ID'
+                    }
+                }
+            ],
+        },
+        skillHotArea:{
+            name:'技能热区',
+            tag:'skill',
+            count:1,
+            location:[
+                {
+                    id:"skill_1",
+                    x:10,
+                    y:10,
+                    w:10,
+                    h:10,
+                    other:{
+                        roleId:'班长ID',
+                        skill:'发宝箱',
+                        material:'三国卡片'
+                    }
+                }
+            ],
+        }
+
+    }
+}

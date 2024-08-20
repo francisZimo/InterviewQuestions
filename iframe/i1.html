@@ -1,64 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <body>
-      我是 1.html, 下面嵌套 2.html
-      <iframe
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  我是 1.html, 下面嵌套 2.html
+  <!-- <iframe
         src="https://xueyan.xueersi.com/chess-base-topic/index.html"
         name="child"
-      ></iframe>
-      <script>
-        function hello() {
-          console.log('this is 1.html');
-        }
+      ></iframe> -->
+  <!-- <iframe style="width: 100%; height: 100%;" src="https://xueyan.xueersi.com/four-ci-yuan/index.html#/" name="child"></iframe> -->
+  <iframe style="width: 100%; height: 100%;" src="http://localhost:80/" name="child"></iframe>
+  <!-- <iframe
+      style="width: 100%; height: 100%;"
+      src="./i2.html"
+      name="child" -->
+  ></iframe>
+  <script>
+    function hello() {
+      console.log('this is 1.html');
+    }
 
-        var iframe = document.getElementsByTagName('iframe')[0];
-        console.log('contentWindow 🥝', iframe.contentWindow); // 能访问
-        console.log('contentDocument 🥝', iframe.contentDocument); // 能访问
+    var iframe = document.getElementsByTagName('iframe')[0];
+    // console.log('contentWindow 🥝', iframe.contentWindow); // 能访问
+    // console.log('contentDocument 🥝', iframe.contentDocument); // 能访问
 
-        // 注意访问方式, 需要在 onload 后才能取到值
-        // console.log( iframe.contentWindow.hello() ) // Uncaught TypeError: iframe.contentWindow.hello is not a function
+    // 注意访问方式, 需要在 onload 后才能取到值
+    // console.log( iframe.contentWindow.hello() ) // Uncaught TypeError: iframe.contentWindow.hello is not a function
 
-        iframe.onload = function () {
-          console.log(iframe.contentWindow.hello(), '==hello'); // this is 2.html //  输出 Location 对象， 依然要在 iframe.onload 中访问
-          console.log(
-            'contentWindow.location 🥝',
-            iframe.contentWindow.location
-          ); //  iframe.contentWindow.location.host : 127.0.0.1:8000 //  xxx.hash:     "" //  xxx.host:     "127.0.0.1:8000" //  xxx.hostname: "127.0.0.1" //  xxx.href:     "http://127.0.0.1:8000/2.html" //  xxx.origin:   "http://127.0.0.1:8000" //  xxx.pathname: "/2.html" //  xxx.port:     "8000" //  xxx.protocol: "http:" //  ... // 有相同的源 我们可以进行任何操作
-          iframe.contentDocument.body.innerHTML = '<p>hi, i am ur father !</p>';
-          console.log(iframe.contentDocument.getElementsByTagName('p'), '==p');
+    iframe.onload = function () {
+      console.log('121加载成功')
+      // console.log(iframe.contentWindow.hello(), '==hello'); // this is 2.html //  输出 Location 对象， 依然要在 iframe.onload 中访问
+      // console.log(
+      //   'contentWindow.location 🥝',
+      //   iframe.contentWindow.location
+      // ); //  iframe.contentWindow.location.host : 127.0.0.1:8000 //  xxx.hash:     "" //  xxx.host:     "127.0.0.1:8000" //  xxx.hostname: "127.0.0.1" //  xxx.href:     "http://127.0.0.1:8000/2.html" //  xxx.origin:   "http://127.0.0.1:8000" //  xxx.pathname: "/2.html" //  xxx.port:     "8000" //  xxx.protocol: "http:" //  ... // 有相同的源 我们可以进行任何操作
+      // iframe.contentDocument.body.innerHTML = '<p>hi, i am ur father !</p>';
+      // console.log(iframe.contentDocument.getElementsByTagName('p'), '==p');
 
-          // onload发送消息
-          let childFrame = window.frames.child;
-          console.log(window.frames, '==framesList', window.frames.child);
-          childFrame.postMessage('i am father', 'http://127.0.0.1:8000');
-        };
+      // // onload发送消息
+      let childFrame = window.frames.child;
+      // console.log(window.frames, '==framesList', window.frames.child);
+      // childFrame.postMessage('i am father');
+      // iframe.contentWindow.postMessage(
+      //   {
+      //   type: 'formData',
+      //   data: {
+      //     name: 'tom',
+      //     age: 12,
+      //   },
+      // })
+      // childFrame.postMessage('第一次发送')
+      console.log('hhaha9999')
 
-        // iframe.contentWindow.location = 'http://www.360doc.com'; // 可以直接修改 iframe 地址, 不受同源策略的限制。 有的网站不支持被iframe引用, 所以会报错。 注意区分错误信息。
-        // onload发送消息
-        let childFrame = window.frames.child;
-        console.log(window.frames, '==framesList', window.frames.child);
-        childFrame.postMessage('第一次发送', 'http://127.0.0.1:8000');
+    };
 
-        window.addEventListener('message', function (event) {
-          console.log(event, '==event');
-          // if (event.origin !== 'http://127.0.0.1:8000') {
-          //   // 来自未知的源的内容，我们忽略它
-          //   return;
-          // }
-          if (window === event.source) {
-            return;
+    // iframe.contentWindow.location = 'http://www.360doc.com'; // 可以直接修改 iframe 地址, 不受同源策略的限制。 有的网站不支持被iframe引用, 所以会报错。 注意区分错误信息。
+    // onload发送消息
+    // let childFrame = window.frames.child;
+    // console.log(window.frames, '==framesList', window.frames.child);
+    // childFrame.postMessage('第一次发送', 'http://127.0.0.1:80');
+
+    window.addEventListener('message', function (event) {
+
+      // if (event.origin !== 'http://127.0.0.1:8000') {
+      //   // 来自未知的源的内容，我们忽略它
+      //   return;
+      // }
+      // if (window === event.source) {
+      //   return;
+      // }
+      console.log('received:', event.data);
+      //           {
+      //     type："formData",
+      //     data：{技术文档中定义的数据格式}
+      // }
+      // 可以使用 event.source.postMessage(...) 向回发送消息
+      // return;
+      event.source.postMessage({
+        type: 'formData',
+        data: {
+          partName: '我是新的环节',
+          clientConfig: {
+            "studentHotArea": {
+              "count": 6,
+              "operationType": "Single",
+              "location": [{
+                  "id": "b2a74441-09cc-4274-96bf-3a648b74bd7c",
+                  "index": 1,
+                  "name": "学生热区_1",
+                  "hotAreaType": "student",
+                  "interactionType": "video",
+                  "role": "",
+                  "aiSticker": "desertTheme"
+                },
+                {
+                  "id": "dc60c950-2fd6-44d1-a91b-8c872ee53a45",
+                  "index": 2,
+                  "name": "学生热区_2",
+                  "hotAreaType": "student",
+                  "interactionType": "audio",
+                  "role": "classRep",
+                  "aiSticker": ""
+                },
+                {
+                  "id": "8d150955-f700-493f-84a7-6e70fc3ff088",
+                  "index": 3,
+                  "name": "学生热区_3",
+                  "hotAreaType": "student",
+                  "interactionType": "videoAudio",
+                  "role": "classMonitor",
+                  "aiSticker": "desertTheme"
+                },
+                {
+                  "id": "f1badfc9-d4b3-4616-a230-de9aff154d2f",
+                  "index": 4,
+                  "name": "学生热区_4",
+                  "hotAreaType": "student",
+                  "interactionType": "videoAudio",
+                  "role": "classMonitor",
+                  "aiSticker": "desertTheme"
+                },
+                {
+                  "id": "1a04f285-f4d2-44aa-80b8-2c8297387eca",
+                  "index": 5,
+                  "name": "学生热区_5",
+                  "hotAreaType": "student",
+                  "interactionType": "videoAudio",
+                  "role": "classMonitor",
+                  "aiSticker": "desertTheme"
+                },
+                {
+                  "id": "5c0a1ccb-7268-4963-9ef1-b9e6f830c3b6",
+                  "index": 6,
+                  "name": "学生热区_6",
+                  "hotAreaType": "student",
+                  "interactionType": "videoAudio",
+                  "role": "classMonitor",
+                  "aiSticker": "desertTheme"
+                }
+              ]
+            },
+            "partName": "我是新的环节",
+            "stageHotArea": {
+              "count": 2,
+              "interactionCommand": "oneVsOne",
+              "operationType": "Single",
+              "location": [{
+                  "id": "af71ce48-526f-42fd-b4e6-402d8a00f25d",
+                  "index": 1,
+                  "name": "上台热区_1",
+                  "hotAreaType": "stage",
+                  "interactionType": "video",
+                  "role": "classRep",
+                  "aiSticker": "desertTheme"
+                },
+                {
+                  "id": "0c69a51d-f865-436a-b563-3f8b530d9f77",
+                  "index": 2,
+                  "name": "上台热区_2",
+                  "hotAreaType": "stage",
+                  "interactionType": "audio",
+                  "role": "classMonitor",
+                  "aiSticker": ""
+                }
+              ]
+            },
+            "skillHotArea": {
+              "count": 2,
+              "operationType": "Single",
+              "location": [{
+                  "id": "5af81b25-380c-4bf7-8bff-ddc1e5e992de",
+                  "index": 1,
+                  "name": "技能热区_1",
+                  "hotAreaType": "skill",
+                  "role": "classRep",
+                  "roleSkill": "openTreasureBox",
+                  "skillMaterialId": "treasureBox",
+                  "imageId": "treasureBox"
+                },
+                {
+                  "id": "3e9ca6a6-058c-4890-b7ce-8db9a4fb226d",
+                  "index": 2,
+                  "name": "技能热区_2",
+                  "hotAreaType": "skill",
+                  "role": "classMonitor",
+                  "roleSkill": "openBlindBox",
+                  "skillMaterialId": "themeBlindBox",
+                  "imageId": "themeBlindBox"
+                }
+              ]
+            },
+            "partInteractionInfo": {
+              "playRule": "takePhotoTogether",
+              "voiceRecognition": {
+                "isRoleCheck": 0,
+                "role": "classAssistant",
+                "keyword": "助教"
+              }
+            }
           }
-          console.log('父亲收到了');
-          console.log('received:', event.data);
-        });
-      </script>
-    </body>
-  </body>
+        }
+      }, '*');
+
+
+      // console.log('发送消息了 tom')
+
+    });
+
+    // setTimeout(()=>{
+    //   console.log('发送消息了 tom',window.frames.child)
+    //    iframe.contentWindow.postMessage('第二次发送')
+    // },3000)
+  </script>
+</body>
+
 </html>

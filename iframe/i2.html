@@ -40,7 +40,7 @@
 
       window.onload = function () {
         console.log('向父亲发送消息');
-        window.parent.postMessage({ name: 'tom' }, 'http://127.0.0.1:8000');
+        window.parent.postMessage({ name: 'tom' });
       };
 
       //   window.parent.postMessage({name:'tom',age:'12'},'http://127.0.0.1:8000')

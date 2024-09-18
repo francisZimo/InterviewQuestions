@@ -14,7 +14,7 @@
     }
   </style>
 </head>
-
+?editMode=edit
 <body>
   我是 1.html, 下面嵌套 2.html
   <!-- <iframe
@@ -22,7 +22,7 @@
         name="child"
       ></iframe> -->
   <!-- <iframe style="width: 100%; height: 100%;" src="https://xueyan.xueersi.com/four-ci-yuan/index.html#/" name="child"></iframe> -->
-  <iframe style="width: 100%; height: 100%;" src="http://localhost:80/" name="child"></iframe>
+  <iframe style="width: 100%; height: 100%;" src="http://localhost:80/?editMode=edit" name="child"></iframe>
   <!-- <iframe
       style="width: 100%; height: 100%;"
       src="./i2.html"
@@ -33,7 +33,521 @@
       console.log('this is 1.html');
     }
 
-    var iframe = document.getElementsByTagName('iframe')[0];
+   const sendData1={
+            "savePending":{},
+            "studentHotArea": {
+                "count": 5,
+                "operationType": "All",
+                "location": [
+                    {
+                        "id": "1fb5a5d8-9889-4d92-8002-51326c62efae",
+                        "index": 1,
+                        "name": "学生热区_1",
+                        "hotAreaType": "student",
+                        "interactionType": "video",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "bf43b540-bdc2-43fe-9d9a-77549381161f",
+                        "index": 2,
+                        "name": "学生热区_2",
+                        "hotAreaType": "student",
+                        "interactionType": "video",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "298476d0-8b0d-4923-ae34-87ef0f9493fc",
+                        "index": 3,
+                        "name": "学生热区_3",
+                        "hotAreaType": "student",
+                        "interactionType": "video",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "f1ad7e70-3766-467e-b210-4dfc2bac35ba",
+                        "index": 4,
+                        "name": "学生热区_4",
+                        "hotAreaType": "student",
+                        "interactionType": "video",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "8439352c-e3a0-4828-97e0-fc9f8df4fdf0",
+                        "index": 5,
+                        "name": "学生热区_5",
+                        "hotAreaType": "student",
+                        "interactionType": "video",
+                        "role": "",
+                        "aiSticker": ""
+                    }
+                ]
+            },
+            "partName": "选中单人发言",
+            "stageHotArea": {
+                "count": 1,
+                "interactionCommand": "designatedOnStage",
+                "operationType": "All",
+                "location": [
+                    {
+                        "id": "27d6e965-b585-4219-a256-33c784c06b6d",
+                        "index": 1,
+                        "name": "上台热区_1",
+                        "hotAreaType": "stage",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    }
+                ]
+            }
+        }
+   const sendData2={
+     "studentHotArea": {
+                "count": 6,
+                "operationType": "All",
+                "location": [
+                    {
+                        "id": "5bae17e8-0966-4cf9-8ae0-c856f39f840a",
+                        "index": 1,
+                        "name": "学生热区_1",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "d9ccdc06-68e3-4377-9652-2c0521904f3b",
+                        "index": 2,
+                        "name": "学生热区_2",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "06c1557b-2041-4c9e-879b-29ba26ba5210",
+                        "index": 3,
+                        "name": "学生热区_3",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "38fc29f4-8918-470f-b697-66f753ec5aa7",
+                        "index": 4,
+                        "name": "学生热区_4",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "3f6fbfa5-d4b0-4c96-9811-fb36951dd6fd",
+                        "index": 5,
+                        "name": "学生热区_5",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    },
+                    {
+                        "id": "426ab3e6-7eac-44cc-a8c3-9f79ed147be1",
+                        "index": 6,
+                        "name": "学生热区_6",
+                        "hotAreaType": "student",
+                        "interactionType": "videoAudio",
+                        "role": "",
+                        "aiSticker": ""
+                    }
+                ]
+            }
+          }
+   const sendData3={
+    "skillHotArea": {
+                "count": 3,
+                "location": [
+                    {
+                        "hotAreaType": "skill",
+                        "id": "2da47f47-a7bc-4cd9-b3c7-1124d6d824fd",
+                        "imageId": "jingleBell",
+                        "index": 1,
+                        "name": "技能热区_1",
+                        "role": "classMonitor",
+                        "roleSkill": "openBlindBox",
+                        "skillMaterialId": "jingleBell"
+                    },
+                    {
+                        "hotAreaType": "skill",
+                        "id": "97c1754a-3e21-4509-a70b-e89a76ca3dd3",
+                        "imageId": "jingleBell",
+                        "index": 2,
+                        "name": "技能热区_2",
+                        "role": "classMonitor",
+                        "roleSkill": "openBlindBox",
+                        "skillMaterialId": "jingleBell"
+                    },
+                    {
+                        "hotAreaType": "skill",
+                        "id": "ebfd79d3-f585-47e4-9f55-f9b4db1b15b1",
+                        "imageId": "jingleBell",
+                        "index": 3,
+                        "name": "技能热区_3",
+                        "role": "classMonitor",
+                        "roleSkill": "openBlindBox",
+                        "skillMaterialId": "jingleBell"
+                    }
+                ],
+                "operationType": "All"
+            },
+            "stageHotArea": {
+                "count": 1,
+                "interactionCommand": "designatedOnStage",
+                "location": [
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "stage",
+                        "id": "2298f928-91bb-4a1c-97f1-41c7dec7900e",
+                        "index": 1,
+                        "interactionType": "videoAudio",
+                        "name": "上台热区_1",
+                        "role": "classMonitor"
+                    }
+                ],
+                "operationType": "All"
+            },
+            "studentHotArea": {
+                "count": 6,
+                "location": [
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "b1abcdc3-c310-454d-aecb-70fad4a8af27",
+                        "index": 1,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_1",
+                        "role": ""
+                    },
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "8f1afa00-feb2-4bc6-8302-780e405d2f52",
+                        "index": 2,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_2",
+                        "role": ""
+                    },
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "4fc9ba78-40e2-4071-8f38-fe33f3318f58",
+                        "index": 3,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_3",
+                        "role": ""
+                    },
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "f3a80772-730c-487a-85d8-1f609d42f1cd",
+                        "index": 4,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_4",
+                        "role": ""
+                    },
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "e4f57af8-4322-4f11-9538-03c7d2737d0a",
+                        "index": 5,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_5",
+                        "role": ""
+                    },
+                    {
+                        "aiSticker": "",
+                        "hotAreaType": "student",
+                        "id": "c27d343d-5007-4689-903f-6cd669dceccd",
+                        "index": 6,
+                        "interactionType": "videoAudio",
+                        "name": "学生热区_6",
+                        "role": ""
+                    }
+                ],
+                "operationType": "All"
+            }
+   }
+   const sendData4={
+    "studentHotArea": {
+                            "count": 6,
+                            "location": [
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "969477a7-49ae-476a-b08a-ba66489ebbd8",
+                                    "index": 1,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_1",
+                                    "role": ""
+                                },
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "d20d31cf-9abc-41bf-863f-b2cab14c94a7",
+                                    "index": 2,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_2",
+                                    "role": ""
+                                },
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "394a0d68-91b0-444b-acec-957e7e49f63e",
+                                    "index": 3,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_3",
+                                    "role": ""
+                                },
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "419e3877-4df9-4a98-adf1-0a6c5d18111d",
+                                    "index": 4,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_4",
+                                    "role": ""
+                                },
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "d5cb7309-fcc4-4103-968c-ee52b5c1e1b8",
+                                    "index": 5,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_5",
+                                    "role": ""
+                                },
+                                {
+                                    "aiSticker": "desertTheme",
+                                    "hotAreaType": "student",
+                                    "id": "086bca1f-1088-4044-baa0-13979614358c",
+                                    "index": 6,
+                                    "interactionType": "videoAudio",
+                                    "name": "学生热区_6",
+                                    "role": ""
+                                }
+                            ],
+                            "operationType": "All"
+                        }
+   }
+   const sendData5={
+    
+    "studentHotArea": {
+        "count": 6,
+        "operationType": "All",
+        "location": [
+            {
+                "id": "0d90326f-c2b0-4bad-b368-6e5f129d226c",
+                "index": 1,
+                "name": "学生热区_1",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            },
+            {
+                "id": "3f933c19-a878-4df1-a51e-37b79ae76b48",
+                "index": 2,
+                "name": "学生热区_2",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            },
+            {
+                "id": "afe5906d-d850-41a6-a21a-7d58860f19e6",
+                "index": 3,
+                "name": "学生热区_3",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            },
+            {
+                "id": "27c855a0-7461-4f79-85d6-7bfafaead806",
+                "index": 4,
+                "name": "学生热区_4",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            },
+            {
+                "id": "372297e4-fb90-455a-bc7d-8968b43d18fc",
+                "index": 5,
+                "name": "学生热区_5",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            },
+            {
+                "id": "e8b21a01-a18c-4651-8ef7-2f4706d92ca9",
+                "index": 6,
+                "name": "学生热区_6",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "-1",
+                "aiSticker": "-1"
+            }
+        ]
+    },
+    "partName": "",
+    "partInteractionInfo": {
+        "playRule": "voiceRecognition",
+        "voiceRecognition": {
+            "isRoleCheck": 1,
+            "role": "classAssistant",
+            "keyword": "我,小助教"
+        }
+    },
+    "savePending": {
+        "studentHotArea": {
+            "location": [
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                }
+            ]
+        }
+    }
+}
+   const sendData6={
+
+    "studentHotArea": {
+        "count": 6,
+        "operationType": "All",
+        "location": [
+            {
+                "id": "0d90326f-c2b0-4bad-b368-6e5f129d226c",
+                "index": 1,
+                "name": "学生热区_1",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            },
+            {
+                "id": "3f933c19-a878-4df1-a51e-37b79ae76b48",
+                "index": 2,
+                "name": "学生热区_2",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            },
+            {
+                "id": "afe5906d-d850-41a6-a21a-7d58860f19e6",
+                "index": 3,
+                "name": "学生热区_3",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            },
+            {
+                "id": "27c855a0-7461-4f79-85d6-7bfafaead806",
+                "index": 4,
+                "name": "学生热区_4",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            },
+            {
+                "id": "372297e4-fb90-455a-bc7d-8968b43d18fc",
+                "index": 5,
+                "name": "学生热区_5",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            },
+            {
+                "id": "e8b21a01-a18c-4651-8ef7-2f4706d92ca9",
+                "index": 6,
+                "name": "学生热区_6",
+                "hotAreaType": "student",
+                "interactionType": "videoAudio",
+                "role": "classMonitor",
+                "aiSticker": "professor"
+            }
+        ]
+    },
+    "partName": "我是新的环节",
+    "partInteractionInfo": {
+        "playRule": "voiceRecognition",
+        "voiceRecognition": {
+            "isRoleCheck": 1,
+            "role": "classAssistant",
+            "keyword": "我,小助教"
+        }
+    },
+    "savePending": {
+        "studentHotArea": {
+            "location": [
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                },
+                {
+                    "role": "-1",
+                    "aiSticker": "-1"
+                }
+            ]
+        }
+    }
+
+   }
+            var iframe = document.getElementsByTagName('iframe')[0];
     // console.log('contentWindow 🥝', iframe.contentWindow); // 能访问
     // console.log('contentDocument 🥝', iframe.contentDocument); // 能访问
 
@@ -93,125 +607,7 @@
         type: 'formData',
         data: {
           partName: '我是新的环节',
-          clientConfig: {
-            "studentHotArea": {
-              "count": 6,
-              "operationType": "Single",
-              "location": [{
-                  "id": "b2a74441-09cc-4274-96bf-3a648b74bd7c",
-                  "index": 1,
-                  "name": "学生热区_1",
-                  "hotAreaType": "student",
-                  "interactionType": "video",
-                  "role": "",
-                  "aiSticker": "desertTheme"
-                },
-                {
-                  "id": "dc60c950-2fd6-44d1-a91b-8c872ee53a45",
-                  "index": 2,
-                  "name": "学生热区_2",
-                  "hotAreaType": "student",
-                  "interactionType": "audio",
-                  "role": "classRep",
-                  "aiSticker": ""
-                },
-                {
-                  "id": "8d150955-f700-493f-84a7-6e70fc3ff088",
-                  "index": 3,
-                  "name": "学生热区_3",
-                  "hotAreaType": "student",
-                  "interactionType": "videoAudio",
-                  "role": "classMonitor",
-                  "aiSticker": "desertTheme"
-                },
-                {
-                  "id": "f1badfc9-d4b3-4616-a230-de9aff154d2f",
-                  "index": 4,
-                  "name": "学生热区_4",
-                  "hotAreaType": "student",
-                  "interactionType": "videoAudio",
-                  "role": "classMonitor",
-                  "aiSticker": "desertTheme"
-                },
-                {
-                  "id": "1a04f285-f4d2-44aa-80b8-2c8297387eca",
-                  "index": 5,
-                  "name": "学生热区_5",
-                  "hotAreaType": "student",
-                  "interactionType": "videoAudio",
-                  "role": "classMonitor",
-                  "aiSticker": "desertTheme"
-                },
-                {
-                  "id": "5c0a1ccb-7268-4963-9ef1-b9e6f830c3b6",
-                  "index": 6,
-                  "name": "学生热区_6",
-                  "hotAreaType": "student",
-                  "interactionType": "videoAudio",
-                  "role": "classMonitor",
-                  "aiSticker": "desertTheme"
-                }
-              ]
-            },
-            "partName": "我是新的环节",
-            "stageHotArea": {
-              "count": 2,
-              "interactionCommand": "oneVsOne",
-              "operationType": "Single",
-              "location": [{
-                  "id": "af71ce48-526f-42fd-b4e6-402d8a00f25d",
-                  "index": 1,
-                  "name": "上台热区_1",
-                  "hotAreaType": "stage",
-                  "interactionType": "video",
-                  "role": "classRep",
-                  "aiSticker": "desertTheme"
-                },
-                {
-                  "id": "0c69a51d-f865-436a-b563-3f8b530d9f77",
-                  "index": 2,
-                  "name": "上台热区_2",
-                  "hotAreaType": "stage",
-                  "interactionType": "audio",
-                  "role": "classMonitor",
-                  "aiSticker": ""
-                }
-              ]
-            },
-            "skillHotArea": {
-              "count": 2,
-              "operationType": "Single",
-              "location": [{
-                  "id": "5af81b25-380c-4bf7-8bff-ddc1e5e992de",
-                  "index": 1,
-                  "name": "技能热区_1",
-                  "hotAreaType": "skill",
-                  "role": "classRep",
-                  "roleSkill": "openTreasureBox",
-                  "skillMaterialId": "treasureBox",
-                  "imageId": "treasureBox"
-                },
-                {
-                  "id": "3e9ca6a6-058c-4890-b7ce-8db9a4fb226d",
-                  "index": 2,
-                  "name": "技能热区_2",
-                  "hotAreaType": "skill",
-                  "role": "classMonitor",
-                  "roleSkill": "openBlindBox",
-                  "skillMaterialId": "themeBlindBox",
-                  "imageId": "themeBlindBox"
-                }
-              ]
-            },
-            "partInteractionInfo": {
-              "playRule": "takePhotoTogether",
-              "voiceRecognition": {
-                "isRoleCheck": 0,
-                "role": "classAssistant",
-                "keyword": "助教"
-              }
-            }
-          }
+          clientConfig:sendData6
         }
       }, '*');
 

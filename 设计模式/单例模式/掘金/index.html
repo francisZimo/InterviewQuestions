@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class StorageClass {
+        static instance = null;
+        constructor() {
+          if (StorageClass.instance != null) {
+            return StorageClass.instance;
+          }
+          this.storage = {};
+          StorageClass.instance = this;
+        }
+
+        getItem(key) {
+          return this.storage[key];
+        }
+
+        setItem(key, value) {
+          this.storage[key] = value;
+        }
+      }
+
+      const storage1 = new StorageClass();
+      const storage2 = new StorageClass();
+      console.log(storage1);
+      storage1.setItem("name", "John");
+      storage1.setItem("age", 20);
+      console.log(storage1.getItem("name"));
+      console.log(storage2.getItem("name"));
+    </script>
+  </body>
+</html>

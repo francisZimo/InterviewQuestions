@@ -234,3 +234,32 @@ let s =
         }
     }
 }
+
+let c =
+{
+    type: "setUpStageWindow",
+    data: {
+        position: [
+            {
+                userId: '123456',
+                x: 20.45,    // 横坐标：浮点数  单位: px
+                y: 30.54,    // 纵坐标：浮点数  单位: px
+                w: 100,      // 宽：浮点数   单位: px
+                h: 80,       // 高：浮点数   单位: px
+                coursewareWidth: 1608, // 课件宽度：浮点数  单位:px
+                coursewareHeight: 1206, // 课件高度：浮点数  单位:px
+                layer: 0     // 0 在课件之下  1 在课件之上
+            },
+            {
+                userId: '999',
+                x: 20.45,
+                y: 30.54,
+                w: 100,
+                h: 80,
+                coursewareWidth: 1608,
+                coursewareHeight: 1206,
+                layer: 0
+            }
+        ]
+    }
+}

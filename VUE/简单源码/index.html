@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>姓:<span id="firstName"></span></p>
+    <p>名:<span id="lastName"></span></p>
+    <p>年龄:<span id="age"></span></p>
+    <input type="text" id="changeFirstName" oninput="userInfo.firstName = this.value" />
+    <script>
+      const firstName = document.getElementById("firstName");
+      const lastName = document.getElementById("lastName");
+      const age = document.getElementById("age");
+
+      let userInfo = {
+        firstName: "王",
+        lastName: "小明",
+        age: 20
+      };
+
+      function changeFistName() {
+        firstName.innerText = userInfo.firstName;
+      }
+
+      function changeLastName() {
+        lastName.innerText = userInfo.lastName;
+      }
+
+      function changeAge() {
+        age.innerText = userInfo.age;
+      }
+
+      function autoRun(cb) {
+        window.__func__ = cb;
+        cb && cb();
+        window.__func__ = null;
+      }
+
+      //   userInfo.firstName = "李";
+      //   changeFistName();
+
+      const observe = function (obj) {
+        Object.keys(obj).forEach((key) => {
+          let intervalValue = obj[key];
+          let set = new Set();
+          Object.defineProperty(obj, key, {
+            get() {
+              if (window.__func__) {
+                set.add(window.__func__);
+              }
+              return intervalValue;
+            },
+            set(newValue) {
+              console.log("newValue", newValue, set);
+              intervalValue = newValue;
+              set.forEach((cb) => {
+                cb();
+              });
+            }
+          });
+        });
+      };
+      observe(userInfo);
+
+      autoRun(changeFistName);
+      autoRun(changeLastName);
+      autoRun(changeAge);
+    </script>
+  </body>
+</html>

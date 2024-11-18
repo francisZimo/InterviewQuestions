@@ -5,7 +5,7 @@ import toast from '@/components/libs/toast/useToast';
 import { pretreatment } from './tools';
 
 const http = createRequest({
-  domain: 'i.xueersi.com',
+  domain: '',
   basePath: '/icenter-go/App/Diary/',
   errFall: true, // 出错时, 需要手动catch
   handleError: () => toast('网络异常，请稍后再试')

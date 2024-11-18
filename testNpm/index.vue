@@ -3,24 +3,22 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive,toRefs} from 'vue'
-// import {lottie169Adaptation} from '@xes/xueyan-tools'
-import {add} from '@smart-mini-cli/testdemo'
-console.log(add(1,2))
-interface DataProps {}
-export default defineComponent( {
-    name: '',
-      setup() {
-          const data: DataProps = reactive({
+import { defineComponent, reactive, toRefs } from 'vue'
+import { add } from '@smart-mini-cli/testdemo'
+console.log(add(1, 2))
+interface DataProps { }
+export default defineComponent({
+  name: '',
+  setup() {
+    const data: DataProps = reactive({
 
-          })
-          const refData = toRefs(data);
-          return {
-              ...refData,
-          }
+    })
+    const refData = toRefs(data);
+    return {
+      ...refData,
+    }
 
-      }
-  });
+  }
+});
 </script>
-<style scoped lang='scss'>
-</style>
+<style scoped lang='scss'></style>

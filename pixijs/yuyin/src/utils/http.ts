@@ -40,7 +40,7 @@ const DEF_OPT = {
  */
 const createRequest = (opt: reqOpt = {}) => {
   const basePath = opt.basePath || '/super-community/api/';
-  const domain = opt.domain || 'api.xueersi.com';
+  const domain = opt.domain || '';
   const protocol = opt.protocol || 'https:';
   const origin = process.env.LINE === 'proxy' ? '' : opt.origin || `${protocol}//${domain}`;
   opt.baseURL = opt.baseURL || origin + basePath;

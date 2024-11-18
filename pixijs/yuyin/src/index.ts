@@ -12,7 +12,7 @@ window?.closeScrollEvent?.(0);
 // 调试工具;
 if (/eruda=true/.test(window.location.href) || process.env.ERUDA) {
   const script = document.createElement('script');
-  script.src = 'https://static0.xesimg.com/xueyan-fe-web-project/assets/js/eruda.js';
+
   document.body.appendChild(script);
   script.onload = function () {
     eruda.init();

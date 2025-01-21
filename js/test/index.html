@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      new Promise(() => {
+        let chain = Promise.resolve();
+        // chain = chain.then(() =>
+        //   setTimeout(() => {
+        //     // resolve();
+        //     console.log('chain1');
+        //   }, 3000)
+        // );
+        // console.log('=c1', chain);
+        // chain = chain.then(() =>
+        //   setTimeout(() => {
+        //     // resolve();
+        //     console.log('chain2');
+        //   }, 2000)
+        // );
+        // console.log('=c2', chain);
+        // chain = chain.then(() =>
+        //   setTimeout(() => {
+        //     // resolve();
+        //     console.log('chain3');
+        //   }, 1000)
+        // );
+        // console.log('=c3', chain);
+        chain = chain.then(() => console.log('chain1'));
+        console.log('1');
+        chain = chain.then(() => console.log('chain2'));
+        console.log('2');
+        chain = chain.then(() => console.log('chain3'));
+        console.log('3');
+      });
+      let chain = Promise.resolve();
+      chain = chain
+        .then(() => {
+          console.log('chain4');
+        })
+        .then(() => {
+          console.log('chain5');
+        });
+      console.log('4');
+    </script>
+  </body>
+</html>

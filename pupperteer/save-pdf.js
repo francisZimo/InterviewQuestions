@@ -24,6 +24,13 @@ const savePdf = async (url, path) => {
   await page.pdf({
     path,
     format: 'A4',
+    margin: {
+      top: '20px',
+      bottom: '20px',
+      left: '20px',
+      right: '20px',
+    },
+    printBackground: true, // 还可以使背景色打印到PDF
   });
 
   // 关闭浏览器
@@ -33,5 +40,5 @@ const savePdf = async (url, path) => {
 module.exports = savePdf;
 
 if (require.main === module) {
-  savePdf('https://www.baidu.com', 'baidu.pdf');
+  savePdf('www.weibo.com', 'weibo1.pdf');
 }

@@ -45,7 +45,6 @@ onMounted(() => {
   //   s = !s;
   // }, 3000);
 
-
   // 换肤
   let goblin;
   // PIXI.Assets.load('data/goblins-ess.json').then(onAssetsLoaded2);
@@ -56,22 +55,17 @@ onMounted(() => {
     console.log(person, '===person', person.state);
     goblin = person;
     app.stage.addChild(person);
-    person.state.setAnimation(0, 'walk', true);
+    // person.state.setAnimation(0, 'walk', true);
     // person.skeleton.setSkinByName('goblin');
-
-
-
 
     // 哥布林局部
 
     // const slot = person.skeleton.findSlot('pelvis');
     // const attachment = slot.getAttachment();
 
-
     // const slot2 = person.skeleton.findSlot('right-arm');
     // console.log(slot2, '===slot2', slot);
     // slot2.setAttachment(attachment);
-
 
     // const loader = PIXI.Assets.load;
     // loader('spritesheet', 'path/to/spritesheet.json')
@@ -97,10 +91,9 @@ onMounted(() => {
     // 单张替换
     // data/toufa_4.png
 
-    PIXI.Assets.load('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg').then(res => {
-      person.hackTextureBySlotName('toufa_1', res);
-    });
-
+    // PIXI.Assets.load('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg').then((res) => {
+    //   person.hackTextureBySlotName('toufa_1', res);
+    // });
 
     // var myTexture = PIXI.Assets.load('data/ip_huanzhuang.png').then(res => {
     //   console.log(res, '===resxxx')
@@ -124,17 +117,12 @@ onMounted(() => {
     // const slot2 = person.skeleton.findSlot('toufa_1');
     // slot2.setAttachment(attachment);
 
-
     // person.state.setAttachment('toufa_1', 'toufa_3');
 
     // person.skeleton.setAttachment("shenti_1", "shenti_3");
     // const attachment = person.skeleton.getAttachmentByName('shenti_1', 'shenti_3');
     // console.log(attachment, '==attachment')
     // console.log(person.skeleton, '==person.skeleton')
-
-
-
-
   }
 
   // let s = false;

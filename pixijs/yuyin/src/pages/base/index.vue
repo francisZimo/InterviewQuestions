@@ -3,6 +3,7 @@
     <button class="btn" @click="handleRoute('mask')">mask</button>
     <button class="btn" @click="handleRoute('spine')">spine</button>
     <button class="btn" @click="handleRoute('spine2')">spine2</button>
+    <button class="btn" @click="handleRoute('spine3')">spine3</button>
   </div>
 
   <router-view></router-view>

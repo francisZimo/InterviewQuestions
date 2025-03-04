@@ -1,0 +1,83 @@
+
+fanjiang-mkf.png
+size: 440,244
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 244, 122
+  size: 120, 120
+  orig: 120, 120
+  offset: 0, 0
+  index: -1
+dui
+  rotate: false
+  xy: 366, 170
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+guang
+  rotate: false
+  xy: 2, 2
+  size: 240, 240
+  orig: 240, 240
+  offset: 0, 0
+  index: -1
+mkf
+  rotate: false
+  xy: 244, 8
+  size: 76, 112
+  orig: 76, 112
+  offset: 0, 0
+  index: -1
+tiao1
+  rotate: false
+  xy: 356, 80
+  size: 8, 40
+  orig: 8, 40
+  offset: 0, 0
+  index: -1
+x
+  rotate: false
+  xy: 366, 96
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+xx1
+  rotate: false
+  xy: 322, 27
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+xx2
+  rotate: false
+  xy: 322, 59
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+xx3
+  rotate: false
+  xy: 322, 86
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: -1
+xx4
+  rotate: false
+  xy: 366, 83
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+xx5
+  rotate: false
+  xy: 322, 38
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: -1

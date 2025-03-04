@@ -4,7 +4,9 @@ import puppeteer, { KnownDevices } from 'puppeteer';
 
 const savePdf = async (url, path) => {
   // 启动浏览器
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    defaultTimeout: 100000,
+  });
 
   // 打开页面
   const page = await browser.newPage();
@@ -27,6 +29,7 @@ const savePdf = async (url, path) => {
   // 地址栏输入网址 等待网络空闲再执行
   await page.goto(url, {
     waitUntil: 'networkidle0',
+    timeout: 30000,
   });
 
   setTimeout(async () => {
@@ -34,18 +37,12 @@ const savePdf = async (url, path) => {
     await page.pdf({
       path,
       format: 'A4',
+      scale: 1,
+      quality: 0.5,
+      preferCSSPageSize: true,
       displayHeaderFooter: true,
       printBackground: true,
       headerTemplate: '<div></div>',
-      //   headerTemplate: `
-      //   <div style="font-size: 10px; width: 100%; text-align: center; margin-top: 20px;">
-      //     <span class="title">标题: {{title}}</span>
-      //     <br/>
-      //     <span class="url">URL: {{url}}</span>
-      //     <br/>
-      //     <span class="date">打印日期: {{date}}</span>
-      //   </div>
-      // `,
       footerTemplate: `
       <div style="font-size: 10px; width: 100%; text-align: center; margin-bottom: 10px;">
         页码: <span class="pageNumber">{{pageNumber}}</span> / 总页数: <span class="totalPages">{{totalPages}}</span>
@@ -63,7 +60,8 @@ const savePdf = async (url, path) => {
 
     // 关闭浏览器
     await browser.close();
-  }, 5000);
+  }, 6000);
+
   // // 保存为pdf
   // await page.pdf({
   //   path,
@@ -82,7 +80,19 @@ const savePdf = async (url, path) => {
 
 // module.exports = saveScreenshot;
 // http://127.0.0.1:5500/multiPaper.html
-let url = 'http://127.0.0.1:5500/multiPaper.html';
+// let url = 'http://127.0.0.1:5500/multiPaper.html';
 // let url = 'http://www.weibo.com';
+// let url =
+//   'http://10.8.163.9:8080/#/generatePdf?classId=250597&courseId=376842&stuCouId=10177965&stuId=58781&createTimeStamp=1737714395';
 
-savePdf(url, '试题5.pdf');
+//1739002236
+
+// 'http://10.8.163.49:8080/#/generatePdf?classId=250597&courseId=376842&stuCouId=10177965&stuId=58781&createTimeStamp=1739002236';
+let url =
+  'http://127.0.0.1:8080/#/generatePdf?classId=250597&courseId=376842&stuCouId=10177965&stuId=58781&createTimeStamp=1739002236';
+
+// let url = 'http://www.baidu.com';
+
+url = 'http://127.0.0.1:5502/multiPaper.html';
+
+savePdf(url, '测试webp-quality30webp组合压缩.pdf');

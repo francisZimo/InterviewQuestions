@@ -10,6 +10,7 @@ const Base = () => import('@src/pages/base/index.vue');
 const Mask = () => import('@src/pages/base/mask/index.vue');
 const Spine = () => import('@src/pages/base/spine/index.vue');
 const Spine2 = () => import('@src/pages/base/spine-2/index.vue');
+const Spine3 = () => import('@src/pages/base/spine-3/index.vue');
 const Run = () => import('@src/pages/run/index.vue');
 
 const routes = [
@@ -44,6 +45,10 @@ const routes = [
       {
         path: 'spine2',
         component: Spine2
+      },
+      {
+        path: 'spine3',
+        component: Spine3
       }
     ]
   }

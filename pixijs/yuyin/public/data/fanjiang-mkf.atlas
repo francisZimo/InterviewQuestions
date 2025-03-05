@@ -1,6 +1,6 @@
 
 fanjiang-mkf.png
-size: 440,244
+size: 470,244
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -13,7 +13,7 @@ di
   index: -1
 dui
   rotate: false
-  xy: 366, 170
+  xy: 322, 48
   size: 72, 72
   orig: 72, 72
   offset: 0, 0
@@ -25,6 +25,13 @@ guang
   orig: 240, 240
   offset: 0, 0
   index: -1
+loading
+  rotate: false
+  xy: 366, 154
+  size: 88, 88
+  orig: 88, 88
+  offset: 0, 0
+  index: -1
 mkf
   rotate: false
   xy: 244, 8
@@ -34,49 +41,49 @@ mkf
   index: -1
 tiao1
   rotate: false
-  xy: 356, 80
+  xy: 456, 202
   size: 8, 40
   orig: 8, 40
   offset: 0, 0
   index: -1
 x
   rotate: false
-  xy: 366, 96
+  xy: 396, 80
   size: 72, 72
   orig: 72, 72
   offset: 0, 0
   index: -1
 xx1
   rotate: false
-  xy: 322, 27
+  xy: 396, 48
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 xx2
   rotate: false
-  xy: 322, 59
+  xy: 366, 127
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 xx3
   rotate: false
-  xy: 322, 86
+  xy: 322, 12
   size: 32, 34
   orig: 32, 34
   offset: 0, 0
   index: -1
 xx4
   rotate: false
-  xy: 366, 83
+  xy: 356, 35
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
   index: -1
 xx5
   rotate: false
-  xy: 322, 38
+  xy: 396, 59
   size: 18, 19
   orig: 18, 19
   offset: 0, 0

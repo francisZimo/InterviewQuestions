@@ -33,11 +33,8 @@ onMounted(() => {
     console.log('person:', person, person.state);
     personSpine = person;
     app.stage.addChild(person);
-    // 麦克风动画名 1，2，3，4，5，6，7，8
-    person.state.setAnimation(0, '8', true); // idle show walk
-    // PIXI.Assets.load('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg').then((res) => {
-    //   person.hackTextureBySlotName('toufa_1', res);
-    // });
+
+    person.state.setAnimation(0, '1', false); // idle show walk
 
     // // 输出所有的动画
     console.log(personSpine.state.data.skeletonData.animations, '===animations');
@@ -80,7 +77,6 @@ onMounted(() => {
     if (slot.bone && slot.attachment) {
       const attachmentInfo = slot.attachment;
       const boneInfo = slot.bone;
-
       // 考虑到骨骼的缩放
       const attachmentWorldBounds = {
         width: attachmentInfo.width * attachmentInfo.scaleX * spinePosition.scale,
@@ -94,14 +90,8 @@ onMounted(() => {
           (boneInfo.worldY + attachmentInfo.y - (attachmentInfo.height * attachmentInfo.scaleY) / 2) *
             spinePosition.scale
       };
-      console.log('attachmentWorldBounds:', attachmentWorldBounds);
       const polygonBounds = makePolygon(attachmentWorldBounds);
       return isPointInPolygon(pointer, polygonBounds);
-      // if (isPointInPolygon(pointer, polygonBounds)) {
-      //   console.log('✅');
-      //   alert('点击对');
-      //   personSpine.state.setAnimation(0, '4', false);
-      // }
     }
     return false;
   }
@@ -144,6 +134,7 @@ onMounted(() => {
     // 检测是否点击到身体插槽
     const slotSubmit = personSpine.skeleton.findSlot('dui2');
     const slotCancel = personSpine.skeleton.findSlot('x2');
+    const mkf = personSpine.skeleton.findSlot('mkf');
 
     // youjiao
     // const slotSubmit = personSpine.skeleton.findSlot('toufa_1');
@@ -152,6 +143,12 @@ onMounted(() => {
     const bounds = personSpine.getBounds();
     console.log('bounds:', bounds);
     console.log('spine:', personSpine);
+
+    if (isHitSlot(mkf, mousePosition)) {
+      console.log('点击了麦克风');
+      alert('点击了麦克风');
+      return;
+    }
 
     if (isHitSlot(slotSubmit, mousePosition)) {
       console.log('点击了右');
@@ -166,23 +163,6 @@ onMounted(() => {
       // personSpine.state.setAnimation(0, '6', false);
       return;
     }
-
-    // if (slot.bone && slot.attachment) {
-    //   const attachmentInfo = slot.attachment; // x y width height
-    //   const boneInfo = slot.bone; // x y
-    //   const attachmentWorldBounds = {
-    //     x: spinePosition.x + boneInfo.worldX + attachmentInfo.x - attachmentInfo.width / 2,
-    //     y: spinePosition.y + boneInfo.worldY + attachmentInfo.y - attachmentInfo.height / 2,
-    //     width: attachmentInfo.width,
-    //     height: attachmentInfo.height
-    //   };
-    //   const polygonBounds = makePolygon(attachmentWorldBounds);
-    //   if (isPointInPolygon(mousePosition, polygonBounds)) {
-    //     console.log('✅');
-    //     alert('点击对');
-    //     personSpine.state.setAnimation(0, '4', false);
-    //   }
-    // }
 
     // const attachment = bodySlot.getAttachment();
     // console.log('attachment:', attachment);

@@ -1,4 +1,5 @@
 <template>
+  <button @click="goNext">切换一下动画{{ curIndex + 1 }}</button>
   <div class="canvasBox" ref="conDom"></div>
 </template>
 
@@ -6,9 +7,42 @@
 import { Ref, onMounted, ref } from 'vue';
 import * as PIXI from 'pixi.js';
 import { Spine } from 'pixi-spine';
+import { isHitSlot } from './spineUtils';
+import { Howl } from 'howler';
 const conDom: Ref<HTMLElement | null> = ref(null);
+let spineELe: any;
+
+const curIndex = ref(9);
+
+function goNext() {
+  curIndex.value = curIndex.value + 1;
+  spineELe.state.setAnimation(0, `${curIndex.value}`, false);
+}
 
 onMounted(() => {
+  let animationId;
+  var sound = new Howl({
+    src: ['/test.mp3'],
+    onend: function () {
+      console.log('Finished!');
+    }
+  });
+  sound.play();
+  const handleSeek = () => {
+    const seek = sound.seek();
+    console.log('播放进度', sound.seek(), sound.duration());
+    if (sound.playing()) {
+      let percent = (sound.seek() / sound.duration()) * 100;
+      if (percent > 99) {
+        console.log('播放完成');
+        cancelAnimationFrame(animationId);
+        return;
+      }
+    }
+    animationId = requestAnimationFrame(handleSeek);
+  };
+  animationId = requestAnimationFrame(handleSeek);
+
   const app = new PIXI.Application({
     // width: window.innerWidth,
     // height: window.innerHeight,
@@ -22,20 +56,19 @@ onMounted(() => {
 
   // 换肤
   let personSpine;
-  let spinePosition = { x: 200, y: 200, hotAreaExtend: 0, scale: 1 }; //  hotAreaExtend 热区扩展边距
+  let spinePosition = { x: 200, y: 200, scale: 1 };
   // PIXI.Assets.load('data/goblins-ess.json').then(onAssetsLoaded2);
   PIXI.Assets.load('data/fanjiang-mkf.json').then(onAssetsLoaded2);
   // PIXI.Assets.load('data/kapibala.json').then(onAssetsLoaded2);
   function onAssetsLoaded2(dragonAsset) {
     const person = new Spine(dragonAsset.spineData);
+    spineELe = person;
     person.position.set(spinePosition.x, spinePosition.y);
     person.scale.set(spinePosition.scale);
     console.log('person:', person, person.state);
     personSpine = person;
     app.stage.addChild(person);
-
-    person.state.setAnimation(0, '1', false); // idle show walk
-
+    person.state.setAnimation(0, `${curIndex.value}`, false); // idle show walk
     // // 输出所有的动画
     console.log(personSpine.state.data.skeletonData.animations, '===animations');
     // 输出所有的骨骼
@@ -69,95 +102,56 @@ onMounted(() => {
   }
 
   // 抽离命中slot的方法
-  function isHitSlot(slot, pointer) {
-    if (!slot || !pointer) {
-      console.error('参数无效');
-      return false;
-    }
-    if (slot.bone && slot.attachment) {
-      const attachmentInfo = slot.attachment;
-      const boneInfo = slot.bone;
-      // 考虑到骨骼的缩放
-      const attachmentWorldBounds = {
-        width: attachmentInfo.width * attachmentInfo.scaleX * spinePosition.scale,
-        height: attachmentInfo.height * attachmentInfo.scaleY * spinePosition.scale,
-        x:
-          spinePosition.x +
-          (boneInfo.worldX + attachmentInfo.x - (attachmentInfo.width * attachmentInfo.scaleX) / 2) *
-            spinePosition.scale,
-        y:
-          spinePosition.y +
-          (boneInfo.worldY + attachmentInfo.y - (attachmentInfo.height * attachmentInfo.scaleY) / 2) *
-            spinePosition.scale
-      };
-      const polygonBounds = makePolygon(attachmentWorldBounds);
-      return isPointInPolygon(pointer, polygonBounds);
-    }
-    return false;
-  }
+  // function isHitSlot(slot, pointer) {
+  //   if (!slot || !pointer) {
+  //     console.error('参数无效');
+  //     return false;
+  //   }
+  //   if (slot.bone && slot.attachment) {
+  //     const attachmentInfo = slot.attachment;
+  //     const boneInfo = slot.bone;
+  //     // 考虑到骨骼的缩放
+  //     const attachmentWorldBounds = {
+  //       width: attachmentInfo.width * attachmentInfo.scaleX * spinePosition.scale,
+  //       height: attachmentInfo.height * attachmentInfo.scaleY * spinePosition.scale,
+  //       x:
+  //         spinePosition.x +
+  //         (boneInfo.worldX + attachmentInfo.x - (attachmentInfo.width * attachmentInfo.scaleX) / 2) *
+  //           spinePosition.scale,
+  //       y:
+  //         spinePosition.y +
+  //         (boneInfo.worldY + attachmentInfo.y - (attachmentInfo.height * attachmentInfo.scaleY) / 2) *
+  //           spinePosition.scale
+  //     };
+  //     const polygonBounds = makePolygon(attachmentWorldBounds);
+  //     return isPointInPolygon(pointer, polygonBounds);
+  //   }
+  //   return false;
+  // }
 
   app.stage.interactive = true;
   app.stage.on('pointerdown', (e) => {
     console.log('e.data.global:', e.data.global, '');
-    // personSpine.position.set(e.data.global.x, e.data.global.y);
-    // 输出所有的骨骼
-    // console.log(personSpine.skeleton.bones, '===personSpine.skeleton.bones');
-    // // 输出所有的插槽
-    // console.log(personSpine.skeleton.slots, '===personSpine.skeleton.slots');
-    // // 输出所有的皮肤
-    // console.log(personSpine.skeleton.data.skins, '===personSpine.skeleton.data.skins');
-    // // 输出所有的动画
-    // console.log(personSpine.state.data.skeletonData.animations, '===personSpine.state.data.skeletonData.animations');
-    // // 输出所有的插槽
-    // console.log(personSpine.skeleton.slots, '===personSpine.skeleton.slots');
-    // const totalSlots = personSpine.skeleton.slots;
-    // console.log('totalSlots', totalSlots);
-    // if (totalSlots) {
-    //   totalSlots.forEach((slot) => {
-    //     console.log('slotName', slot?.data?.name);
-    //   });
-    // }
-    // 身体名称 shenti_1
-    // 检测是否点击到身体骨骼
     const mousePosition = e.data.global;
-
-    // const bodyBone = personSpine.spineData.findBone('shenti_1');
-    // console.log('mousePosition', mousePosition);
-    // console.log('bodyBone', bodyBone);
-
-    // if (bodyBone && personSpine.containsPoint(bodyBone, mousePosition.x, mousePosition.y)) {
-    //   console.log('点击了身体');
-    //   // personSpine.state.setAnimation(0, 'walk', true);
-    // }
-
-    // 身体插槽名称 shenti_1
     // 检测是否点击到身体插槽
     const slotSubmit = personSpine.skeleton.findSlot('dui2');
     const slotCancel = personSpine.skeleton.findSlot('x2');
     const mkf = personSpine.skeleton.findSlot('mkf');
-
     // youjiao
     // const slotSubmit = personSpine.skeleton.findSlot('toufa_1');
     // const slotCancel = personSpine.skeleton.findSlot('zuojiao_1');
-
-    const bounds = personSpine.getBounds();
-    console.log('bounds:', bounds);
-    console.log('spine:', personSpine);
-
-    if (isHitSlot(mkf, mousePosition)) {
+    if (isHitSlot(mkf, mousePosition, spinePosition)) {
       console.log('点击了麦克风');
       alert('点击了麦克风');
       return;
     }
-
-    if (isHitSlot(slotSubmit, mousePosition)) {
+    if (isHitSlot(slotSubmit, mousePosition, spinePosition)) {
       console.log('点击了右');
       alert('点击了右');
-      // personSpine.state.setAnimation(0, '4', false);
       return;
     }
 
-    if (isHitSlot(slotCancel, mousePosition)) {
+    if (isHitSlot(slotCancel, mousePosition, spinePosition)) {
       console.log('点击了左');
       alert('点击了左');
       // personSpine.state.setAnimation(0, '6', false);

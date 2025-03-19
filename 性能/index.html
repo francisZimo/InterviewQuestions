@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas width="500" height="500" id="myCanvas"></canvas>
+    <button onclick="createLongTask()">创建耗时操作</button>
+    <button type="submit" id="btn_submit" onclick="btnAction()">submit</button>
+    <button onclick="alert('发生点击事件')">alert</button>
+
+    <script>
+      // 创建一个耗时任务
+      function createLongTask() {
+        let i = 0;
+        while (i < 1000000000) {
+          i++;
+        }
+        console.log('执行完毕:', i);
+      }
+
+      // 获取 canvas 元素
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+
+      // 设置初始位置和速度
+      let x = canvas.width / 2;
+      let y = canvas.height / 2;
+      let dx = 2;
+      let dy = -2;
+
+      // 定义绘制函数
+      function draw() {
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制一个圆形
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#0095DD';
+        ctx.fill();
+        ctx.closePath();
+
+        // 更新位置
+        x += dx;
+        y += dy;
+
+        // 边界检测，使球反弹
+        if (x + dx > canvas.width - 10 || x + dx < 10) {
+          dx = -dx;
+        }
+        if (y + dy > canvas.height - 10 || y + dy < 10) {
+          dy = -dy;
+        }
+
+        // 请求下一帧动画
+        requestAnimationFrame(draw);
+      }
+
+      // 监听页面是否出现卡顿
+      const ob = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          console.log(entry);
+
+          if (entry.entryType === 'longtask') {
+            console.log('长任务耗时', entry);
+            if (entry.duration > 200) {
+              console.log('页面出现卡顿,上报到数据中心');
+            }
+          }
+        }
+      });
+
+      ob.observe({ entryTypes: ['longtask'] });
+
+      // 使用 requestAnimationFrame 主动生成帧事件
+      function animate() {
+        performance.mark('frame-start'); // 标记帧开始
+
+        // 你的动画或渲染逻辑
+        // 例如：渲染一些内容到页面上
+        // 例如：更新一些动画的状态
+        // 频繁操作dom 设置动画
+        draw();
+        performance.mark('frame-end'); // 标记帧结束
+        performance.measure('frame', 'frame-start', 'frame-end'); // 测量帧时间
+
+        requestAnimationFrame(animate); // 继续下一帧
+      }
+
+      // 启动动画循环
+      animate();
+
+      // 计算卡FPS
+      let lastTime = performance.now();
+      let frameCount = 0;
+
+      function checkFPS() {
+        const now = performance.now();
+        const delta = now - lastTime;
+
+        frameCount++;
+
+        if (delta >= 1000) {
+          // 每秒钟计算一次帧率
+          const fps = frameCount;
+          console.log(`FPS: ${fps}`);
+          frameCount = 0;
+          lastTime = now;
+        }
+
+        requestAnimationFrame(checkFPS);
+      }
+
+      checkFPS();
+    </script>
+  </body>
+</html>

@@ -6,13 +6,25 @@
 <script setup lang="ts">
 import { Ref, onMounted, ref } from 'vue';
 import * as PIXI from 'pixi.js';
+import { utils } from 'pixi.js';
+// import  {} fro 'pixi/canvas-renderer';
 import { Spine } from 'pixi-spine';
 import { isHitSlot } from './spineUtils';
+import { CanvasRenderer } from '@pixi/canvas-renderer';
+// 添加必要的 Canvas 相关导入
+import '@pixi/canvas-display';
+import '@pixi/canvas-graphics';
+import '@pixi/canvas-mesh';
+import '@pixi/canvas-sprite';
+import '@pixi/canvas-text';
+import '@pixi/canvas-prepare';
+// 注册 Canvas 渲染器
+PIXI.extensions.add({ type: PIXI.ExtensionType.CanvasRendererPlugin, ref: CanvasRenderer });
 import { Howl } from 'howler';
 const conDom: Ref<HTMLElement | null> = ref(null);
 let spineELe: any;
 
-const curIndex = ref(9);
+const curIndex = ref(1);
 
 function goNext() {
   curIndex.value = curIndex.value + 1;
@@ -27,7 +39,7 @@ onMounted(() => {
       console.log('Finished!');
     }
   });
-  sound.play();
+  // sound.play();
   const handleSeek = () => {
     const seek = sound.seek();
     console.log('播放进度', sound.seek(), sound.duration());
@@ -41,24 +53,37 @@ onMounted(() => {
     }
     animationId = requestAnimationFrame(handleSeek);
   };
-  animationId = requestAnimationFrame(handleSeek);
+  // animationId = requestAnimationFrame(handleSeek);
+  console.log('pixijs支持webgl', utils.isWebGLSupported());
+
+  // 在初始化前先检测WebGL支持
+  // if (!PIXI.utils.isWebGLSupported()) {
+  //   alert('您的浏览器不支持WebGL，尝试使用Canvas渲染器');
+  // }
+  // const app = new PIXI.Application({
+  //     forceCanvas: true // 强制使用canvas渲染器
+  // });
 
   const app = new PIXI.Application({
-    // width: window.innerWidth,
-    // height: window.innerHeight,
     width: 400,
     height: 400,
-    backgroundColor: 'rgba(255,222,111,0.1)',
+    backgroundAlpha: 0.8,
+    backgroundColor: 0xffdee6,
     antialias: true
+    // forceCanvas: true
   });
+
+  console.log('当前渲染模式：', app.renderer.type);
+  console.log('所有渲染模式:', PIXI.RENDERER_TYPE);
+
   if (!conDom.value) return;
-  conDom.value.appendChild(app.view);
+  conDom.value.appendChild(app.view as unknown as Node);
 
   // 换肤
   let personSpine;
-  let spinePosition = { x: 200, y: 200, scale: 1 };
+  let spinePosition = { x: 200, y: 200, scale: 0.5 };
   // PIXI.Assets.load('data/goblins-ess.json').then(onAssetsLoaded2);
-  PIXI.Assets.load('data/fanjiang-mkf.json').then(onAssetsLoaded2);
+  PIXI.Assets.load('data/DaoJiShi02.json').then(onAssetsLoaded2);
   // PIXI.Assets.load('data/kapibala.json').then(onAssetsLoaded2);
   function onAssetsLoaded2(dragonAsset) {
     const person = new Spine(dragonAsset.spineData);
@@ -68,15 +93,16 @@ onMounted(() => {
     console.log('person:', person, person.state);
     personSpine = person;
     app.stage.addChild(person);
-    person.state.setAnimation(0, `${curIndex.value}`, false); // idle show walk
+    // person.state.setAnimation(0, `${curIndex.value}`, true); // idle show walk
+    person.state.setAnimation(0, `animation1`, true);
     // // 输出所有的动画
     console.log(personSpine.state.data.skeletonData.animations, '===animations');
     // 输出所有的骨骼
     console.log(personSpine.skeleton.bones, '===personSpine.skeleton.bones');
     // // 输出所有的插槽
     console.log(personSpine.skeleton.slots, '===personSpine.skeleton.slots');
-    const slotSubmit = personSpine.skeleton.findSlot('dui2');
-    console.log('slotSubmit:', slotSubmit);
+    // const slotSubmit = personSpine.skeleton.findSlot('dui');
+    // console.log('slotSubmit:', slotSubmit);
   }
 
   function isPointInPolygon(point, polygon) {
@@ -134,8 +160,8 @@ onMounted(() => {
     console.log('e.data.global:', e.data.global, '');
     const mousePosition = e.data.global;
     // 检测是否点击到身体插槽
-    const slotSubmit = personSpine.skeleton.findSlot('dui2');
-    const slotCancel = personSpine.skeleton.findSlot('x2');
+    const slotSubmit = personSpine.skeleton.findSlot('dui');
+    const slotCancel = personSpine.skeleton.findSlot('x');
     const mkf = personSpine.skeleton.findSlot('mkf');
     // youjiao
     // const slotSubmit = personSpine.skeleton.findSlot('toufa_1');
@@ -183,6 +209,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .canvasBox {
-  margin: 100px 0 0 100px;
+  margin: 0;
 }
 </style>

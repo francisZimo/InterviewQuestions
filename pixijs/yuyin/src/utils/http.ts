@@ -1,4 +1,4 @@
-import XesAxios from '@xes/xes-axios';
+// import XesAxios from '@xes/xes-axios';
 // @xes/xes-axios 使用文档 https://npm.xesv5.com/?token=eyJpdiI6IkNKRUJiUzdTS2NNV0drVlwvT0NheFFRPT0iLCJ2YWx1ZSI6IjgzZFNhTGZwemkydEdyRUtjQkUyYmJpYStPTFlPRnhScnl0YjlmSGZDWnBiblNEdURBVk5UZ2U1d3lCcTBPMVRYNTAzbE9Jd3J1TXk3dTdHXC9SWG5kNmo5ZFdFRW1XMTNlVE82elloYjMzWT0iLCJtYWMiOiJjYjkyZDU1MDM2YjNjYjE0NzA4YjBjNzAwNmRjYWE4MTBjZWYzZDI3ZGY5NDc5YmYyNGU4MmYxZTExY2I4MjM4In0=#/detial?name=%40xes%2Fxes-axios``
 
 export type reqOpt = {
@@ -45,8 +45,8 @@ const createRequest = (opt: reqOpt = {}) => {
   const origin = process.env.LINE === 'proxy' ? '' : opt.origin || `${protocol}//${domain}`;
   opt.baseURL = opt.baseURL || origin + basePath;
   const axiosOpt = { ...DEF_OPT, ...opt };
-  const request = XesAxios.create(axiosOpt);
-  return request;
+  // const request = XesAxios.create(axiosOpt);
+  // return request;
 };
 
 export default createRequest;

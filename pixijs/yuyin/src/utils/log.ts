@@ -1,5 +1,5 @@
 import { getQueryObj, getDeviceInformation, getUserInformation } from '@/utils';
-import createLog from '@xes/web-log';
+// import createLog from '@xes/web-log';
 import { isAndroid, isIos } from '@/utils/is';
 
 const config = {
@@ -47,7 +47,7 @@ const config = {
   }
 };
 
-export const L = createLog(config);
+// export const L = createLog(config);
 
 let userInfo = {};
 let deviceInfo = {};
@@ -66,14 +66,14 @@ function platform() {
 export function showMsg(eventtype, data) {
   data.pageFrom = data.pageFrom || getQueryObj().from;
   const logData = getParams(data);
-  L.pv(eventtype, logData);
+  // L.pv(eventtype, logData);
 }
 
 export function clickMsg(eventtype: string, data) {
   const logData = {
     params: getParams(data)
   };
-  L(eventtype, logData);
+  // L(eventtype, logData);
 }
 
 const getParams = (data) => {

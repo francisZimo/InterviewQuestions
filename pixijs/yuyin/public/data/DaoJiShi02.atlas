@@ -1,0 +1,27 @@
+
+DaoJiShi02.png
+size: 162,162
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+PK3-1_072
+  rotate: false
+  xy: 2, 2
+  size: 73, 73
+  orig: 74, 74
+  offset: 0, 1
+  index: -1
+PK3-1_073
+  rotate: false
+  xy: 2, 77
+  size: 83, 83
+  orig: 83, 83
+  offset: 0, 0
+  index: -1
+images/chacao
+  rotate: false
+  xy: 87, 159
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1

@@ -1,4 +1,4 @@
-import { L } from '@/utils/log';
+// import { L } from '@/utils/log';
 import { createApp } from 'vue';
 import { getQueryObj } from '@/utils';
 import router from './router';
@@ -23,7 +23,7 @@ if (/eruda=true/.test(window.location.href) || process.env.ERUDA) {
 }
 
 const app = createApp(App);
-app.use(router).use(L.handleVueError());
+app.use(router);
 app.mount('#app');
 
 function initConsoleLog() {

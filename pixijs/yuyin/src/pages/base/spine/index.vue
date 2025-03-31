@@ -10,9 +10,9 @@ const conDom: Ref<HTMLElement | null> = ref(null);
 
 onMounted(() => {
   const app = new PIXI.Application({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    backgroundColor: 'rgba(255,222,111,0.1)'
+    width: 400,
+    height: 400,
+    backgroundColor: '#f00000'
   });
   if (!conDom.value) return;
   conDom.value.appendChild(app.view);
@@ -45,13 +45,14 @@ onMounted(() => {
   //     s = !s;
   //   }, 3000);
 
-  PIXI.Assets.load('spine/dragon/dragon.json').then(onAssetsLoaded1);
+  PIXI.Assets.load('kapibala.json').then(onAssetsLoaded1);
   function onAssetsLoaded1(dragonAsset) {
     console.log(dragonAsset, '===dragonAsset');
     const dragon = new Spine(dragonAsset.spineData);
-    dragon.position.set(400, 400);
+    dragon.position.set(200, 380);
+    dragon.scale.set(0.3);
     app.stage.addChild(dragon);
-    dragon.state.setAnimation(0, 'flying', true);
+    dragon.state.setAnimation(0, 'idle', true);
   }
 });
 </script>

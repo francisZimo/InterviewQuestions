@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 测试代码
+      class TextSplitter {
+        petTextArray = [];
+        petTextSliceIndex = 0;
+        cachPetText = '';
+
+        splitText(text) {
+          let puncPattern = /[.?;!。？；！]/i;
+          let regularResult = false;
+          let chackText = '';
+          let splitLength = 15;
+
+          if (text.length < 15) {
+            this.petTextArray[this.petTextSliceIndex] = text;
+            return;
+          }
+
+          chackText = text.slice(splitLength);
+          if (text.length >= 30) {
+            puncPattern = /[:：，,.?;!。？；！]/i;
+            splitLength = 30;
+            chackText = text.slice(splitLength);
+          }
+
+          regularResult = puncPattern.test(chackText);
+          if (regularResult) {
+            let lastPuncIndex = -1;
+            for (let i = chackText.length - 1; i >= 0; i--) {
+              if (puncPattern.test(chackText[i])) {
+                lastPuncIndex = i;
+                break;
+              }
+            }
+            lastPuncIndex += splitLength;
+            const part1 = text.slice(0, lastPuncIndex + 1);
+            const part2 = text.slice(lastPuncIndex + 1);
+            this.petTextArray[this.petTextSliceIndex] = part1;
+            this.petTextSliceIndex++;
+            this.cachPetText = part2;
+          } else {
+            this.petTextArray[this.petTextSliceIndex] = text;
+          }
+        }
+
+        getResult() {
+          return this.petTextArray;
+        }
+      }
+
+      const testText = `陆地是个大宝藏，袋鼠蹦，企鹅胖，美食多，景色靓。地球可真大呀！世界陆地面积约为 149000000 平方千米，这样写后面也太多0了，我想把它改写成"亿平方千米"作单位的数，那我应该在哪个数位后面加小数点呢？十位？百位？千位？`;
+
+      const splitter = new TextSplitter();
+      splitter.splitText(testText);
+      console.log('分割结果:', splitter.getResult());
+
+      // // 测试用例
+      // const testCases = [
+      //   {
+      //     input: "你好，这是一个测试文本。这是第二句话。这是第三句话。",
+      //     expected: ["你好，这是一个测试文本。", "这是第二句话。", "这是第三句话。"]
+      //   },
+      //   {
+      //     input: "这是一个很长的文本，需要根据标点符号进行分割。分割后的文本应该更容易阅读和理解。",
+      //     expected: ["这是一个很长的文本，需要根据标点符号进行分割。", "分割后的文本应该更容易阅读和理解。"]
+      //   },
+      //   {
+      //     input: "短文本",
+      //     expected: ["短文本"]
+      //   }
+      // ];
+    </script>
+  </body>
+</html>

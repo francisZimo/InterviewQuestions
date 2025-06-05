@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>hah1</div>
-    <img src="test.png" alt="">
+    <img src="test.png" alt="" />
+    <div id="testDom"></div>
     <div>hah2</div>
-    <img src="/Users/wangyongju/Documents/个人资料/dailyQuestions/html/test/test.png" alt="">
+    <!-- <img src="/Users/wangyongju/Documents/个人资料/dailyQuestions/html/test/test.png" alt="" /> -->
     <script>
-        // 动态加载图片
-        var img = new Image();
-        img.src = './test.png';
-        img.onload = function() {
-            document.body.appendChild(img);
-        }
-
+      // 动态加载图片
+      //   var img = new Image();
+      //   img.src = './test.png';
+      //   img.onload = function () {
+      //     document.body.appendChild(img);
+      //   };
+      // 获取url上的stuid
+      var url = new URL(window.location.href);
+      var stuCouId = url.searchParams.get('stuCouId');
+      console.log(stuCouId);
+      testDom.innerHTML = stuCouId;
     </script>
-    <script>
+    <!-- <script>
         // api请求： http://jsonplaceholder.typicode.com/posts/2
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'http://jsonplaceholder.typicode.com/posts/2', true);
@@ -30,6 +35,7 @@
         }
         xhr.send();
         
-    </script>
-</body>
+
+    </script> -->
+  </body>
 </html>

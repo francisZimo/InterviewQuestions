@@ -12,6 +12,7 @@ const Spine = () => import('@src/pages/base/spine/index.vue');
 const Spine2 = () => import('@src/pages/base/spine-2/index.vue');
 const Spine3 = () => import('@src/pages/base/spine-3/index.vue');
 const Run = () => import('@src/pages/run/index.vue');
+const KeyFrame = () => import('@src/pages/keyFrame/index.vue');
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
         component: Spine3
       }
     ]
+  },
+
+  {
+    path: '/keyFrame',
+    component: KeyFrame
   }
 ];
 

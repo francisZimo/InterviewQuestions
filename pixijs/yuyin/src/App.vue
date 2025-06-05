@@ -3,6 +3,7 @@
   <div class="btn" @click="handleRoute('game')">游戏</div>
   <div class="btn" @click="handleRoute('base')">基础</div>
   <div class="btn" @click="handleRoute('run')">run</div>
+  <div class="btn" @click="handleRoute('keyFrame')">关键帧</div>
 
   <router-view></router-view>
 </template>
@@ -25,7 +26,6 @@ const handleRoute = (params: string) => {
   padding: 0;
 }
 .btn {
-  width: 40px;
   display: inline-block;
   padding: 5px 10px;
   background-color: beige;

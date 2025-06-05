@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PIXI.js 关键帧动画</title>
+    <script src="https://zhongheschool.oss-cn-zhangjiakou.aliyuncs.com/js/pixi.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="canvasImg"></div>
+  </body>
+  <script>
+    // 官网地址：https://pixijs.huashengweilai.com/guide/start/1.introduction.html
+    // 1、创建应用
+    var app = new PIXI.Application({
+      height: 752,
+      width: 750,
+      antialias: true,
+      transparent: true
+    });
+
+    // 设置画布展示大小
+    app.renderer.view.style.width = '100%';
+    app.renderer.view.style.height = '100%';
+
+    // 2、将Pixi为您创建的画布添加到HTML文档中
+    document.getElementById('canvasImg').appendChild(app.view);
+
+    // 3、序列帧图片数组
+    var imgList = [];
+    for (var index = 0; index < 67; index++) {
+      imgList.push(
+        `https://osscdn.zhongheschool.com/activity/springFestival/xulie/h5-header_000${('' + index).length == 1 ? '0' + index : index}.jpg`
+      );
+    }
+
+    // 加载图像到纹理缓存
+    // 4、Pixi强大的loader（加载器）对象可以加载任何类型的图像。下面介绍如何使用它来加载图像，以及加载完成时调用一个名为setup的函数： cache（纹理缓存）来存储和引用你的精灵需要的所有纹理
+    app.loader.add(imgList).load(setup);
+
+    // 5、加载完成时调用一个名为setup的函数
+    function setup() {
+      // 组装纹理
+      let array = [];
+      for (let i = 0; i < imgList.length; i++) {
+        array.push(app.loader.resources[`${imgList[i]}`].texture);
+      }
+
+      // 创建一个动画序列帧
+      let animatedSprite = new PIXI.extras.AnimatedSprite(array);
+      // 设置位置
+      animatedSprite.x = 0;
+      animatedSprite.y = 0;
+      animatedSprite.animationSpeed = 0.2; // 动画播放的速度，默认为1,每秒播放60张图片
+      animatedSprite.loop = true; // 动画是否循环
+      animatedSprite.onComplete = () => {
+        console.log('播放完成');
+      }; // 动画完成的回调函数
+      animatedSprite.gotoAndPlay(0); // 从第几帧开始播放
+      app.stage.addChild(animatedSprite);
+    }
+  </script>
+</html>

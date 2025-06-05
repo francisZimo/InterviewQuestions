@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let answerData = [
+        { orderId: 1, answer: 'A' }, // 旧答案
+        { orderId: 2, answer: 'B' },
+        { orderId: 1, answer: 'C' }, // 新答案
+      ];
+      answerData = answerData.filter((item, index, self) => {
+        const lastIndex = self.findLastIndex((t) => t.orderId === item.orderId);
+        console.log('lastIndex', lastIndex);
+        console.log('index', index);
+        return index === lastIndex;
+      });
+      console.log(answerData);
+    </script>
+  </body>
+</html>

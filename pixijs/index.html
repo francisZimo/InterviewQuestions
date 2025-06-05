@@ -33,7 +33,7 @@
         height: 256,
         antialias: true,
         transpant: false,
-        resolution: 1,
+        resolution: 1
       });
       app.renderer.view.style.position = 'absolute';
       app.renderer.view.style.display = 'block';
@@ -88,6 +88,7 @@
       function setup() {
         console.log('加载完毕');
         id = PIXI.loader.resources['images/texture.json'].textures;
+        console.log('ids===', id);
         dungeon = new Sprite(id['dungeon.png']);
         dungeon.zIndex = 1;
         app.stage.addChild(dungeon);

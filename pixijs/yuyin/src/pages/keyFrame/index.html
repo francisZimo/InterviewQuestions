@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PIXI.js 关键帧动画</title>
+    <script src="https://zhongheschool.oss-cn-zhangjiakou.aliyuncs.com/js/pixi.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="canvasImg"></div>
+  </body>
+  <script>
+    const app = new PIXI.Application({ width: 400, height: 400 });
+    document.body.appendChild(app.view);
+
+    let animA, animB;
+
+    // 加载两个图集
+    app.loader
+      .add('atlasA', 'A.json')
+      .add('atlasB', 'wall.json')
+      .load(() => {
+        // 创建A动画
+        const sheetA = app.loader.resources['atlasA'].spritesheet;
+        const framesA = [];
+        for (let i = 0; i < sheetA.animations['A'].length; i++) {
+          framesA.push(sheetA.textures[`A_${i}.png`]);
+        }
+        animA = new PIXI.AnimatedSprite(framesA);
+        animA.loop = false;
+        animA.animationSpeed = 0.2;
+        animA.visible = true;
+        app.stage.addChild(animA);
+
+        // 创建B动画
+        const sheetB = app.loader.resources['atlasB'].spritesheet;
+        const framesB = [];
+        for (let i = 0; i < sheetB.animations['wall'].length; i++) {
+          framesB.push(sheetB.textures[`wall_${i}.png`]);
+        }
+        animB = new PIXI.AnimatedSprite(framesB);
+        animB.loop = false;
+        animB.animationSpeed = 0.2;
+        animB.visible = false;
+        app.stage.addChild(animB);
+
+        // 定义切换函数
+        function playA() {
+          animA.visible = true;
+          animB.visible = false;
+          animA.gotoAndPlay(0);
+        }
+        function playB() {
+          animA.visible = false;
+          animB.visible = true;
+          animB.gotoAndPlay(0);
+        }
+
+        // 监听播放完成
+        animA.onComplete = () => {
+          setTimeout(playB, 2000);
+        };
+        animB.onComplete = () => {
+          setTimeout(playA, 2000);
+        };
+
+        // 先播放A
+        playA();
+      });
+  </script>
+</html>

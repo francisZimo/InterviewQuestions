@@ -45,7 +45,12 @@ onMounted(() => {
   //     s = !s;
   //   }, 3000);
 
-  PIXI.Assets.load('kapibala.json').then(onAssetsLoaded1);
+//   {
+//   "json": "https://static0.xesimg.com/xes-fe-static-storage-webjs/pixi/shuxue/nan/nan.json",
+//   "png": "https://static0.xesimg.com/xes-fe-static-storage-webjs/pixi/shuxue/nan/nan.png",
+//   "atlas": "https://static0.xesimg.com/xes-fe-static-storage-webjs/pixi/shuxue/nan/nan.atlas"
+// }
+  PIXI.Assets.load( "https://static0.xesimg.com/xes-fe-static-storage-webjs/pixi/yingyu/nv/nv.json").then(onAssetsLoaded1);
   function onAssetsLoaded1(dragonAsset) {
     console.log(dragonAsset, '===dragonAsset');
     const dragon = new Spine(dragonAsset.spineData);

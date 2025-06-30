@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Car {
+        constructor(model) {
+          this.model = model;
+        }
+      }
+      Car.sex = 'man';
+      class Car2 extends Car {
+        constructor(model, color) {
+          super(model);
+          this.color = color;
+        }
+      }
+      console.log('car2', Car2);
+      console.log('car2.sex', Car2.sex);
+    </script>
+  </body>
+</html>

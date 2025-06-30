@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Car(model) {
+        this.model = model;
+        this.age = 999;
+        this.color = 'gray';
+        this.year = '2022';
+        this.sex = 'man1';
+        this.getInfo = function () {
+          return this.model + ' ' + this.color + ' ' + this.year;
+        };
+        this.toString = function () {
+          return this.model + ' ' + this.color + ' ' + this.year;
+        };
+      }
+      Car.prototype.sex = 'man2';
+      Car.age = '100';
+      console.log('car.name1-1', Car.age);
+      delete Car.age;
+      console.log('car.name2', Car.age);
+      console.info(Car);
+
+      const car1 = new Car('BMW');
+
+      console.log('car1', car1);
+      console.log('car1.age', car1.age);
+      delete car1.age;
+      console.log('car1.age2', car1.age);
+
+      car1.sex = 'zhongxing';
+      console.log('car.sex0', car1.sex, car1);
+      // delete car1.sex;
+      // console.log('car1.sex',car1.sex);
+      // delete car1.sex;
+      // console.log('car1.sex2',car1.sex);
+      // console.log(car1.getInfo());
+
+      console.log(car1.toString());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书扫码配置页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button.reset {
+            background-color: #6c757d;
+        }
+        
+        button.reset:hover {
+            background-color: #545b62;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .result h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .scheme-output {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .copy-btn {
+            background-color: #28a745;
+            font-size: 14px;
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #218838;
+        }
+        
+        .original-scheme {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: monospace;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .original-scheme h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>图书扫码配置页面</h1>
+        <p>mock 地方需要替换</p>
+        
+        <form id="schemeForm">
+                         <div class="form-group">
+                 <label for="bookId">图书ID (bookId):</label>
+                 <input type="text" id="bookId" name="bookId" value="" placeholder="请输入图书ID">
+             </div>
+             
+             <div class="form-group">
+                 <label for="catalogMaterialType">目录材料类型 (catalogMaterialType):</label>
+                 <input type="text" id="catalogMaterialType" name="catalogMaterialType" value="" placeholder="请输入目录材料类型">
+             </div>
+             
+             <div class="form-group">
+                 <label for="catalogMaterialId">目录材料ID (catalogMaterialId):</label>
+                 <input type="text" id="catalogMaterialId" name="catalogMaterialId" value="" placeholder="请输入目录材料ID">
+             </div>
+             
+             <div class="form-group">
+                 <label for="catalog">目录 (catalog):</label>
+                 <input type="text" id="catalog" name="catalog" value="reciteWord" placeholder="请输入目录">
+             </div>
+             
+             <div class="form-group">
+                 <label for="pageName">页面名称 (pageName):</label>
+                 <input type="text" id="pageName" name="pageName" value="pag0.pag" placeholder="请输入页面名称">
+             </div>
+             
+             <div class="form-group">
+                 <label for="pagSubName">页面子名称 (pagSubName):</label>
+                 <input type="text" id="pagSubName" name="pagSubName" value="pag0Sub.pag" placeholder="请输入页面子名称">
+             </div>
+            
+            <div class="button-group">
+                <button type="button" onclick="generateScheme()">生成Scheme地址</button>
+                <button type="button" class="reset" onclick="resetForm()">重置</button>
+            </div>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <h3>生成的Scheme地址 (双引号转义):</h3>
+            <div id="schemeOutput" class="scheme-output"></div>
+            <button type="button" class="copy-btn" onclick="copyToClipboard()">复制到剪贴板</button>
+            
+            <div style="margin-top: 20px;">
+                <h4 style="color: #666; font-size: 14px;">原始Scheme地址 (未转义):</h4>
+                <div id="originalSchemeOutput" class="scheme-output" style="background-color: #f8f9fa; border-color: #e9ecef;"></div>
+                <button type="button" class="copy-btn" onclick="copyOriginalToClipboard()" style="background-color: #6c757d;">复制原始地址</button>
+            </div>
+       
+    </div>
+
+    <script>
+        
+        // 原始scheme模板
+        const originalScheme = 'mock://xrsApp?m=studycenter/limitTimeTask&l=1&d={"p":{"url":"https://mock/recite-word/index.html#/session?bookId=245&catalogMaterialId=53918739120265590&catalogMaterialType=998&from=1","catalogMaterialType":998,"catalogMaterialId":"53918739120265590","loading":{"catalog":"reciteWord","pagName":"pag0.pag","pagSubName":"pag0Sub.pag"}}}';
+        
+        function generateScheme() {
+            // 获取表单值
+            const bookId = document.getElementById('bookId').value;
+            const catalogMaterialType = document.getElementById('catalogMaterialType').value;
+            const catalogMaterialId = document.getElementById('catalogMaterialId').value;
+            const catalog = document.getElementById('catalog').value;
+            const pageName = document.getElementById('pageName').value;
+            const pagSubName = document.getElementById('pagSubName').value;
+            
+            // 验证必填字段
+            if (!bookId || !catalogMaterialType || !catalogMaterialId || !catalog || !pageName || !pagSubName) {
+                alert('请填写所有字段');
+                return;
+            }
+            
+            try {
+                // 1. 对URL参数进行encodeURIComponent编码
+                // 构建URL（参数值已编码）
+                const newUrl = `https://mock/recite-word/index.html#/session?bookId=${bookId}&catalogMaterialId=${catalogMaterialId}&catalogMaterialType=${catalogMaterialType}&from=1`;
+                
+                const dData = {
+                    "p": {
+                        "url": encodeURIComponent(newUrl),
+                        "catalogMaterialType": parseInt(catalogMaterialType),
+                        "catalogMaterialId": catalogMaterialId,
+                        "loading": {
+                            "catalog": catalog,
+                            "pagName": pageName,
+                            "pagSubName": pagSubName
+                        }
+                    }
+                };
+                
+                // 构建基础scheme
+                const baseScheme = `mock://xrsApp?m=studycenter/limitTimeTask&l=1&d=${JSON.stringify(dData)}`;
+                
+                // 2. 对JSON字符串中的双引号进行转义（将"转成\"）
+                const escapedScheme = baseScheme.replace(/"/g, '\\"');
+                
+                // 显示结果（显示转义后的地址和原始地址）
+                document.getElementById('schemeOutput').textContent = escapedScheme;
+                document.getElementById('originalSchemeOutput').textContent = baseScheme;
+                document.getElementById('result').style.display = 'block';
+                
+                // 滚动到结果区域
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+                
+                // 在控制台输出各个阶段的结果，便于调试
+                console.log('原始scheme:', baseScheme);
+                console.log('双引号转义后scheme:', escapedScheme);
+                
+            } catch (error) {
+                console.error('详细错误:', error);
+                alert('生成失败，请检查输入参数: ' + error.message);
+            }
+        }
+        
+                 function resetForm() {
+             document.getElementById('schemeForm').reset();
+             // 清空主要字段，保留默认值
+             document.getElementById('bookId').value = '';
+             document.getElementById('catalogMaterialType').value = '';
+             document.getElementById('catalogMaterialId').value = '';
+             document.getElementById('catalog').value = 'reciteWord';
+             document.getElementById('pageName').value = 'pag0.pag';
+             document.getElementById('pagSubName').value = 'pag0Sub.pag';
+             
+             document.getElementById('result').style.display = 'none';
+         }
+        
+        function copyToClipboard() {
+            const schemeText = document.getElementById('schemeOutput').textContent;
+            
+            // 使用现代API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(schemeText).then(() => {
+                    alert('已复制双引号转义后的地址到剪贴板！');
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    fallbackCopyTextToClipboard(schemeText, '已复制双引号转义后的地址到剪贴板！');
+                });
+            } else {
+                // 降级处理
+                fallbackCopyTextToClipboard(schemeText, '已复制双引号转义后的地址到剪贴板！');
+            }
+        }
+        
+        function copyOriginalToClipboard() {
+            const schemeText = document.getElementById('originalSchemeOutput').textContent;
+            
+            // 使用现代API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(schemeText).then(() => {
+                    alert('已复制原始地址到剪贴板！');
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    fallbackCopyTextToClipboard(schemeText, '已复制原始地址到剪贴板！');
+                });
+            } else {
+                // 降级处理
+                fallbackCopyTextToClipboard(schemeText, '已复制原始地址到剪贴板！');
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text, message = '已复制到剪贴板！') {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert(message);
+            } catch (err) {
+                alert('复制失败，请手动复制');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+                 // 页面加载完成，无需自动生成
+    </script>
+</body>
+</html>

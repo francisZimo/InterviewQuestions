@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放器 - 异常重试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .error-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .error-overlay.show {
+            display: flex;
+        }
+        
+        .error-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+        
+        .retry-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .retry-btn:hover {
+            background: #cc3333;
+        }
+        
+        .retry-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 5;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .controls button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+        
+        .controls button:hover {
+            background: #0056b3;
+        }
+        
+        .status {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .status-item {
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .error-log {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>视频播放器 - 异常重试功能</h1>
+    
+    <div class="video-container">
+        <video id="videoPlayer" controls preload="metadata">
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+        </video>
+        
+        <!-- 加载中覆盖层 -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <span>视频加载中...</span>
+        </div>
+        
+        <!-- 错误覆盖层 -->
+        <div class="error-overlay" id="errorOverlay">
+            <div class="error-message" id="errorMessage">
+                视频加载失败，请检查网络连接
+            </div>
+            <button class="retry-btn" id="retryBtn" onclick="retryVideo()">
+                重试播放
+            </button>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button onclick="playVideo()">播放</button>
+        <button onclick="pauseVideo()">暂停</button>
+        <button onclick="reloadVideo()">重新加载</button>
+        <button onclick="changeVideoSource()">切换视频源</button>
+        <button onclick="clearLogs()">清空日志</button>
+    </div>
+    
+    <div class="status">
+        <h3>播放状态</h3>
+        <div class="status-item">当前状态: <span id="currentStatus">准备就绪</span></div>
+        <div class="status-item">重试次数: <span id="retryCount">0</span></div>
+        <div class="status-item">当前视频源: <span id="currentSource">源1</span></div>
+        <div class="status-item">网络状态: <span id="networkState">未知</span></div>
+        <div class="status-item">准备状态: <span id="readyState">未知</span></div>
+    </div>
+    
+    <div class="error-log" id="errorLog"></div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const errorOverlay = document.getElementById('errorOverlay');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const errorMessage = document.getElementById('errorMessage');
+        const retryBtn = document.getElementById('retryBtn');
+        const errorLog = document.getElementById('errorLog');
+        
+        let retryCount = 0;
+        let maxRetries = 3;
+        let retryTimeout;
+        let currentSourceIndex = 0;
+        
+        // 视频源列表
+        const videoSources = [
+            {
+                url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                name: '源1 - BigBuckBunny'
+            },
+            {
+                url: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
+                name: '源2 - SampleVideo'
+            },
+            {
+                url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+                name: '源3 - W3Schools'
+            }
+        ];
+        
+        // 初始化
+        function init() {
+            setupVideoEvents();
+            updateStatus();
+            logMessage('视频播放器初始化完成');
+        }
+        
+        // 设置视频事件监听
+        function setupVideoEvents() {
+            // 加载开始
+            video.addEventListener('loadstart', () => {
+                showLoading();
+                updateStatus('加载开始');
+                logMessage('开始加载视频');
+            });
+            
+            // 可以播放
+            video.addEventListener('canplay', () => {
+                hideLoading();
+                hideError();
+                updateStatus('可以播放');
+                logMessage('视频可以播放');
+                retryCount = 0; // 重置重试次数
+                updateRetryCount();
+            });
+            
+            // 播放中
+            video.addEventListener('playing', () => {
+                hideError();
+                updateStatus('播放中');
+                logMessage('视频开始播放');
+            });
+            
+            // 暂停
+            video.addEventListener('pause', () => {
+                updateStatus('已暂停');
+                logMessage('视频暂停');
+            });
+            
+            // 播放结束
+            video.addEventListener('ended', () => {
+                updateStatus('播放结束');
+                logMessage('视频播放结束');
+            });
+            
+            // 等待数据
+            video.addEventListener('waiting', () => {
+                showLoading();
+                updateStatus('缓冲中');
+                logMessage('等待视频数据');
+            });
+            
+            // 错误处理
+            video.addEventListener('error', handleVideoError);
+            
+            // 网络状态变化
+            video.addEventListener('progress', updateNetworkState);
+            video.addEventListener('loadedmetadata', updateReadyState);
+        }
+        
+        // 处理视频错误
+        function handleVideoError(event) {
+            hideLoading();
+            
+            const error = video.error;
+            let errorMsg = '视频播放出现未知错误';
+            console.log('error', error);
+            if (error) {
+                switch (error.code) {
+                    case 1:
+                        errorMsg = '视频加载被中止';
+                        break;
+                    case 2:
+                        errorMsg = '网络错误，无法加载视频';
+                        break;
+                    case 3:
+                        errorMsg = '视频解码错误';
+                        break;
+                    case 4:
+                        errorMsg = '视频格式不支持或视频源无效';
+                        break;
+                }
+            }
+            
+            logMessage(`视频错误: ${errorMsg} (错误代码: ${error ? error.code : 'unknown'})`);
+            showError(errorMsg);
+            updateStatus('播放错误');
+        }
+        
+        // 显示错误覆盖层
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorOverlay.classList.add('show');
+            
+            // 如果还有重试次数，启用重试按钮
+            if (retryCount < maxRetries) {
+                retryBtn.disabled = false;
+                retryBtn.textContent = `重试播放 (${retryCount + 1}/${maxRetries})`;
+            } else {
+                retryBtn.disabled = true;
+                retryBtn.textContent = '重试次数已用完';
+            }
+        }
+        
+        // 隐藏错误覆盖层
+        function hideError() {
+            errorOverlay.classList.remove('show');
+        }
+        
+        // 显示加载覆盖层
+        function showLoading() {
+            loadingOverlay.classList.add('show');
+        }
+        
+        // 隐藏加载覆盖层
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
+        
+        // 重试视频播放
+        function retryVideo() {
+            if (retryCount >= maxRetries) {
+                logMessage('已达到最大重试次数');
+                return;
+            }
+            
+            retryCount++;
+            updateRetryCount();
+            hideError();
+            
+            logMessage(`第 ${retryCount} 次重试播放`);
+            
+            // 重新加载视频
+            video.load();
+            
+            // 尝试播放
+            setTimeout(() => {
+                video.play().catch(error => {
+                    logMessage(`重试播放失败: ${error.message}`);
+                });
+            }, 1000);
+        }
+        
+        // 播放视频
+        function playVideo() {
+            video.play().catch(error => {
+                logMessage(`播放失败: ${error.message}`);
+                handleVideoError();
+            });
+        }
+        
+        // 暂停视频
+        function pauseVideo() {
+            video.pause();
+        }
+        
+        // 重新加载视频
+        function reloadVideo() {
+            retryCount = 0;
+            updateRetryCount();
+            hideError();
+            video.load();
+            logMessage('重新加载视频');
+        }
+        
+        // 切换视频源
+        function changeVideoSource() {
+            currentSourceIndex = (currentSourceIndex + 1) % videoSources.length;
+            const newSource = videoSources[currentSourceIndex];
+            
+            video.src = newSource.url;
+            document.getElementById('currentSource').textContent = newSource.name;
+            
+            retryCount = 0;
+            updateRetryCount();
+            hideError();
+            
+            logMessage(`切换到视频源: ${newSource.name}`);
+        }
+        
+        // 更新状态显示
+        function updateStatus(status) {
+            if (status) {
+                document.getElementById('currentStatus').textContent = status;
+            }
+            updateNetworkState();
+            updateReadyState();
+        }
+        
+        // 更新网络状态
+        function updateNetworkState() {
+            const states = ['空闲', '加载中', '无数据', '无源'];
+            document.getElementById('networkState').textContent = states[video.networkState] || '未知';
+        }
+        
+        // 更新准备状态
+        function updateReadyState() {
+            const states = ['无信息', '元数据', '当前数据', '未来数据', '足够数据'];
+            document.getElementById('readyState').textContent = states[video.readyState] || '未知';
+        }
+        
+        // 更新重试次数显示
+        function updateRetryCount() {
+            document.getElementById('retryCount').textContent = retryCount;
+        }
+        
+        // 记录日志
+        function logMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}\n`;
+            errorLog.textContent += logEntry;
+            errorLog.scrollTop = errorLog.scrollHeight;
+            console.log(logEntry);
+        }
+        
+        // 清空日志
+        function clearLogs() {
+            errorLog.textContent = '';
+            logMessage('日志已清空');
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('load', init);
+        
+        // 监听网络状态变化
+        window.addEventListener('online', () => {
+            logMessage('网络连接恢复');
+            if (video.error) {
+                retryVideo();
+            }
+        });
+        
+        window.addEventListener('offline', () => {
+            logMessage('网络连接断开');
+        });
+    </script>
+</body>
+</html>

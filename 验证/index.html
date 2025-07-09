@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频自动播放</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .video-container {
+            margin: 20px 0;
+        }
+        video {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+        .controls {
+            margin: 10px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>视频自动播放示例</h1>
+    
+    <div class="video-container">
+        <!-- muted -->
+        <video 
+            id="myVideo" 
+            controls 
+            autoplay 
+            
+            loop
+            preload="auto"
+            <source src="https://www.w3school.com.cn/example/html5/mov_bbb.mp4" type="video/mp4">
+           
+            您的浏览器不支持视频播放。
+        </video>
+    </div>
+
+    <div class="controls">
+        <button onclick="playVideo()">播放</button>
+        <button onclick="pauseVideo()">暂停</button>
+        <button onclick="muteVideo()">静音/取消静音</button>
+        <button onclick="fullScreen()">全屏</button>
+        <button onclick="changeSpeed()">调整速度</button>
+    </div>
+
+    <div class="info">
+        <p><strong>自动播放说明：</strong></p>
+        <ul>
+            <li><code>autoplay</code>: 页面加载时自动播放</li>
+            <li><code>muted</code>: 静音播放（现代浏览器要求）</li>
+            <li><code>loop</code>: 循环播放</li>
+            <li><code>preload="auto"</code>: 预加载视频</li>
+            <li><code>controls</code>: 显示播放控件</li>
+        </ul>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        let currentSpeed = 1;
+
+        // 页面加载完成后尝试自动播放
+        window.addEventListener('load', function() {
+            // 检查是否可以自动播放
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('视频自动播放成功');
+                }).catch(error => {
+                    console.log('自动播放被阻止:', error);
+                    // 如果自动播放失败，显示提示
+                    showAutoplayTip();
+                });
+            }
+        });
+
+        // 播放视频
+        function playVideo() {
+            video.play().then(() => {
+                console.log('视频开始播放');
+            }).catch(error => {
+                console.log('播放失败:', error);
+            });
+        }
+
+        // 暂停视频
+        function pauseVideo() {
+            video.pause();
+            console.log('视频已暂停');
+        }
+
+        // 静音/取消静音
+        function muteVideo() {
+            video.muted = !video.muted;
+            console.log('静音状态:', video.muted);
+        }
+
+        // 全屏播放
+        function fullScreen() {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
+            }
+        }
+
+        // 调整播放速度
+        function changeSpeed() {
+            const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+            const currentIndex = speeds.indexOf(currentSpeed);
+            const nextIndex = (currentIndex + 1) % speeds.length;
+            currentSpeed = speeds[nextIndex];
+            video.playbackRate = currentSpeed;
+            console.log('播放速度:', currentSpeed + 'x');
+        }
+
+        // 显示自动播放提示
+        function showAutoplayTip() {
+            const tipDiv = document.createElement('div');
+            tipDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff6b6b;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                max-width: 300px;
+            `;
+            tipDiv.innerHTML = `
+                <strong>自动播放被阻止</strong><br>
+                请点击播放按钮手动开始播放
+                <button onclick="this.parentElement.remove()" style="margin-left: 10px;">关闭</button>
+            `;
+            document.body.appendChild(tipDiv);
+            
+            // 5秒后自动移除提示
+            setTimeout(() => {
+                if (tipDiv.parentElement) {
+                    tipDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // 监听视频事件
+        video.addEventListener('loadstart', () => console.log('开始加载视频'));
+        video.addEventListener('canplay', () => console.log('视频可以播放'));
+        video.addEventListener('play', () => console.log('视频开始播放'));
+        video.addEventListener('pause', () => console.log('视频暂停'));
+        video.addEventListener('ended', () => console.log('视频播放结束'));
+        video.addEventListener('error', (e) => console.log('视频加载错误:', e));
+
+        // 用户交互后尝试自动播放（适用于某些浏览器策略）
+        document.addEventListener('click', function autoplayOnInteraction() {
+            if (video.paused) {
+                video.play().catch(console.log);
+            }
+            // 只执行一次
+            document.removeEventListener('click', autoplayOnInteraction);
+        }, { once: true });
+    </script>
+</body>
+</html>
